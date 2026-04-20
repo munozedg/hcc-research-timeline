@@ -19,16 +19,17 @@ def safe(v):
 events = []
 for _, r in df.iterrows():
     events.append({
-        'year':    int(r['year']),
-        'cat':     safe(r['category']),
-        'sub':     safe(r['subcategory']),
-        'title':   safe(r['title']),
-        'authors': safe(r['authors']),
-        'journal': safe(r['journal']),
-        'vol':     safe(r['volume_issue_pages']),
-        'inst':    safe(r['institution']),
-        'pmid':    safe(r['pmid']),
-        'desc':    safe(r['description']),
+        'year':     int(r['year']),
+        'cat':      safe(r['category']),
+        'sub':      safe(r['subcategory']),
+        'title':    safe(r['title']),
+        'authors':  safe(r['authors']),
+        'journal':  safe(r['journal']),
+        'vol':      safe(r['volume_issue_pages']),
+        'inst':     safe(r['institution']),
+        'pmid':     safe(r['pmid']),
+        'grant_id': safe(r['grant_id']),
+        'desc':     safe(r['description']),
     })
 
 print(f'<script>var EVENTS={json.dumps(events, ensure_ascii=False)};</script>')
@@ -45,13 +46,6 @@ print(f'<script>var EVENTS={json.dumps(events, ensure_ascii=False)};</script>')
   #quarto-content, main.content, .page-full,
   #quarto-document-content { padding:0!important; margin:0!important; height:100%!important; }
 
-  /*
-    Layout (all vh-based so browser recomputes on zoom):
-      [0 → --hdr-h]       header
-      [--hdr-h → --bar-bot] bar
-      [--bar-bot → --bar-bot+--conn-gap] connector
-      [--cards-top → 100vh-10px] card stacks
-  */
   :root {
     --hdr-h:      58px;
     --bar-h:      50px;
@@ -71,7 +65,7 @@ print(f'<script>var EVENTS={json.dumps(events, ensure_ascii=False)};</script>')
     background:#fff; border-bottom:1px solid #e2e8f0;
     box-shadow:0 1px 4px rgba(0,0,0,.07);
     display:flex; align-items:center; padding:0 1.4rem; gap:.9rem;
-    z-index:50; position:relative;
+    z-index:50; position:relative; overflow-x:auto;
   }
   #hdr .title { font-size:.93rem; font-weight:700; color:#0f172a; white-space:nowrap; }
   #hdr .sep   { width:1px; height:24px; background:#e2e8f0; flex-shrink:0; }
@@ -79,16 +73,18 @@ print(f'<script>var EVENTS={json.dumps(events, ensure_ascii=False)};</script>')
     display:flex; align-items:center; gap:5px;
     padding:4px 10px; border-radius:20px; border:none;
     font-size:.71rem; font-weight:600; cursor:pointer; color:#fff;
+    white-space:nowrap; flex-shrink:0;
     transition:opacity .15s;
   }
   .chip.off { opacity:.3; }
-  #hdr .hint { margin-left:auto; font-size:.67rem; color:#94a3b8; white-space:nowrap; }
+  #hdr .hint { margin-left:auto; font-size:.67rem; color:#94a3b8; white-space:nowrap; padding-left:.5rem; }
 
-  /* ── Scroll area (fills remaining height) ── */
+  /* ── Scroll area ── */
   #scroll-wrap { flex:1; position:relative; overflow:hidden; background:#f0f4f8; }
   #scroll {
     position:absolute; inset:0;
     overflow-x:auto; overflow-y:hidden; cursor:grab;
+    -webkit-overflow-scrolling: touch;
   }
   #scroll:active { cursor:grabbing; }
   #scroll::-webkit-scrollbar { height:4px; }
@@ -97,16 +93,14 @@ print(f'<script>var EVENTS={json.dumps(events, ensure_ascii=False)};</script>')
   /* ── Canvas ── */
   #canvas { position:relative; height:100%; min-width:3800px; }
 
-  /* ── Bar — pinned to top of scroll area ── */
+  /* ── Bar ── */
   #bar {
-    position:absolute;
-    top:0; height:var(--bar-h); left:0; right:0;
+    position:absolute; top:0; height:var(--bar-h); left:0; right:0;
     background:linear-gradient(90deg,#f0f4f8 0%,#1e3a5f 12%,#1e3a5f 88%,#f0f4f8 100%);
-    border-bottom:2px solid #1e3a5f;
-    z-index:20;
+    border-bottom:2px solid #1e3a5f; z-index:20;
   }
 
-  /* ── Year labels inside bar ── */
+  /* ── Year labels ── */
   .yr {
     position:absolute; top:0; height:var(--bar-h);
     display:flex; align-items:center; justify-content:center;
@@ -121,42 +115,41 @@ print(f'<script>var EVENTS={json.dumps(events, ensure_ascii=False)};</script>')
     width:186px; transform:translateX(-50%); z-index:10;
   }
 
-  /* ── Dot — sits on bar bottom edge ── */
+  /* ── Dot ── */
   .dot {
-    position:absolute;
-    top:calc(var(--bar-h) - 6px);
+    position:absolute; top:calc(var(--bar-h) - 6px);
     width:13px; height:13px; border-radius:50%;
     left:50%; transform:translateX(-50%);
     z-index:30; border:2.5px solid #fff;
-    box-shadow:0 0 0 1px rgba(0,0,0,.15);
-    transition:transform .2s;
+    box-shadow:0 0 0 1px rgba(0,0,0,.15); transition:transform .2s;
   }
   .yr-group:hover .dot { transform:translateX(-50%) scale(1.5); }
 
-  /* ── Connector from bar-bottom to card stack ── */
+  /* ── Connector ── */
   .conn {
     position:absolute; width:2px;
     left:50%; transform:translateX(-50%); z-index:8; opacity:.55;
     top:var(--bar-h); height:var(--conn-gap);
   }
 
-  /* ── Card stack — all below bar, fills remaining viewport ── */
+  /* ── Stack ── */
   .stack {
     position:absolute; left:0; right:0;
-    top:calc(var(--bar-h) + var(--conn-gap));
-    bottom:0;
+    top:calc(var(--bar-h) + var(--conn-gap)); bottom:0;
     display:flex; flex-direction:column; gap:5px; overflow:hidden;
   }
 
-  /* ── Cards — aspect-ratio keeps shape on any zoom level ── */
+  /* ── Cards ── */
   .ev-card {
     border-radius:8px; padding:6px 9px;
     cursor:pointer; flex-shrink:0; overflow:hidden;
-    aspect-ratio: 2.3 / 1;   /* width:height — px-based, zoom-stable */
-    height: auto !important;  /* let aspect-ratio drive height */
+    aspect-ratio: 2.3 / 1;
+    height: auto !important;
     transition:box-shadow .15s, transform .15s; border:none;
   }
-  .ev-card:hover { box-shadow:0 4px 18px rgba(0,0,0,.22); transform:translateY(-1px); }
+  .ev-card:hover, .ev-card.tapped {
+    box-shadow:0 4px 18px rgba(0,0,0,.22); transform:translateY(-1px);
+  }
 
   .ev-card.grant     { background:linear-gradient(135deg,#1e3a8a 0%,#2563eb 100%); }
   .ev-card.pub       { background:linear-gradient(135deg,#991b1b 0%,#dc2626 100%); }
@@ -175,33 +168,54 @@ print(f'<script>var EVENTS={json.dumps(events, ensure_ascii=False)};</script>')
     -webkit-box-orient:vertical; -webkit-line-clamp:3;
   }
 
-  .dot.grant     { background:#2563eb; }
-  .dot.pub       { background:#dc2626; }
-  .dot.uthsa     { background:#7c3aed; }
-  .dot.milestone { background:#059669; }
-  .conn.grant     { background:#2563eb; }
-  .conn.pub       { background:#dc2626; }
-  .conn.uthsa     { background:#7c3aed; }
-  .conn.milestone { background:#059669; }
+  .dot.grant      { background:#2563eb; }  .conn.grant     { background:#2563eb; }
+  .dot.pub        { background:#dc2626; }  .conn.pub       { background:#dc2626; }
+  .dot.uthsa      { background:#7c3aed; }  .conn.uthsa     { background:#7c3aed; }
+  .dot.milestone  { background:#059669; }  .conn.milestone { background:#059669; }
 
-  /* ── Detail tooltip ── */
+  /* ── Detail panel — tooltip on desktop, bottom sheet on mobile ── */
   #detail {
-    position:fixed; width:280px;
+    position:fixed; width:300px;
     background:#fff; border:1px solid #e2e8f0;
     border-radius:11px; padding:14px 16px;
     font-size:11.5px; line-height:1.55; color:#334155;
     box-shadow:0 8px 32px rgba(0,0,0,.18);
-    z-index:1000; pointer-events:none;
-    opacity:0; transition:opacity .15s;
+    z-index:2000; pointer-events:auto;
+    opacity:0; transition:opacity .18s, transform .18s;
+    transform:translateY(6px);
   }
-  #detail.show { opacity:1; }
+  #detail.show { opacity:1; transform:translateY(0); }
   #detail .d-accent { height:3px; margin:-14px -16px 11px; border-radius:11px 11px 0 0; }
-  #detail .d-title  { font-weight:700; font-size:12.5px; color:#0f172a; margin-bottom:5px; line-height:1.3; }
+  #detail .d-head   { display:flex; align-items:flex-start; gap:8px; margin-bottom:5px; }
+  #detail .d-title  { flex:1; font-weight:700; font-size:12.5px; color:#0f172a; line-height:1.3; }
+  #detail .d-close  {
+    flex-shrink:0; background:none; border:none; cursor:pointer;
+    font-size:16px; color:#94a3b8; line-height:1; padding:0 0 0 4px;
+  }
   #detail .d-cite   {
     font-size:10px; color:#64748b; margin-bottom:7px;
     white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
   }
-  #detail .d-desc   { color:#475569; font-size:11px; line-height:1.5; }
+  #detail .d-desc   { color:#475569; font-size:11px; line-height:1.5; margin-bottom:6px; }
+  #detail .d-links  { display:flex; flex-wrap:wrap; gap:6px; margin-top:6px; }
+  #detail .d-link   {
+    font-size:10px; font-weight:600; padding:3px 9px;
+    border-radius:12px; text-decoration:none; color:#fff;
+    display:inline-flex; align-items:center; gap:4px;
+  }
+
+  /* Mobile: bottom sheet */
+  @media (max-width: 700px) {
+    #detail {
+      width:100%; left:0!important; right:0;
+      bottom:0!important; top:auto!important;
+      border-radius:16px 16px 0 0;
+      max-height:65vh; overflow-y:auto;
+      transform:translateY(20px);
+      padding-bottom:env(safe-area-inset-bottom, 16px);
+    }
+    #detail.show { transform:translateY(0); }
+  }
 </style>
 
 <div id="app">
@@ -212,9 +226,8 @@ print(f'<script>var EVENTS={json.dumps(events, ensure_ascii=False)};</script>')
     <button class="chip" id="f-pub"       style="background:#dc2626" onclick="toggleFilter('pub')"      >&#128196; Publications</button>
     <button class="chip" id="f-uthsa"     style="background:#7c3aed" onclick="toggleFilter('uthsa')"    >&#128300; UTHSA</button>
     <button class="chip" id="f-milestone" style="background:#059669" onclick="toggleFilter('milestone')" >&#127919; Milestones</button>
-    <div class="hint">Drag to scroll &nbsp;·&nbsp; Hover for details</div>
+    <div class="hint">Drag &nbsp;·&nbsp; Tap/hover for details</div>
   </div>
-
   <div id="scroll-wrap">
     <div id="scroll">
       <div id="canvas"><div id="bar"></div></div>
@@ -222,13 +235,18 @@ print(f'<script>var EVENTS={json.dumps(events, ensure_ascii=False)};</script>')
   </div>
 </div>
 
-<div id="detail"></div>
+<!-- detail panel lives outside scroll so it overlays everything -->
+<div id="detail">
+  <button class="d-close" onclick="hideDetail()" aria-label="Close">&#10005;</button>
+</div>
 
 <script>
 (function () {
-  var EMOJI  = { grant:'🏆', pub:'📄', uthsa:'🔬', milestone:'🎯' };
-  var ACCENT = { grant:'#2563eb', pub:'#dc2626', uthsa:'#7c3aed', milestone:'#059669' };
+  var EMOJI      = { grant:'🏆', pub:'📄', uthsa:'🔬', milestone:'🎯' };
+  var ACCENT     = { grant:'#2563eb', pub:'#dc2626', uthsa:'#7c3aed', milestone:'#059669' };
   var TYPE_ORDER = { uthsa:0, milestone:1, grant:2, pub:3 };
+  var isTouch    = ('ontouchstart' in window);
+  var activeCard = null;
 
   function typeOf(cat, sub) {
     if (cat === 'Grant')       return 'grant';
@@ -237,7 +255,7 @@ print(f'<script>var EVENTS={json.dumps(events, ensure_ascii=False)};</script>')
     return 'pub';
   }
 
-  /* ── Group by year (active only) ── */
+  /* ── Group by year ── */
   var byYear = {};
   EVENTS.forEach(function(e) {
     e.type = typeOf(e.cat, e.sub);
@@ -245,11 +263,10 @@ print(f'<script>var EVENTS={json.dumps(events, ensure_ascii=False)};</script>')
   });
   var years = Object.keys(byYear).map(Number).sort(function(a,b){return a-b;});
 
-  /* ── X: active years evenly spaced ── */
+  /* ── X: active years only, evenly spaced ── */
   var CANVAS_W = 3800, PAD = 200;
   var USABLE   = CANVAS_W - PAD * 2;
-  var N        = years.length;
-  var spacing  = N > 1 ? USABLE / (N - 1) : 0;
+  var spacing  = years.length > 1 ? USABLE / (years.length - 1) : 0;
   function xFor(yr) { return PAD + years.indexOf(yr) * spacing; }
 
   function dominantType(evs) {
@@ -258,91 +275,140 @@ print(f'<script>var EVENTS={json.dumps(events, ensure_ascii=False)};</script>')
     return Object.keys(cnt).sort(function(a,b){return cnt[b]-cnt[a];})[0];
   }
 
-  /* card height is driven by aspect-ratio in CSS — no JS calc needed */
-
   /* ── Build DOM ── */
   var canvas = document.getElementById('canvas');
 
   years.forEach(function(yr){
     var evs = byYear[yr].slice();
-    evs.sort(function(a, b){
-      return (TYPE_ORDER[a.type]||99) - (TYPE_ORDER[b.type]||99);
-    });
+    evs.sort(function(a,b){ return (TYPE_ORDER[a.type]||99)-(TYPE_ORDER[b.type]||99); });
 
     var dom = dominantType(evs);
     var x   = xFor(yr);
 
-    /* year label */
     var lbl = document.createElement('div');
-    lbl.className   = 'yr';
-    lbl.style.left  = x + 'px';
-    lbl.textContent = yr;
+    lbl.className = 'yr'; lbl.style.left = x+'px'; lbl.textContent = yr;
     canvas.appendChild(lbl);
 
-    /* group */
     var grp = document.createElement('div');
-    grp.className  = 'yr-group';
-    grp.style.left = x + 'px';
+    grp.className = 'yr-group'; grp.style.left = x+'px';
 
-    var dot = document.createElement('div');
-    dot.className = 'dot ' + dom;
+    var dot = document.createElement('div'); dot.className = 'dot '+dom;
     grp.appendChild(dot);
 
-    var conn = document.createElement('div');
-    conn.className = 'conn ' + dom;
+    var conn = document.createElement('div'); conn.className = 'conn '+dom;
     grp.appendChild(conn);
 
-    var stack = document.createElement('div');
-    stack.className = 'stack';
+    var stack = document.createElement('div'); stack.className = 'stack';
     grp.appendChild(stack);
 
     evs.forEach(function(e){
       var card = document.createElement('div');
-      card.className    = 'ev-card ' + e.type;
+      card.className    = 'ev-card '+e.type;
       card.dataset.type = e.type;
 
       var label = e.type === 'uthsa' ? 'UTHSA' : e.cat;
       card.innerHTML =
-        '<div class="c-top">' +
-          '<span class="c-emoji">' + EMOJI[e.type] + '</span>' +
-          '<span class="c-type">' + label + ' &middot; ' + e.year + '</span>' +
-        '</div>' +
-        '<div class="c-title">' + e.title + '</div>';
+        '<div class="c-top">'+
+          '<span class="c-emoji">'+EMOJI[e.type]+'</span>'+
+          '<span class="c-type">'+label+' &middot; '+e.year+'</span>'+
+        '</div>'+
+        '<div class="c-title">'+e.title+'</div>';
 
-      card.addEventListener('mouseenter', function(ev){ showDetail(e, ev.currentTarget); });
-      card.addEventListener('mouseleave', hideDetail);
+      if (isTouch) {
+        /* tap to open, tap again or outside to close; swipe still scrolls */
+        var tx0, ty0;
+        card.addEventListener('touchstart', function(ev){
+          tx0 = ev.touches[0].clientX; ty0 = ev.touches[0].clientY;
+        }, {passive:true});
+        card.addEventListener('touchend', function(ev){
+          var dx = Math.abs(ev.changedTouches[0].clientX - tx0);
+          var dy = Math.abs(ev.changedTouches[0].clientY - ty0);
+          if (dx > 12 || dy > 12) return; /* swipe → scroll, ignore */
+          ev.preventDefault();
+          if (activeCard === card) { hideDetail(); return; }
+          if (activeCard) activeCard.classList.remove('tapped');
+          activeCard = card;
+          card.classList.add('tapped');
+          showDetail(e, card);
+        });
+      } else {
+        card.addEventListener('mouseenter', function(ev){ showDetail(e, ev.currentTarget); });
+        card.addEventListener('mouseleave', hideDetail);
+      }
+
       stack.appendChild(card);
     });
 
     canvas.appendChild(grp);
   });
 
-  /* ── Detail tooltip ── */
-  var det = document.getElementById('detail');
-  function showDetail(e, el){
-    var col = ACCENT[e.type] || '#888';
-    var h = '<div class="d-accent" style="background:' + col + '"></div>';
-    h += '<div class="d-title">' + EMOJI[e.type] + ' ' + e.title + '</div>';
-    var cite = [e.year + ''];
-    if(e.authors) cite.push(e.authors);
-    if(e.journal) cite.push(e.journal + (e.vol ? ' ' + e.vol : ''));
-    if(e.inst)    cite.push(e.inst);
-    if(e.pmid)    cite.push('PMID ' + e.pmid);
-    h += '<div class="d-cite">' + cite.join(' &middot; ') + '</div>';
-    if(e.desc) h += '<div class="d-desc">' + e.desc + '</div>';
-    det.innerHTML = h;
+  /* tap outside panel → close (touch only) */
+  document.addEventListener('touchend', function(ev){
+    if (!activeCard) return;
+    var det = document.getElementById('detail');
+    if (!det.contains(ev.target) && !activeCard.contains(ev.target)){
+      hideDetail();
+    }
+  });
 
-    var r = el.getBoundingClientRect(), top = r.top, left = r.right + 10;
-    if(left + 280 > window.innerWidth)  left = r.left - 290;
-    if(top + det.offsetHeight > window.innerHeight - 10)
-      top = window.innerHeight - det.offsetHeight - 10;
-    det.style.top  = Math.max(10, top) + 'px';
-    det.style.left = left + 'px';
+  /* ── Detail panel ── */
+  var det = document.getElementById('detail');
+
+  window.hideDetail = function(){
+    det.classList.remove('show');
+    if (activeCard){ activeCard.classList.remove('tapped'); activeCard = null; }
+  };
+
+  function showDetail(e, el){
+    var col = ACCENT[e.type]||'#888';
+
+    /* build links */
+    var links = '';
+    if (e.pmid) {
+      links += '<a class="d-link" href="https://pubmed.ncbi.nlm.nih.gov/'+e.pmid+'/"'
+             + ' target="_blank" rel="noopener" style="background:'+col+'">'
+             + '&#128196; PubMed</a>';
+    }
+    if (e.grant_id && e.grant_id !== 'RP_INITIAL' && e.grant_id !== 'TeCH_CAP_R1'
+        && e.grant_id !== 'TeCH_CAP_R2' && e.grant_id !== 'MDA_HCC_2019'
+        && e.grant_id !== 'UTSW_HCC_2023' && e.grant_id !== 'TCH_HCC_2023') {
+      links += '<a class="d-link" href="https://www.cprit.state.tx.us/grants-funded/?search='
+             + encodeURIComponent(e.grant_id)
+             + '" target="_blank" rel="noopener" style="background:'+col+'">'
+             + '&#127942; CPRIT Grant</a>';
+    }
+
+    var cite = [e.year+''];
+    if(e.authors) cite.push(e.authors);
+    if(e.journal) cite.push(e.journal+(e.vol?' '+e.vol:''));
+    if(e.inst)    cite.push(e.inst);
+    if(e.pmid)    cite.push('PMID '+e.pmid);
+
+    det.innerHTML =
+      '<div class="d-accent" style="background:'+col+'"></div>'+
+      '<div class="d-head">'+
+        '<div class="d-title">'+EMOJI[e.type]+' '+e.title+'</div>'+
+        '<button class="d-close" onclick="hideDetail()" aria-label="Close">&#10005;</button>'+
+      '</div>'+
+      '<div class="d-cite">'+cite.join(' &middot; ')+'</div>'+
+      (e.desc ? '<div class="d-desc">'+e.desc+'</div>' : '')+
+      (links   ? '<div class="d-links">'+links+'</div>'  : '');
+
+    /* position: tooltip on desktop, bottom-sheet handled by CSS on mobile */
+    if (!isTouch) {
+      var r = el.getBoundingClientRect(), top = r.top, left = r.right+10;
+      if(left+300 > window.innerWidth)  left = r.left-310;
+      if(top+det.offsetHeight > window.innerHeight-10)
+        top = window.innerHeight-det.offsetHeight-10;
+      det.style.top  = Math.max(10,top)+'px';
+      det.style.left = left+'px';
+    } else {
+      det.style.top = ''; det.style.left = '';
+    }
     det.classList.add('show');
   }
-  function hideDetail(){ det.classList.remove('show'); }
 
-  /* ── Drag scroll ── */
+  /* ── Drag-to-scroll (mouse) ── */
   var scroll = document.getElementById('scroll');
   var isDown = false, sx, sl;
   scroll.addEventListener('mousedown', function(e){ isDown=true; sx=e.pageX-scroll.offsetLeft; sl=scroll.scrollLeft; });
@@ -350,16 +416,16 @@ print(f'<script>var EVENTS={json.dumps(events, ensure_ascii=False)};</script>')
   scroll.addEventListener('mouseup',   function(){ isDown=false; });
   scroll.addEventListener('mousemove', function(e){
     if(!isDown) return; e.preventDefault();
-    scroll.scrollLeft = sl - (e.pageX - scroll.offsetLeft - sx);
+    scroll.scrollLeft = sl-(e.pageX-scroll.offsetLeft-sx);
   });
 
   /* ── Filter ── */
   var hidden = {};
   window.toggleFilter = function(type){
     hidden[type] = !hidden[type];
-    document.getElementById('f-' + type).classList.toggle('off', !!hidden[type]);
-    document.querySelectorAll('.ev-card[data-type="' + type + '"]').forEach(function(el){
-      el.style.display = hidden[type] ? 'none' : '';
+    document.getElementById('f-'+type).classList.toggle('off',!!hidden[type]);
+    document.querySelectorAll('.ev-card[data-type="'+type+'"]').forEach(function(el){
+      el.style.display = hidden[type]?'none':'';
     });
   };
 })();
