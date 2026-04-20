@@ -50,7 +50,7 @@
     }
     .card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.14); transform: translateY(-2px); }
     .card.v2 { border-left-color: #c0392b; }
-    .card.v3 { border-left-color: #aaa; opacity: 0.65; cursor: default; pointer-events: none; }
+    .card.v3 { border-left-color: #059669; }
     .card .info h2 { font-size: 1.1rem; color: #1a3a5c; }
     .card.v2 .info h2 { color: #c0392b; }
     .card .info p  { font-size: 0.85rem; color: #666; margin-top: 3px; }
@@ -65,7 +65,8 @@
       white-space: nowrap;
     }
     .card.v2 .badge { background: #c0392b; }
-    .card.v3 .badge { background: #aaa; }
+    .card.v3 .badge { background: #059669; }
+    .card.v3 .info h2 { color: #059669; }
   </style>
 </head>
 <body>
@@ -91,13 +92,13 @@
       <span class="badge">V2 &rarr;</span>
     </a>
 
-    <div class="card v3">
+    <a href="v3/index.html" class="card v3">
       <div class="info">
         <h2>Version 3</h2>
-        <p>Coming soon</p>
+        <p>Grouped horizontal timeline via quarto-timeline extension — colorful, clean</p>
       </div>
-      <span class="badge">V3</span>
-    </div>
+      <span class="badge">V3 &rarr;</span>
+    </a>
   </div>
 </body>
 </html>
