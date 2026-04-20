@@ -13,29 +13,25 @@ filters:
 ```{=html}
 <style>
   body { background: #f8fafc; font-family: 'Segoe UI', system-ui, sans-serif; }
-  h1.title    { color: #0f172a; font-size: 2rem; margin-bottom: .2rem; }
-  p.subtitle  { color: #475569; font-size: 1.1rem; margin-top: 0; }
+  h1.title   { color: #0f172a; font-size: 2rem; margin-bottom: .2rem; }
+  p.subtitle { color: #475569; font-size: 1.1rem; margin-top: 0; }
 
-  /* ── Timeline global overrides ── */
   .timeline {
-    --tl-color-line:   #cbd5e1;
-    --tl-line-width:   4px;
-    --tl-dot-size:     1.05rem;
-    --tl-gap:          1.6rem;
-    --tl-label-size:   0.85em;
-    --tl-content-size: 0.9em;
+    --tl-color-line:    #cbd5e1;
+    --tl-line-width:    4px;
+    --tl-dot-size:      1.05rem;
+    --tl-gap:           1.6rem;
+    --tl-label-size:    0.85em;
+    --tl-content-size:  0.9em;
     --tl-color-card-bg: #ffffff;
     padding: 1.5rem 0 2.5rem;
   }
-
-  /* ── Card polish ── */
   .tl-card {
     box-shadow: 0 2px 10px rgba(0,0,0,.08);
     border-radius: 10px !important;
     padding: 0.75rem 1rem !important;
   }
 
-  /* ── Color legend ── */
   .legend {
     display: flex; gap: 1.4rem; flex-wrap: wrap;
     align-items: center; margin-bottom: 1.6rem;
@@ -44,9 +40,7 @@ filters:
     font-size: .82rem; color: #334155;
   }
   .legend-item { display: flex; align-items: center; gap: 6px; }
-  .pip {
-    width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0;
-  }
+  .pip { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
 </style>
 
 <div class="legend">
@@ -55,241 +49,87 @@ filters:
   <div class="legend-item"><span class="pip" style="background:#b91c1c"></span>Publication (BCM / UTSW / MDA)</div>
   <div class="legend-item"><span class="pip" style="background:#6d28d9"></span>Ramirez Lab (UTHSCSA)</div>
   <div class="legend-item"><span class="pip" style="background:#047857"></span>Milestone</div>
+  <div style="margin-left:auto;font-size:.75rem;color:#94a3b8">Source: events.csv</div>
 </div>
 ```
 
-::: {.timeline .tl-label-badge .tl-card}
-
-::: {.event data-label="2009" style="--tl-color-accent: #1d4ed8"}
-🏆 **CPRIT Established — First Grants Awarded**
-
-*Statewide, Texas*
-
-Voters approved Prop 15 authorizing **$3B** for cancer research. BCM and MD Anderson liver researchers were early recipients, launching Texas's HCC infrastructure.
-:::
-
-::: {.event data-label="2011" style="--tl-color-accent: #b91c1c"}
-📄 **Hepatocellular Carcinoma** · El-Serag HB
-
-*N Engl J Med 2011;365:1118–1127 · PMID 21992124*
-
-Landmark global HCC review documenting the rapid rise of HCV-related HCC as the fastest-growing cause of US cancer deaths. BCM / Houston VA.
-:::
-
-::: {.event data-label="2012" style="--tl-color-accent: #6d28d9"}
-🔬 **HCC Incidence & Risk Factors in TX Latinos** · Ramirez AG et al.
-
-*PLoS One 2012;7(4):e35573 · PMID 22530052*
-
-First study documenting South Texas Latinos have the nation's highest HCC rates (10.6/100K). Identified obesity and diabetes as key modifiable risk factors. UTHSCSA / IHPR.
-:::
-
-::: {.event data-label="2012" style="--tl-color-accent: #b91c1c"}
-📄 **Epidemiology of Viral Hepatitis and HCC** · El-Serag HB
-
-*Gastroenterology 2012;142(6):1264–1273 · PMID 22537432*
-
-Quantified population-attributable fraction of HBV/HCV in HCC; foundational for Texas public health interventions. BCM.
-:::
-
-::: {.event data-label="2014" style="--tl-color-accent: #6d28d9"}
-🔬 **HCC in TX Latinos 1995–2010: An Update** · Ramirez AG et al.
-
-*PLoS One 2014;9(6):e99365 · PMID 24915432*
-
-Confirmed TX Latino male/female HCC rates **3.1× and 4.0×** higher than non-Hispanic Whites. UTHSCSA / IHPR.
-:::
-
-::: {.event data-label="2015" style="--tl-color-accent: #1d4ed8"}
-🏆 **RP150587 — Texas HCC Consortium (THCCC) ~$6M**
-
-*BCM / UTSW / MD Anderson / UT San Antonio*
-
-CPRIT Multi-Investigator Award launching the **THCCC** — 5,000-patient prospective cohort at 5 Texas centers for HCC risk factors and early detection biomarkers.
-:::
-
-::: {.event data-label="2017" style="--tl-color-accent: #6d28d9"}
-🔬 **Lifestyle & Clinical Correlates of HCC — Aflatoxin** · Ramirez AG et al.
-
-*Clin Gastroenterol Hepatol 2018;16(3):373–380 · PMID 28344065*
-
-**First U.S. study linking aflatoxin exposure to HCC in a Latino-majority population.** Cases had 6× higher odds of detectable aflatoxins in blood. UTHSCSA / IHPR.
-:::
-
-::: {.event data-label="2017" style="--tl-color-accent: #b91c1c"}
-📄 **AFP + Ultrasound for HCC Detection: Meta-Analysis** · Singal AG et al.
-
-*Gastroenterology 2018;154(6):1706–1718 · PMID 29352041*
-
-32 studies: AFP + ultrasound improves HCC sensitivity to 63% vs 45% for ultrasound alone. Basis for updated AASLD surveillance guidelines. UTSW.
-:::
-
-::: {.event data-label="2018" style="--tl-color-accent: #047857"}
-🎯 **THCCC Cohort — 2,000+ Patients Enrolled**
-
-*BCM / UTSW / MD Anderson / UT San Antonio*
-
-Semi-annual ultrasound, AFP, labs, and biospecimens collected across 5 Texas sites. One of the largest prospective HCC biomarker repositories in the US.
-:::
-
-::: {.event data-label="2018" style="--tl-color-accent: #b91c1c"}
-📄 **Epidemiology and Management of HCC** · Singal AG; El-Serag HB et al.
-
-*Gastroenterology 2018;154(6):1693–1704*
-
-Comprehensive review of HCC risk stratification, surveillance, staging, and treatment. Addressed NAFLD/NASH-HCC epidemic and rising rates in Hispanic populations. UTSW / BCM.
-:::
-
-::: {.event data-label="2019" style="--tl-color-accent: #1d4ed8"}
-🏆 **TeCH Center CAP Round 1 — $13M**
-
-*BCM / MD Anderson, Texas*
-
-CPRIT Collaborative Award establishing the Texas Collaborative Center for HCC (TeCH), coordinating statewide HCC research.
-:::
-
-::: {.event data-label="2019" style="--tl-color-accent: #1d4ed8"}
-🏆 **RP190641 El-Serag Biomarker Validation — $3M**
-
-*BCM Houston*
-
-Biomarker validation grant for HCC early detection research within the THCCC cohort.
-:::
-
-::: {.event data-label="2019" style="--tl-color-accent: #1d4ed8"}
-🏆 **Hwang MDA Patient-Centered Prevention — $2.46M**
-
-*MD Anderson Cancer Center*
-
-Patient-centered liver cancer prevention initiative targeting at-risk populations.
-:::
-
-::: {.event data-label="2019" style="--tl-color-accent: #b91c1c"}
-📄 **THCCC Cohort Study Design** · Loo N; El-Serag HB; Singal AG et al.
-
-*Am J Gastroenterol 2019;114(3):530–532 · PMID 30699099*
-
-Describes the THCCC 5,000-patient prospective cohort design and multi-center data collection protocol. BCM / UTSW / MDA / UTSA.
-:::
-
-::: {.event data-label="2019" style="--tl-color-accent: #6d28d9"}
-🔬 **Metformin Modifies HCC Disparity in Diabetic Men** · Wang CP; Ramirez AG et al.
-
-*Cancer Med 2019;8(6):3206–3215 · PMID 30993905*
-
-In 84,433 men with T2D, metformin reduced HCC risk — stronger effects in Hispanic and African American men. UTHSCSA / VA.
-:::
-
-::: {.event data-label="2020" style="--tl-color-accent: #1d4ed8"}
-🏆 **RP200537 Singal UTSW — $2.5M**
-
-*UT Southwestern, Dallas*
-
-3,000-patient cirrhosis cohort developing biomarker-based HCC surveillance algorithms.
-:::
-
-::: {.event data-label="2020" style="--tl-color-accent: #1d4ed8"}
-🏆 **RP200554 Thrift BCM — $2.47M**
-
-*BCM Houston*
-
-Genetic epidemiology of HCC in Hispanics; focused on PNPLA3 and TM6SF2 variants.
-:::
-
-::: {.event data-label="2020" style="--tl-color-accent: #b91c1c"}
-📄 **Epidemiology & Surveillance for HCC: New Trends** · Singal AG et al.
-
-*J Hepatol 2020;72(2):250–261 · PMID 31954490*
-
-Documents shift from viral hepatitis to NAFLD/NASH as dominant HCC etiology; projects **122% increase** in NAFLD-HCC by 2030. UTSW.
-:::
-
-::: {.event data-label="2020" style="--tl-color-accent: #b91c1c"}
-📄 **AGA Update: HCC Surveillance in NAFLD** · Singal AG; El-Serag HB
-
-*Gastroenterology 2020;158(7):1822–1830*
-
-Joint AGA expert review on HCC screening in the rapidly growing NAFLD population. Addresses surveillance intervals and novel biomarkers. UTSW / BCM.
-:::
-
-::: {.event data-label="2022" style="--tl-color-accent: #1d4ed8"}
-🏆 **PP220022 Community HCC Prevention — $1.96M**
-
-*UT Health Texas*
-
-Community-based HCC prevention at safety-net clinics targeting underserved Texas populations.
-:::
-
-::: {.event data-label="2022" style="--tl-color-accent: #1d4ed8"}
-🏆 **RP220119 GALAD + AFP-L3 Validation — $2M**
-
-*BCM Houston*
-
-Validation of GALAD score and AFP-L3 as early detection biomarkers within the THCCC cohort.
-:::
-
-::: {.event data-label="2022" style="--tl-color-accent: #1d4ed8"}
-🏆 **TeCH Center CAP Round 2 — ~$18M**
-
-*BCM / MD Anderson / UTSW / UTHealth*
-
-TeCH Center renewal expanding NASH-HCC research and health equity initiatives across Texas institutions.
-:::
-
-::: {.event data-label="2022" style="--tl-color-accent: #b91c1c"}
-📄 **HCC Surveillance Improves Outcomes: Meta-Analysis** · Singal AG et al.
-
-*J Hepatol 2022;77(1):128–139 · PMID 35139400*
-
-59 studies / 145,396 patients: Surveillance yields 1.86× early-stage detection and **33% mortality reduction** (HR 0.67). UTSW.
-:::
-
-::: {.event data-label="2022" style="--tl-color-accent: #b91c1c"}
-📄 **The Texas Collaborative Center for HCC (TeCH)** · Harrison AC; El-Serag HB et al.
-
-*Front Oncol 2022 · PMID 36059708*
-
-Describes TeCH's multi-institutional research, education, and advocacy framework targeting reduction of Texas liver cancer mortality by 2030.
-:::
-
-::: {.event data-label="2023" style="--tl-color-accent: #1d4ed8"}
-🏆 **Lopez-Terrada TCH Pediatric HCC — $5.98M**
-
-*Texas Children's Hospital*
-
-Predictive biomarkers for pediatric HCC and hepatoblastoma.
-:::
-
-::: {.event data-label="2023" style="--tl-color-accent: #1d4ed8"}
-🏆 **Zhong UTSW HCC Mechanisms — $1.05M**
-
-*UT Southwestern, Dallas*
-
-Investigation of molecular mechanisms driving HCC progression and therapeutic targets.
-:::
-
-::: {.event data-label="2023" style="--tl-color-accent: #b91c1c"}
-📄 **Prevention of HCC — White Paper** · TeCH Consortium
-
-*Hepatol Commun 2023 · PMC10524305*
-
-Consensus recommendations covering HBV vaccination, HCV cure, metabolic intervention, and health equity strategies for Hispanic Texas communities.
-:::
-
-::: {.event data-label="2024" style="--tl-color-accent: #b91c1c"}
-📄 **HES v2.0 Outperforms GALAD for HCC Detection** · El-Serag HB; Jin M et al.
-
-*Hepatology 2024*
-
-Phase 3 biomarker evaluation: HES v2.0 (AFP + AFP-L3 + DCP + clinical variables) demonstrated superior sensitivity and specificity over GALAD for early HCC detection. BCM / THCCC.
-:::
-
-::: {.event data-label="2025" style="--tl-color-accent: #047857"}
-🎯 **CPRIT Surpasses $4B + UTSW NCI Liver Cancer SPORE**
-
-*UTSW / BCM / MD Anderson, Texas*
-
-CPRIT surpasses $4B total (~$59–77M to liver cancer). UT Southwestern receives the **first Texas NCI SPORE for Liver Cancer** with Singal, Yopp et al.
-:::
-
-:::
+```{python}
+#| output: asis
+#| echo: false
+
+import pandas as pd
+import math
+
+df = pd.read_csv('events.csv')
+
+def safe(val):
+    return '' if (val is None or (isinstance(val, float) and math.isnan(val))) else str(val).strip()
+
+COLOR = {
+    'Grant':     '#1d4ed8',
+    'Article':   '#b91c1c',
+    'Milestone': '#047857',
+}
+EMOJI = {
+    'Grant':     '🏆',
+    'Article':   '📄',
+    'Milestone': '🎯',
+}
+
+def color_for(cat, subcat):
+    if cat == 'Article' and subcat == 'Ramirez Lab':
+        return '#6d28d9'
+    return COLOR.get(cat, '#64748b')
+
+def emoji_for(cat, subcat):
+    if cat == 'Article' and subcat == 'Ramirez Lab':
+        return '🔬'
+    return EMOJI.get(cat, '·')
+
+out = ['::: {.timeline .tl-label-badge .tl-card}', '']
+
+for _, row in df.iterrows():
+    cat    = safe(row['category'])
+    subcat = safe(row['subcategory'])
+    year   = int(row['year'])
+    title  = safe(row['title'])
+    authors = safe(row['authors'])
+    journal = safe(row['journal'])
+    vol     = safe(row['volume_issue_pages'])
+    inst    = safe(row['institution'])
+    pmid    = safe(row['pmid'])
+    desc    = safe(row['description'])
+
+    col = color_for(cat, subcat)
+    emo = emoji_for(cat, subcat)
+
+    out.append(f'::: {{.event data-label="{year}" style="--tl-color-accent: {col}"}}')
+    out.append(f'{emo} **{title}**')
+    out.append('')
+
+    # Citation line
+    cite_parts = []
+    if authors:
+        cite_parts.append(authors)
+    if journal:
+        cite_parts.append(journal + (f';{vol}' if vol else ''))
+    if pmid:
+        cite_parts.append(f'PMID {pmid}')
+    if cite_parts:
+        out.append('*' + ' · '.join(cite_parts) + '*')
+        out.append('')
+
+    if inst:
+        out.append(f'*{inst}*')
+        out.append('')
+
+    if desc:
+        out.append(desc)
+        out.append('')
+
+    out.append(':::')
+    out.append('')
+
+out.append(':::')
+print('\n'.join(out))
+```
