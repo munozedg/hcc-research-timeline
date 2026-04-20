@@ -582,6 +582,8 @@ display:flex; flex-direction:column; gap:5px; overflow:hidden;
 .ev-card {
 border-radius:8px; padding:6px 9px;
 cursor:pointer; flex-shrink:0; overflow:hidden;
+aspect-ratio: 2.3 / 1; 
+height: auto !important; 
 transition:box-shadow .15s, transform .15s; border:none;
 }
 .ev-card:hover { box-shadow:0 4px 18px rgba(0,0,0,.22); transform:translateY(-1px); }
@@ -682,12 +684,7 @@ white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
     return Object.keys(cnt).sort(function(a,b){return cnt[b]-cnt[a];})[0];
   }
 
-  /* ── Global max N → uniform card height across all groups ── */
-  var maxN = 0;
-  years.forEach(function(yr){ maxN = Math.max(maxN, byYear[yr].length); });
-  var gaps  = (maxN - 1) * 5;
-  /* CSS calc with vh var — recomputes on every zoom change */
-  var cardH = 'calc((var(--cards-avail) - ' + gaps + 'px) / ' + maxN + ')';
+  /* card height is driven by aspect-ratio in CSS — no JS calc needed */
 
   /* ── Build DOM ── */
   var canvas = document.getElementById('canvas');
@@ -728,7 +725,6 @@ white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
     evs.forEach(function(e){
       var card = document.createElement('div');
       card.className    = 'ev-card ' + e.type;
-      card.style.height = cardH;
       card.dataset.type = e.type;
 
       var label = e.type === 'uthsa' ? 'UTHSA' : e.cat;
