@@ -2174,247 +2174,146 @@ vertical-align: -.125em;
 
 
 <style>
-
 html, body {
 margin: 0; padding: 0;
-height: 100%; width: 100%;
-overflow: hidden;
+height: 100%; overflow: hidden;
 font-family: 'Segoe UI', system-ui, sans-serif;
-background: #edf2f7;
+background: #0f172a;
 }
-
 #quarto-content, main.content, .page-full,
 #quarto-document-content { padding: 0 !important; margin: 0 !important; }
 h1.title, .quarto-title-block { display: none !important; }
 
-.tl-page {
-display: flex;
-flex-direction: column;
-height: 100vh;
-width: 100vw;
-}
+.tl-page { display: flex; flex-direction: column; height: 100vh; width: 100vw; }
 
 .tl-header {
 flex-shrink: 0;
-height: 58px;
-background: linear-gradient(90deg, #1a3a5c 0%, #2a5298 100%);
-color: white;
-display: flex;
-align-items: center;
-padding: 0 1.4rem;
-gap: 1.8rem;
-box-shadow: 0 2px 8px rgba(0,0,0,.3);
-z-index: 300;
+height: 56px;
+background: #0f172a;
+border-bottom: 1px solid rgba(255,255,255,.08);
+display: flex; align-items: center;
+padding: 0 1.6rem; gap: 1.6rem;
 }
 .tl-header .tl-title {
-font-size: 1rem;
-font-weight: 700;
-white-space: nowrap;
-letter-spacing: .01em;
-margin-right: .5rem;
+font-size: .95rem; font-weight: 700;
+color: #f1f5f9; white-space: nowrap; letter-spacing: .01em;
 }
-.tl-header .sep {
-width: 1px; height: 28px;
-background: rgba(255,255,255,.25);
-flex-shrink: 0;
-}
-.legend-item {
-display: flex;
-align-items: center;
-gap: 6px;
-font-size: .78rem;
-white-space: nowrap;
-opacity: .9;
-}
-.legend-dot {
-width: 13px; height: 13px;
-border-radius: 3px;
-flex-shrink: 0;
-}
-.tl-header .hint {
-margin-left: auto;
-font-size: .72rem;
-opacity: .55;
-white-space: nowrap;
-}
+.tl-header .sep { width: 1px; height: 26px; background: rgba(255,255,255,.15); flex-shrink:0; }
+.legend-item { display:flex; align-items:center; gap:6px; font-size:.75rem; color:rgba(255,255,255,.65); white-space:nowrap; }
+.legend-pip { width:10px; height:10px; border-radius:3px; flex-shrink:0; }
+.tl-header .hint { margin-left:auto; font-size:.7rem; color:rgba(255,255,255,.3); white-space:nowrap; }
 
-.tl-scroll-wrap {
-flex: 1;
-position: relative;
-overflow: hidden;
-}
+.tl-scroll-wrap { flex:1; position:relative; overflow:hidden; background:#0f172a; }
 #tl-scroll {
-position: absolute;
-inset: 0;
-overflow-x: auto;
-overflow-y: hidden;
-cursor: grab;
+position:absolute; inset:0;
+overflow-x:auto; overflow-y:hidden;
+cursor:grab;
 }
-#tl-scroll:active { cursor: grabbing; }
-#tl-scroll::-webkit-scrollbar { height: 6px; }
-#tl-scroll::-webkit-scrollbar-thumb { background: #a0aec0; border-radius: 3px; }
+#tl-scroll:active { cursor:grabbing; }
+#tl-scroll::-webkit-scrollbar { height:5px; }
+#tl-scroll::-webkit-scrollbar-thumb { background:#334155; border-radius:3px; }
 
-#tl-inner {
-position: relative;
-min-width: 4400px;
-height: 100%;
-}
+#tl-inner { position:relative; min-width:5600px; height:100%; }
 
 #tl-bar {
-position: absolute;
-left: 0; right: 0;
-
-background: #2d3748;
-border-radius: 3px;
+position:absolute; left:0; right:0;
+background: #1e293b;
+border-top: 1px solid rgba(255,255,255,.07);
+border-bottom: 1px solid rgba(255,255,255,.07);
 }
 
 .tl-yr {
-position: absolute;
-display: flex;
-align-items: center;
-justify-content: center;
-color: rgba(255,255,255,.45);
-font-size: 11px;
-font-weight: 700;
-letter-spacing: .04em;
-transform: translateX(-50%);
-pointer-events: none;
-z-index: 5;
-
+position:absolute;
+display:flex; align-items:center; justify-content:center;
+font-weight:800; letter-spacing:-.02em;
+transform:translateX(-50%);
+pointer-events:none; z-index:4;
+transition: color .2s;
 }
-.tl-yr.active { color: rgba(255,255,255,.85); }
+.tl-yr.dim { color:rgba(255,255,255,.1); font-size:24px; }
+.tl-yr.active { color:rgba(255,255,255,.55); font-size:38px; }
 
-.tl-event {
-position: absolute;
-top: 0; bottom: 0;
-width: 1px;
-z-index: 10;
-}
-.tl-event:hover { z-index: 80; }
+.tl-event { position:absolute; top:0; bottom:0; width:1px; z-index:10; }
+.tl-event:hover { z-index:80; }
 
 .tl-dot {
-position: absolute;
-width: 15px; height: 15px;
-border-radius: 50%;
-left: -7.5px;
-z-index: 15;
-border: 3px solid #edf2f7;
+position:absolute; width:18px; height:18px; border-radius:50%;
+left:-9px; z-index:20;
+border:3px solid #0f172a;
+box-shadow:0 0 0 1px rgba(255,255,255,.15);
 }
 
-.tl-conn {
-position: absolute;
-width: 3px;
-left: -1.5px;
-z-index: 9;
-}
+.tl-conn { position:absolute; width:2px; left:-1px; z-index:8; opacity:.5; }
 
 .tl-card {
-position: absolute;
-width: 175px;
-border-radius: 11px;
-padding: 12px 13px;
-color: #fff;
-left: -87px;
-z-index: 20;
-box-shadow: 0 4px 16px rgba(0,0,0,.25);
-transition: transform .15s, box-shadow .15s;
+position:absolute;
+width:172px;
+border-radius:14px;
+padding:13px 14px;
+left:-86px;
+z-index:30;
+overflow:hidden;
+transition: height .28s cubic-bezier(.4,0,.2,1),
+box-shadow .2s ease;
+box-shadow: 0 4px 20px rgba(0,0,0,.45);
 cursor: default;
-overflow: hidden;
 }
-.tl-card:hover {
-transform: translateY(-3px);
-box-shadow: 0 8px 24px rgba(0,0,0,.32);
+.tl-event:hover .tl-card {
+box-shadow: 0 10px 36px rgba(0,0,0,.6);
 }
-.tl-card .c-icon { font-size: 18px; margin-bottom: 5px; display: block; }
+
+.tl-card .c-top { display:flex; align-items:center; gap:7px; margin-bottom:7px; }
+.tl-card .c-emoji { font-size:20px; line-height:1; flex-shrink:0; }
+.tl-card .c-year { font-size:10px; font-weight:700; opacity:.6; letter-spacing:.04em; }
 .tl-card .c-title {
-font-size: 11.5px; font-weight: 700; line-height: 1.35;
-margin-bottom: 5px;
-display: -webkit-box;
--webkit-line-clamp: 3;
--webkit-box-orient: vertical;
-overflow: hidden;
-}
-.tl-card .c-inst {
-font-size: 10px; opacity: .75; line-height: 1.3;
-display: -webkit-box;
--webkit-line-clamp: 2;
--webkit-box-orient: vertical;
-overflow: hidden;
-margin-bottom: 4px;
-}
-.tl-card .c-year {
-font-size: 10px; opacity: .55; font-weight: 700;
+font-size:11.5px; font-weight:700; line-height:1.38; color:#fff;
+display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;
 }
 
-.tl-detail {
-position: absolute;
-width: 260px;
-background: #fff;
-color: #222;
-border-radius: 10px;
-padding: 14px 16px;
-font-size: 11.5px;
-line-height: 1.55;
-box-shadow: 0 10px 32px rgba(0,0,0,.22);
-z-index: 200;
-opacity: 0;
-pointer-events: none;
-transition: opacity .15s ease;
-left: 96px;
+.tl-card .c-more {
+margin-top:9px;
+opacity:0;
+transition: opacity .18s ease .16s;
+font-size:11px; color:rgba(255,255,255,.8); line-height:1.5;
 }
-.tl-detail.flip { left: auto; right: 96px; }
-.tl-event:hover .tl-detail { opacity: 1; pointer-events: auto; }
-.tl-detail .d-accent {
-height: 4px; border-radius: 4px 4px 0 0;
-margin: -14px -16px 11px;
-}
-.tl-detail .d-title { font-weight: 700; font-size: 12.5px; margin-bottom: 6px; color: #1a3a5c; line-height:1.3; }
-.tl-detail .d-authors { font-size: 10.5px; color: #555; margin-bottom: 3px; }
-.tl-detail .d-journal { font-style: italic; color: #666; margin-bottom: 6px; font-size: 11px; }
-.tl-detail .d-inst { font-size: 10.5px; color: #777; margin-bottom: 7px; }
-.tl-detail .d-body { color: #333; margin-bottom: 6px; }
-.tl-detail .d-pmid { font-size: 10px; color: #aaa; }
+.tl-card .c-more .c-authors { font-size:10.5px; opacity:.7; margin-bottom:3px; }
+.tl-card .c-more .c-inst { font-size:10px; opacity:.6; margin-bottom:6px; }
+.tl-card .c-more .c-journal { font-style:italic; opacity:.75; margin-bottom:6px; font-size:10.5px; }
+.tl-card .c-more .c-body { opacity:.9; }
+.tl-card .c-more .c-pmid { font-size:9.5px; opacity:.45; margin-top:5px; }
+.tl-event:hover .tl-card .c-more { opacity: 1; }
 
-.bg-grant { background: #1a3a5c; }
-.bg-pub { background: #c0392b; }
-.bg-ramirez { background: #6c3483; }
-.bg-milestone { background: #1a7a4a; }
+.card-grant { background: #1a3a5c; }
+.card-pub { background: #7f1d1d; }
+.card-ramirez { background: #4a1d96; }
+.card-milestone { background: #064e3b; }
 
 .tl-arrow {
-position: absolute;
-top: 50%; transform: translateY(-50%);
-width: 42px; height: 42px;
-border-radius: 50%;
-background: rgba(45,55,72,.72);
-color: #fff;
-font-size: 18px;
-border: none;
-cursor: pointer;
-z-index: 400;
-display: flex;
-align-items: center;
-justify-content: center;
-transition: background .2s;
+position:absolute; top:50%; transform:translateY(-50%);
+width:38px; height:38px; border-radius:50%;
+background:rgba(255,255,255,.08); color:rgba(255,255,255,.7);
+font-size:16px; border: 1px solid rgba(255,255,255,.12);
+cursor:pointer; z-index:400;
+display:flex; align-items:center; justify-content:center;
+transition:background .2s;
 }
-.tl-arrow:hover { background: rgba(45,55,72,.95); }
-.tl-arrow.left { left: 10px; }
-.tl-arrow.right { right: 10px; }
+.tl-arrow:hover { background:rgba(255,255,255,.18); color:#fff; }
+.tl-arrow.left { left:10px; }
+.tl-arrow.right { right:10px; }
 </style>
 
 <div class="tl-page">
 
-  <!-- Header -->
   <div class="tl-header">
     <div class="tl-title">HCC Research — Grants &amp; Key Publications — Texas 2009–2025</div>
     <div class="sep"></div>
-    <div class="legend-item"><span class="legend-dot" style="background:#1a3a5c"></span>CPRIT Grant</div>
-    <div class="legend-item"><span class="legend-dot" style="background:#c0392b"></span>Publication</div>
-    <div class="legend-item"><span class="legend-dot" style="background:#6c3483"></span>Ramirez Lab</div>
-    <div class="legend-item"><span class="legend-dot" style="background:#1a7a4a"></span>Milestone</div>
-    <div class="hint">Drag or use arrows  |  Hover card for detail</div>
+    <div class="legend-item"><span class="legend-pip" style="background:#2563eb"></span>CPRIT Grant</div>
+    <div class="legend-item"><span class="legend-pip" style="background:#dc2626"></span>Publication</div>
+    <div class="legend-item"><span class="legend-pip" style="background:#7c3aed"></span>Ramirez Lab</div>
+    <div class="legend-item"><span class="legend-pip" style="background:#059669"></span>Milestone</div>
+    <div class="hint">Drag  ·  Hover to expand  ·  ← →</div>
   </div>
 
-  <!-- Timeline -->
   <div class="tl-scroll-wrap">
     <button class="tl-arrow left" onclick="tlScroll(-500)">←</button>
     <button class="tl-arrow right" onclick="tlScroll(500)">→</button>
@@ -2590,53 +2489,79 @@ transition: background .2s;
       body:'CPRIT surpasses $4B total (~$59–77M to liver cancer). UT Southwestern receives the <b>first Texas NCI SPORE for Liver Cancer</b> with Singal, Yopp et al.' }
   ];
 
-  var COLOR = { grant:'#1a3a5c', pub:'#c0392b', ramirez:'#6c3483', milestone:'#1a7a4a' };
+  var COL = { grant:'#2563eb', pub:'#dc2626', ramirez:'#7c3aed', milestone:'#059669' };
 
-  /* ── Layout constants ── */
+  /* ── Canvas geometry ── */
   var MIN_YEAR = 2009, SPAN = 16;
-  var CANVAS_W = 4400, PAD = 240;
+  var CANVAS_W = 5600, PAD = 260;
   var USABLE   = CANVAS_W - PAD * 2;
-  var BAR_H    = 52;
 
-  function xFor(yr) { return PAD + ((yr - MIN_YEAR) / SPAN) * USABLE; }
+  function idealX(yr) { return PAD + ((yr - MIN_YEAR) / SPAN) * USABLE; }
 
-  /* ── Same-year x-jitter ── */
+  /* ── Initial x with same-year jitter ── */
   var groups = {};
   EVENTS.forEach(function(e, i) { (groups[e.year] = groups[e.year] || []).push(i); });
   EVENTS.forEach(function(e, i) {
     var g = groups[e.year], pos = g.indexOf(i);
-    e._xOff = (pos - (g.length - 1) / 2) * 195;
+    e._x = idealX(e.year) + (pos - (g.length - 1) / 2) * 185;
   });
 
-  /* ── Wait for layout so we can read real height ── */
+  /* ── Collision resolution (force-push adjacent events apart) ── */
+  var MIN_GAP = 178;
+  var sorted = EVENTS.map(function(e, i) { return { e: e, i: i }; })
+                     .sort(function(a, b) { return a.e._x - b.e._x; });
+
+  for (var iter = 0; iter < 120; iter++) {
+    var moved = false;
+    for (var j = 1; j < sorted.length; j++) {
+      var gap = sorted[j].e._x - sorted[j-1].e._x;
+      if (gap < MIN_GAP) {
+        var push = (MIN_GAP - gap) / 2 + .5;
+        sorted[j-1].e._x -= push;
+        sorted[j].e._x   += push;
+        moved = true;
+      }
+    }
+    if (!moved) break;
+  }
+
+  /* ── Build after real layout height is known ── */
   window.addEventListener('load', function () {
-    var area   = document.getElementById('tl-scroll');
-    var inner  = document.getElementById('tl-inner');
-    var bar    = document.getElementById('tl-bar');
-    var H      = area.clientHeight;
-    var barTop = Math.round(H * 0.44);
+    var area  = document.getElementById('tl-scroll');
+    var inner = document.getElementById('tl-inner');
+    var bar   = document.getElementById('tl-bar');
+    var H     = area.clientHeight;
+
+    var BAR_H   = 64;
+    var barTop  = Math.round(H * 0.44);
+    var barMid  = barTop + Math.round(BAR_H / 2);
 
     bar.style.top    = barTop + 'px';
     bar.style.height = BAR_H  + 'px';
 
-    var dotCenterY    = barTop + Math.round(BAR_H / 2);
-    var cardAboveTop  = 16;
-    var cardAboveH    = barTop - 16 - 28;   /* 28px connector gap */
-    var connAboveTop  = cardAboveTop + cardAboveH;
-    var connAboveH    = barTop - connAboveTop;
+    /* card geometry */
+    var GAP         = 24;
+    var aboveBot    = barTop - GAP;             /* bottom of above-cards zone */
+    var aboveTop    = 14;
+    var aboveFullH  = aboveBot - aboveTop;
+    var aboveHalfH  = Math.round(aboveFullH * 0.48);
 
-    var cardBelowTop  = barTop + BAR_H + 16;
-    var cardBelowH    = H - cardBelowTop - 16;
-    var connBelowTop  = barTop + BAR_H;
-    var connBelowH    = cardBelowTop - connBelowTop;
+    var belowTop    = barTop + BAR_H + GAP;
+    var belowFullH  = H - belowTop - 14;
+    var belowHalfH  = Math.round(belowFullH * 0.48);
 
-    /* ── Year labels ── */
+    /* conn geometry */
+    var connAboveTop = aboveBot;
+    var connAboveH   = barTop - connAboveTop;   /* negative — JS clamped below */
+
+    /* ── Year labels on bar ── */
     var activeYrs = {};
     EVENTS.forEach(function(e) { activeYrs[e.year] = true; });
     for (var yr = MIN_YEAR; yr <= MIN_YEAR + SPAN; yr++) {
       var lbl = document.createElement('div');
-      lbl.className = 'tl-yr' + (activeYrs[yr] ? ' active' : '');
-      lbl.style.left   = xFor(yr) + 'px';
+      var isActive = !!activeYrs[yr];
+      lbl.className = 'tl-yr ' + (isActive ? 'active' : 'dim');
+      lbl.style.left   = idealX(yr) + 'px';
       lbl.style.top    = barTop + 'px';
       lbl.style.height = BAR_H + 'px';
       lbl.textContent  = yr;
@@ -2644,10 +2569,14 @@ transition: background .2s;
     }
 
     /* ── Render events ── */
-    EVENTS.forEach(function(e, i) {
-      var above = (i % 2 === 0);
-      var x     = xFor(e.year) + e._xOff;
-      var col   = COLOR[e.type] || '#555';
+    sorted.forEach(function(item, si) {
+      var e     = item.e;
+      var above = (si % 2 === 0);
+      var x     = e._x;
+      var col   = COL[e.type] || '#555';
+
+      var halfH = above ? aboveHalfH : belowHalfH;
+      var fullH = above ? aboveFullH : belowFullH;
 
       var wrap = document.createElement('div');
       wrap.className = 'tl-event';
@@ -2657,7 +2586,7 @@ transition: background .2s;
       var dot = document.createElement('div');
       dot.className = 'tl-dot';
       dot.style.background = col;
-      dot.style.top = (dotCenterY - 7) + 'px';
+      dot.style.top = (barMid - 9) + 'px';
       wrap.appendChild(dot);
 
       /* connector */
@@ -2665,44 +2594,54 @@ transition: background .2s;
       conn.className = 'tl-conn';
       conn.style.background = col;
       if (above) {
-        conn.style.top    = connAboveTop + 'px';
-        conn.style.height = connAboveH   + 'px';
+        conn.style.top    = (aboveBot) + 'px';
+        conn.style.height = (barTop - aboveBot) + 'px';
       } else {
-        conn.style.top    = connBelowTop + 'px';
-        conn.style.height = connBelowH   + 'px';
+        conn.style.top    = (barTop + BAR_H) + 'px';
+        conn.style.height = (belowTop - barTop - BAR_H) + 'px';
       }
       wrap.appendChild(conn);
 
-      /* card */
+      /* bubble card */
       var card = document.createElement('div');
-      card.className = 'tl-card bg-' + e.type;
-      card.style.top    = (above ? cardAboveTop : cardBelowTop) + 'px';
-      card.style.height = (above ? cardAboveH   : cardBelowH)   + 'px';
+      card.className = 'tl-card card-' + e.type;
+      card.style.width  = '172px';
+      card.style.left   = '-86px';
+      card.style.height = halfH + 'px';
+
+      if (above) {
+        /* bottom-anchored so it expands upward */
+        card.style.bottom = (H - aboveBot) + 'px';
+        card.style.top    = 'auto';
+      } else {
+        card.style.top = belowTop + 'px';
+      }
+
+      /* card inner HTML */
+      var moreH = '';
+      if (e.authors) moreH += '<div class="c-authors">' + e.authors + '</div>';
+      if (e.journal) moreH += '<div class="c-journal">' + e.journal + '</div>';
+      if (e.inst)    moreH += '<div class="c-inst">📍 ' + e.inst + '</div>';
+      moreH += '<div class="c-body">' + e.body + '</div>';
+      if (e.pmid)    moreH += '<div class="c-pmid">PMID ' + e.pmid + '</div>';
+
       card.innerHTML =
-        '<span class="c-icon">' + e.emoji + '</span>' +
+        '<div class="c-top">' +
+          '<span class="c-emoji">' + e.emoji + '</span>' +
+          '<span class="c-year">' + e.year + '</span>' +
+        '</div>' +
         '<div class="c-title">' + e.title + '</div>' +
-        '<div class="c-inst">'  + (e.inst || '') + '</div>' +
-        '<div class="c-year">'  + e.year + '</div>';
+        '<div class="c-more">' + moreH + '</div>';
+
+      /* expand / collapse on hover */
+      wrap.addEventListener('mouseenter', function() { card.style.height = fullH + 'px'; });
+      wrap.addEventListener('mouseleave', function() { card.style.height = halfH + 'px'; });
+
       wrap.appendChild(card);
-
-      /* detail panel */
-      var det = document.createElement('div');
-      det.className = 'tl-detail' + (x > CANVAS_W * 0.62 ? ' flip' : '');
-      det.style.top = (above ? cardAboveTop : cardBelowTop) + 'px';
-      var dh = '<div class="d-accent" style="background:' + col + '"></div>';
-      dh += '<div class="d-title">' + e.emoji + ' ' + e.title + '</div>';
-      if (e.authors) dh += '<div class="d-authors"><strong>Authors:</strong> ' + e.authors + '</div>';
-      if (e.journal) dh += '<div class="d-journal">' + e.journal + '</div>';
-      if (e.inst)    dh += '<div class="d-inst">📍 ' + e.inst + '</div>';
-      dh += '<div class="d-body">' + e.body + '</div>';
-      if (e.pmid)    dh += '<div class="d-pmid">PMID: ' + e.pmid + '</div>';
-      det.innerHTML = dh;
-      wrap.appendChild(det);
-
       inner.appendChild(wrap);
     });
 
-    /* ── Drag to scroll ── */
+    /* ── Drag scroll ── */
     var isDown = false, startX, scrollLeft;
     area.addEventListener('mousedown', function(e) {
       isDown = true; startX = e.pageX - area.offsetLeft; scrollLeft = area.scrollLeft;
