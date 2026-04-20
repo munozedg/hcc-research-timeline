@@ -495,13 +495,13 @@ background: #f0f4f8; color: #1e293b;
 
 :root {
 --hdr-h: 58px;
---bar-h: 60px;
---conn-gap: 16px;
---bar-top: calc(46vh + 31px);
---bar-bot: calc(var(--bar-top) + var(--bar-h));
---bar-mid: calc(var(--bar-top) + 30px);
---above-avail: calc(46vh - 51px);
---below-avail: calc(54vh - 111px);
+--bar-h: 50px;
+--conn-gap: 14px;
+--bar-top: var(--hdr-h);
+--bar-bot: calc(var(--hdr-h) + var(--bar-h));
+--bar-mid: calc(var(--hdr-h) + 25px);
+--cards-top: calc(var(--hdr-h) + var(--bar-h) + var(--conn-gap));
+--cards-avail: calc(100vh - var(--hdr-h) - var(--bar-h) - var(--conn-gap) - 10px);
 }
 #app { display:flex; flex-direction:column; height:100vh; }
 
@@ -510,6 +510,7 @@ flex-shrink:0; height:var(--hdr-h);
 background:#fff; border-bottom:1px solid #e2e8f0;
 box-shadow:0 1px 4px rgba(0,0,0,.07);
 display:flex; align-items:center; padding:0 1.4rem; gap:.9rem;
+z-index:50; position:relative;
 }
 #hdr .title { font-size:.93rem; font-weight:700; color:#0f172a; white-space:nowrap; }
 #hdr .sep { width:1px; height:24px; background:#e2e8f0; flex-shrink:0; }
@@ -535,17 +536,18 @@ overflow-x:auto; overflow-y:hidden; cursor:grab;
 
 #bar {
 position:absolute;
-top:var(--bar-top); height:var(--bar-h); left:0; right:0;
-background:linear-gradient(90deg,#f0f4f8 0%,#1e3a5f 15%,#1e3a5f 85%,#f0f4f8 100%);
-border-top:2px solid #1e3a5f; border-bottom:2px solid #1e3a5f;
+top:0; height:var(--bar-h); left:0; right:0;
+background:linear-gradient(90deg,#f0f4f8 0%,#1e3a5f 12%,#1e3a5f 88%,#f0f4f8 100%);
+border-bottom:2px solid #1e3a5f;
+z-index:20;
 }
 
 .yr {
-position:absolute; top:var(--bar-top); height:var(--bar-h);
+position:absolute; top:0; height:var(--bar-h);
 display:flex; align-items:center; justify-content:center;
-font-weight:800; letter-spacing:-.02em; font-size:30px;
-color:rgba(255,255,255,.65);
-transform:translateX(-50%); pointer-events:none; z-index:4;
+font-weight:800; letter-spacing:-.02em; font-size:22px;
+color:rgba(255,255,255,.75);
+transform:translateX(-50%); pointer-events:none; z-index:25;
 }
 
 .yr-group {
@@ -554,10 +556,11 @@ width:186px; transform:translateX(-50%); z-index:10;
 }
 
 .dot {
-position:absolute; top:calc(var(--bar-mid) - 6px);
+position:absolute;
+top:calc(var(--bar-h) - 6px);
 width:13px; height:13px; border-radius:50%;
 left:50%; transform:translateX(-50%);
-z-index:20; border:2.5px solid #fff;
+z-index:30; border:2.5px solid #fff;
 box-shadow:0 0 0 1px rgba(0,0,0,.15);
 transition:transform .2s;
 }
@@ -566,29 +569,20 @@ transition:transform .2s;
 .conn {
 position:absolute; width:2px;
 left:50%; transform:translateX(-50%); z-index:8; opacity:.55;
+top:var(--bar-h); height:var(--conn-gap);
 }
-.conn.above { top:calc(var(--bar-top) - var(--conn-gap)); height:var(--conn-gap); }
-.conn.below { top:var(--bar-bot); height:var(--conn-gap); }
 
 .stack {
 position:absolute; left:0; right:0;
+top:calc(var(--bar-h) + var(--conn-gap));
+bottom:0;
 display:flex; flex-direction:column; gap:5px; overflow:hidden;
-}
-.stack.above {
-top:calc(var(--hdr-h) + 10px);
-bottom:calc(100vh - var(--bar-top) + var(--conn-gap));
-flex-direction:column-reverse;
-}
-.stack.below {
-top:calc(var(--bar-bot) + var(--conn-gap));
-bottom:10px;
 }
 
 .ev-card {
 border-radius:8px; padding:6px 9px;
 cursor:pointer; flex-shrink:0; overflow:hidden;
-transition:box-shadow .15s, transform .15s;
-border:none;
+transition:box-shadow .15s, transform .15s; border:none;
 }
 .ev-card:hover { box-shadow:0 4px 18px rgba(0,0,0,.22); transform:translateY(-1px); }
 .ev-card.grant { background:linear-gradient(135deg,#1e3a8a 0%,#2563eb 100%); }
@@ -632,18 +626,6 @@ font-size:10px; color:#64748b; margin-bottom:7px;
 white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
 }
 #detail .d-desc { color:#475569; font-size:11px; line-height:1.5; }
-
-.arrow {
-position:absolute; top:50%; transform:translateY(-50%);
-width:34px; height:34px; border-radius:50%;
-background:rgba(255,255,255,.9); color:#475569;
-border:1px solid #e2e8f0; font-size:14px; cursor:pointer; z-index:400;
-display:flex; align-items:center; justify-content:center;
-box-shadow:0 1px 4px rgba(0,0,0,.1); transition:background .2s, color .2s;
-}
-.arrow:hover { background:#fff; color:#0f172a; box-shadow:0 2px 8px rgba(0,0,0,.15); }
-.arrow.left { left:8px; }
-.arrow.right { right:8px; }
 </style>
 
 <div id="app">
@@ -654,12 +636,10 @@ box-shadow:0 1px 4px rgba(0,0,0,.1); transition:background .2s, color .2s;
     <button class="chip" id="f-pub" style="background:#dc2626" onclick="toggleFilter(&#39;pub&#39;)">📄 Publications</button>
     <button class="chip" id="f-uthsa" style="background:#7c3aed" onclick="toggleFilter(&#39;uthsa&#39;)">🔬 UTHSA</button>
     <button class="chip" id="f-milestone" style="background:#059669" onclick="toggleFilter(&#39;milestone&#39;)">🎯 Milestones</button>
-    <div class="hint">Drag  ·  Hover for details  ·  Filter by type</div>
+    <div class="hint">Drag to scroll  ·  Hover for details</div>
   </div>
 
   <div id="scroll-wrap">
-    <button class="arrow left" onclick="pan(-420)">←</button>
-    <button class="arrow right" onclick="pan(420)">→</button>
     <div id="scroll">
       <div id="canvas"><div id="bar"></div></div>
     </div>
@@ -672,7 +652,6 @@ box-shadow:0 1px 4px rgba(0,0,0,.1); transition:background .2s, color .2s;
 (function () {
   var EMOJI  = { grant:'🏆', pub:'📄', uthsa:'🔬', milestone:'🎯' };
   var ACCENT = { grant:'#2563eb', pub:'#dc2626', uthsa:'#7c3aed', milestone:'#059669' };
-  /* UTHSA first, then milestones, grants, pubs */
   var TYPE_ORDER = { uthsa:0, milestone:1, grant:2, pub:3 };
 
   function typeOf(cat, sub) {
@@ -682,7 +661,7 @@ box-shadow:0 1px 4px rgba(0,0,0,.1); transition:background .2s, color .2s;
     return 'pub';
   }
 
-  /* ── Group by year (active years only) ── */
+  /* ── Group by year (active only) ── */
   var byYear = {};
   EVENTS.forEach(function(e) {
     e.type = typeOf(e.cat, e.sub);
@@ -690,14 +669,12 @@ box-shadow:0 1px 4px rgba(0,0,0,.1); transition:background .2s, color .2s;
   });
   var years = Object.keys(byYear).map(Number).sort(function(a,b){return a-b;});
 
-  /* ── X geometry: only active years, evenly spaced ── */
-  var CANVAS_W = 3800, PAD = 220;
+  /* ── X: active years evenly spaced ── */
+  var CANVAS_W = 3800, PAD = 200;
   var USABLE   = CANVAS_W - PAD * 2;
   var N        = years.length;
   var spacing  = N > 1 ? USABLE / (N - 1) : 0;
-  function xFor(yr) {
-    return PAD + years.indexOf(yr) * spacing;
-  }
+  function xFor(yr) { return PAD + years.indexOf(yr) * spacing; }
 
   function dominantType(evs) {
     var cnt = {};
@@ -705,68 +682,62 @@ box-shadow:0 1px 4px rgba(0,0,0,.1); transition:background .2s, color .2s;
     return Object.keys(cnt).sort(function(a,b){return cnt[b]-cnt[a];})[0];
   }
 
-  /* ── Global max N per side → uniform card height ── */
-  var maxAbove = 0, maxBelow = 0;
-  years.forEach(function(yr, yi){
-    var n = byYear[yr].length;
-    if (yi % 2 === 0) maxAbove = Math.max(maxAbove, n);
-    else              maxBelow = Math.max(maxBelow, n);
-  });
-  var cardHAbove = 'calc((var(--above-avail) - ' + (maxAbove-1)*5 + 'px) / ' + maxAbove + ')';
-  var cardHBelow = 'calc((var(--below-avail) - ' + (maxBelow-1)*5 + 'px) / ' + maxBelow + ')';
+  /* ── Global max N → uniform card height across all groups ── */
+  var maxN = 0;
+  years.forEach(function(yr){ maxN = Math.max(maxN, byYear[yr].length); });
+  var gaps  = (maxN - 1) * 5;
+  /* CSS calc with vh var — recomputes on every zoom change */
+  var cardH = 'calc((var(--cards-avail) - ' + gaps + 'px) / ' + maxN + ')';
 
   /* ── Build DOM ── */
   var canvas = document.getElementById('canvas');
 
-  years.forEach(function(yr, yi){
-    var evs = byYear[yr].slice(); /* copy so we can sort */
-
-    /* UTHSA first, then by type order, stable within type */
+  years.forEach(function(yr){
+    var evs = byYear[yr].slice();
     evs.sort(function(a, b){
       return (TYPE_ORDER[a.type]||99) - (TYPE_ORDER[b.type]||99);
     });
 
-    var above = (yi % 2 === 0);
-    var dom   = dominantType(evs);
-    var cardH = above ? cardHAbove : cardHBelow;
+    var dom = dominantType(evs);
+    var x   = xFor(yr);
 
     /* year label */
     var lbl = document.createElement('div');
     lbl.className   = 'yr';
-    lbl.style.left  = xFor(yr)+'px';
+    lbl.style.left  = x + 'px';
     lbl.textContent = yr;
     canvas.appendChild(lbl);
 
+    /* group */
     var grp = document.createElement('div');
     grp.className  = 'yr-group';
-    grp.style.left = xFor(yr)+'px';
-    grp.dataset.yr = yr;
+    grp.style.left = x + 'px';
 
     var dot = document.createElement('div');
-    dot.className = 'dot '+dom;
+    dot.className = 'dot ' + dom;
     grp.appendChild(dot);
 
     var conn = document.createElement('div');
-    conn.className = 'conn '+(above?'above':'below')+' '+dom;
+    conn.className = 'conn ' + dom;
     grp.appendChild(conn);
 
     var stack = document.createElement('div');
-    stack.className = 'stack '+(above?'above':'below');
+    stack.className = 'stack';
     grp.appendChild(stack);
 
     evs.forEach(function(e){
       var card = document.createElement('div');
-      card.className    = 'ev-card '+e.type;
+      card.className    = 'ev-card ' + e.type;
       card.style.height = cardH;
       card.dataset.type = e.type;
 
-      var label = (e.type === 'uthsa') ? 'UTHSA' : e.cat;
+      var label = e.type === 'uthsa' ? 'UTHSA' : e.cat;
       card.innerHTML =
-        '<div class="c-top">'+
-          '<span class="c-emoji">'+EMOJI[e.type]+'</span>'+
-          '<span class="c-type">'+label+' &middot; '+e.year+'</span>'+
-        '</div>'+
-        '<div class="c-title">'+e.title+'</div>';
+        '<div class="c-top">' +
+          '<span class="c-emoji">' + EMOJI[e.type] + '</span>' +
+          '<span class="c-type">' + label + ' &middot; ' + e.year + '</span>' +
+        '</div>' +
+        '<div class="c-title">' + e.title + '</div>';
 
       card.addEventListener('mouseenter', function(ev){ showDetail(e, ev.currentTarget); });
       card.addEventListener('mouseleave', hideDetail);
@@ -779,48 +750,48 @@ box-shadow:0 1px 4px rgba(0,0,0,.1); transition:background .2s, color .2s;
   /* ── Detail tooltip ── */
   var det = document.getElementById('detail');
   function showDetail(e, el){
-    var col = ACCENT[e.type]||'#888';
-    var label = (e.type === 'uthsa') ? 'UTHSA' : e.cat;
-    var h = '<div class="d-accent" style="background:'+col+'"></div>';
-    h += '<div class="d-title">'+EMOJI[e.type]+' '+e.title+'</div>';
-    var cite = [e.year+''];
+    var col = ACCENT[e.type] || '#888';
+    var h = '<div class="d-accent" style="background:' + col + '"></div>';
+    h += '<div class="d-title">' + EMOJI[e.type] + ' ' + e.title + '</div>';
+    var cite = [e.year + ''];
     if(e.authors) cite.push(e.authors);
-    if(e.journal) cite.push(e.journal+(e.vol?' '+e.vol:''));
+    if(e.journal) cite.push(e.journal + (e.vol ? ' ' + e.vol : ''));
     if(e.inst)    cite.push(e.inst);
-    if(e.pmid)    cite.push('PMID '+e.pmid);
-    h += '<div class="d-cite">'+cite.join(' &middot; ')+'</div>';
-    if(e.desc) h+='<div class="d-desc">'+e.desc+'</div>';
+    if(e.pmid)    cite.push('PMID ' + e.pmid);
+    h += '<div class="d-cite">' + cite.join(' &middot; ') + '</div>';
+    if(e.desc) h += '<div class="d-desc">' + e.desc + '</div>';
     det.innerHTML = h;
 
-    var r=el.getBoundingClientRect(), top=r.top, left=r.right+10;
-    if(left+280>window.innerWidth) left=r.left-290;
-    if(top+det.offsetHeight>window.innerHeight-10) top=window.innerHeight-det.offsetHeight-10;
-    det.style.top  = Math.max(10,top)+'px';
-    det.style.left = left+'px';
+    var r = el.getBoundingClientRect(), top = r.top, left = r.right + 10;
+    if(left + 280 > window.innerWidth)  left = r.left - 290;
+    if(top + det.offsetHeight > window.innerHeight - 10)
+      top = window.innerHeight - det.offsetHeight - 10;
+    det.style.top  = Math.max(10, top) + 'px';
+    det.style.left = left + 'px';
     det.classList.add('show');
   }
   function hideDetail(){ det.classList.remove('show'); }
 
   /* ── Drag scroll ── */
-  var scroll=document.getElementById('scroll'), isDown=false, sx, sl;
-  scroll.addEventListener('mousedown',function(e){isDown=true;sx=e.pageX-scroll.offsetLeft;sl=scroll.scrollLeft;});
-  scroll.addEventListener('mouseleave',function(){isDown=false;});
-  scroll.addEventListener('mouseup',  function(){isDown=false;});
-  scroll.addEventListener('mousemove',function(e){
-    if(!isDown)return; e.preventDefault();
-    scroll.scrollLeft=sl-(e.pageX-scroll.offsetLeft-sx);
+  var scroll = document.getElementById('scroll');
+  var isDown = false, sx, sl;
+  scroll.addEventListener('mousedown', function(e){ isDown=true; sx=e.pageX-scroll.offsetLeft; sl=scroll.scrollLeft; });
+  scroll.addEventListener('mouseleave', function(){ isDown=false; });
+  scroll.addEventListener('mouseup',   function(){ isDown=false; });
+  scroll.addEventListener('mousemove', function(e){
+    if(!isDown) return; e.preventDefault();
+    scroll.scrollLeft = sl - (e.pageX - scroll.offsetLeft - sx);
   });
 
   /* ── Filter ── */
-  var hidden={};
-  window.toggleFilter=function(type){
-    hidden[type]=!hidden[type];
-    document.getElementById('f-'+type).classList.toggle('off',!!hidden[type]);
-    document.querySelectorAll('.ev-card[data-type="'+type+'"]').forEach(function(el){
-      el.style.display=hidden[type]?'none':'';
+  var hidden = {};
+  window.toggleFilter = function(type){
+    hidden[type] = !hidden[type];
+    document.getElementById('f-' + type).classList.toggle('off', !!hidden[type]);
+    document.querySelectorAll('.ev-card[data-type="' + type + '"]').forEach(function(el){
+      el.style.display = hidden[type] ? 'none' : '';
     });
   };
-  window.pan=function(dx){ scroll.scrollBy({left:dx,behavior:'smooth'}); };
 })();
 </script>
 
