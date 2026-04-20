@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Liver Cancer (HCC) Research in Texas</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+<style>
+body{font-family:'Segoe UI',system-ui,sans-serif;padding:2rem;max-width:1400px;margin:0 auto;}
+h1.title{color:#1a3a5c;font-size:2rem;font-weight:700;margin-bottom:.25rem;}
+.subtitle{color:#555;font-size:1.1rem;margin-bottom:1.5rem;}
+h2{color:#1a3a5c;border-bottom:2px solid #c0392b;padding-bottom:6px;margin-top:2rem;margin-bottom:1rem;}
+.intro-box{background:linear-gradient(135deg,#1a3a5c 0%,#c0392b 100%);color:white;border-radius:10px;padding:1.5rem 2rem;margin-bottom:2rem;}
+.stat-row{display:flex;gap:1rem;flex-wrap:wrap;margin:1.5rem 0;}
+.stat-card{background:#f8f9fa;border-left:4px solid #c0392b;border-radius:6px;padding:.8rem 1.2rem;flex:1;min-width:160px;}
+.stat-card .num{font-size:1.6rem;font-weight:700;color:#c0392b;}
+.stat-card .lbl{font-size:.8rem;color:#666;text-transform:uppercase;letter-spacing:.05em;}
+.md-table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.9rem;}
+.md-table th,.md-table td{border:1px solid #dee2e6;padding:.5rem .75rem;text-align:left;}
+.md-table th{background:#1a3a5c;color:white;}
+.md-table tr:nth-child(even) td{background:#f8f9fa;}
+.callout{border-left:4px solid #1a5276;background:#eaf3fb;padding:1rem 1.5rem;border-radius:6px;margin:1.5rem 0;}
+.callout-tip{border-color:#1a7a3c;background:#eafaf1;}
+.callout strong{display:block;margin-bottom:.5rem;}
+.callout ul{margin:.5rem 0 0 0;padding-left:1.2rem;}
+/* Timeline */
+.tl-arrow{position:fixed;top:50%;transform:translateY(-50%);width:48px;height:48px;border-radius:50%;background:rgba(0,0,0,.55);color:white;font-size:22px;border:none;cursor:pointer;z-index:1000;display:flex;align-items:center;justify-content:center;transition:background .2s;}
+.tl-arrow:hover{background:rgba(0,0,0,.82);}
+.tl-arrow.tl-left{left:12px;}
+.tl-arrow.tl-right{right:12px;}
+#tl-scroll{overflow-x:auto;overflow-y:hidden;padding:10px 0 20px;background:#fafbfc;border-radius:10px;cursor:grab;}
+#tl-scroll:active{cursor:grabbing;}
+#tl-inner{position:relative;min-width:2800px;height:620px;}
+#tl-axis{position:absolute;top:310px;left:0;right:0;height:2px;background:#888;}
+.tl-tick{position:absolute;top:312px;display:flex;flex-direction:column;align-items:center;transform:translateX(-50%);}
+.tl-tick-line{width:1px;height:10px;background:#aaa;}
+.tl-tick-label{font-size:11px;color:#666;margin-top:3px;white-space:nowrap;}
+.tl-dot{position:absolute;width:12px;height:12px;border-radius:50%;z-index:10;transform:translateX(-50%);}
+.tl-dot.grant{background:#1a5276;}
+.tl-dot.pub{background:#c0392b;}
+.tl-dot.ramirez{background:#7d3c98;}
+.tl-conn{position:absolute;width:2px;transform:translateX(-50%);z-index:9;}
+.tl-conn.grant{background:#1a5276;}
+.tl-conn.pub{background:#c0392b;}
+.tl-conn.ramirez{background:#7d3c98;}
+.tl-bubble{position:absolute;width:134px;background:white;border-radius:7px;padding:6px 7px;font-size:8.5px;line-height:1.35;box-shadow:0 2px 8px rgba(0,0,0,.18);z-index:15;box-sizing:border-box;transform:translateX(-50%);}
+.tl-bubble.grant{border-top:3px solid #1a5276;}
+.tl-bubble.pub{border-top:3px solid #c0392b;}
+.tl-bubble.ramirez{border-top:3px solid #7d3c98;}
+.tl-bubble .bt{font-weight:700;margin-bottom:2px;color:#222;font-size:8px;}
+.tl-bubble .bj{font-style:italic;color:#555;margin-bottom:1px;}
+.tl-bubble .bi{color:#666;margin-bottom:1px;}
+.tl-bubble .bb{color:#333;}
+.tl-bubble .bp{color:#999;font-size:7.5px;margin-top:2px;}
+</style>
+</head>
+<body>
+<h1 class="title">Liver Cancer (HCC) Research in Texas</h1>
+<p class="subtitle">CPRIT Grants &amp; Key Publications &mdash; Combined Horizontal Timeline 2009&ndash;2025</p>
+<div class="intro-box">
+<p>Texas leads the nation in hepatocellular carcinoma (HCC) incidence, driven by the highest concentration of Hispanic Americans, high rates of metabolic disease, and legacy hepatitis B/C burden. Since 2009, CPRIT has invested <strong>$59&ndash;77 million</strong> in liver cancer research, building a world-class network across MD Anderson, BCM, UTSW, UTHealth, and UT Health San Antonio. Dr. <strong>Amelie G. Ramirez</strong> (UTHSCSA / IHPR) led the foundational epidemiological studies establishing that South Texas Latinos bear the nation&rsquo;s highest HCC burden &mdash; 3&ndash;4&times; higher rates than non-Hispanic Whites &mdash; and discovered the first U.S. link between aflatoxin exposure and liver cancer in Latinos.</p>
+</div>
+<div class="stat-row">
+<div class="stat-card"><div class="num">#1</div><div class="lbl">TX HCC incidence nationally</div></div>
+<div class="stat-card"><div class="num">$4B+</div><div class="lbl">CPRIT total funding (2025)</div></div>
+<div class="stat-card"><div class="num">3&ndash;4&times;</div><div class="lbl">Higher HCC rate: TX Latinos vs NHW</div></div>
+<div class="stat-card"><div class="num">5,000</div><div class="lbl">THCCC cohort patients enrolled</div></div>
+</div>
+<h2>Combined Timeline: CPRIT Grants &#127942; &amp; Publications &#128196; (2009&ndash;2025)</h2>
+<div style="display:flex;gap:1.5rem;flex-wrap:wrap;margin:0 0 .75rem;font-size:.9rem;align-items:center;padding:.6rem 1rem;background:#f0f3f7;border-radius:8px;">
+<span>&#127942; <strong>CPRIT Grant</strong> <em style="color:#1a5276">(navy)</em></span>
+<span>&#128196; <strong>TX Publication</strong> BCM / UTSW / MDA <em style="color:#c0392b">(crimson)</em></span>
+<span>&#128300; <strong>UTHSCSA / Ramirez Lab</strong> <em style="color:#7d3c98">(purple)</em></span>
+</div>
+<button class="tl-arrow tl-left" onclick="tlScroll(-300)">&#8592;</button>
+<button class="tl-arrow tl-right" onclick="tlScroll(300)">&#8594;</button>
+<div id="tl-scroll"><div id="tl-inner"><div id="tl-axis"></div></div></div>
+<script>
+(function(){
+var EVENTS=[
+{year:2009,type:'grant',emoji:'&#127942;',title:'CPRIT Established &ndash; First Grants Awarded',inst:'Statewide, Texas',body:'Voters approved Prop 15 authorizing <b>$3B</b> for cancer research. BCM and MD Anderson liver researchers were early recipients.'},
+{year:2011,type:'pub',emoji:'&#128196;',title:'El-Serag HB. Hepatocellular Carcinoma',journal:'N Engl J Med 2011;365:1118',inst:'Baylor College of Medicine / Houston VA',pmid:'21992124',body:'Landmark global HCC review documenting rapid rise of HCV-related HCC as fastest-growing US cancer death cause.'},
+{year:2012,type:'ramirez',emoji:'&#128300;',title:'Ramirez AG et al. HCC Incidence in TX Latinos',journal:'PLoS One 2012;7(4):e35573',inst:'UTHSCSA / IHPR, San Antonio',pmid:'22530052',body:'First study documenting South Texas Latinos have the nation\'s highest HCC rates (10.6/100K).'},
+{year:2012,type:'pub',emoji:'&#128196;',title:'El-Serag HB. Epidemiology of Viral Hepatitis &amp; HCC',journal:'Gastroenterology 2012;142(6):1264',inst:'Baylor College of Medicine',pmid:'22537432',body:'Quantified population-attributable fraction of HBV/HCV in HCC; foundational for Texas public health interventions.'},
+{year:2014,type:'ramirez',emoji:'&#128300;',title:'Ramirez AG et al. HCC in TX Latinos 1995&ndash;2010',journal:'PLoS One 2014;9(6):e99365',inst:'UTHSCSA / IHPR, San Antonio',pmid:'24915432',body:'Confirmed TX Latino male/female HCC rates <b>3.1&times; and 4.0&times;</b> higher than non-Hispanic Whites.'},
+{year:2015,type:'grant',emoji:'&#127942;',title:'RP150587 &ndash; THCCC ~$6M',inst:'BCM / UTSW / MDA / UT San Antonio',body:'CPRIT Multi-Investigator Award launched the <b>THCCC</b> &ndash; 5,000-patient prospective cohort for HCC risk factors and early detection biomarkers.'},
+{year:2017,type:'ramirez',emoji:'&#128300;',title:'Ramirez AG et al. Lifestyle &amp; Aflatoxin in HCC',journal:'Clin Gastroenterol Hepatol 2018;16(3):373',inst:'UTHSCSA / IHPR, San Antonio',pmid:'28344065',body:'<b>First U.S. study linking aflatoxin to HCC in Latinos.</b> Cases had 6&times; higher odds of detectable aflatoxins.'},
+{year:2017,type:'pub',emoji:'&#128196;',title:'Singal AG et al. AFP+USS Meta-Analysis',journal:'Gastroenterology 2018;154(6):1706',inst:'UT Southwestern, Dallas',pmid:'29352041',body:'32 studies: AFP + ultrasound improves HCC sensitivity to 63% vs 45% for ultrasound alone.'},
+{year:2018,type:'grant',emoji:'&#127942;',title:'THCCC Milestone &ndash; 2,000+ Patients Enrolled',inst:'BCM / UTSW / MDA / UT San Antonio',body:'Semi-annual ultrasound, AFP, labs, and biospecimens collected across 5 Texas sites.'},
+{year:2018,type:'pub',emoji:'&#128196;',title:'Singal AG, El-Serag HB. HCC Epidemiology &amp; Mgmt',journal:'Gastroenterology 2018;154(6):1693',inst:'UT Southwestern / BCM',body:'Comprehensive review of HCC risk stratification, surveillance, staging, and treatment.'},
+{year:2019,type:'grant',emoji:'&#127942;',title:'TeCH Center ($13M) + RP190641 + Hwang MDA',inst:'BCM / MD Anderson, Texas',body:'Three major CPRIT awards including TeCH Center for coordinated HCC research statewide.'},
+{year:2019,type:'pub',emoji:'&#128196;',title:'Loo N et al. THCCC Cohort Study Design',journal:'Am J Gastroenterol 2019;114(3):530',inst:'BCM / UTSW / MDA / UT San Antonio',pmid:'30699099',body:'Describes the THCCC 5,000-patient prospective cohort design and multi-center data collection protocol.'},
+{year:2019,type:'ramirez',emoji:'&#128300;',title:'Wang CP, Ramirez AG et al. Metformin &amp; HCC',journal:'Cancer Med 2019;8(6):3206',inst:'UTHSCSA, San Antonio (VA Study)',pmid:'30993905',body:'In 84,433 men with T2D, metformin reduced HCC risk, stronger effects in Hispanic and African American men.'},
+{year:2020,type:'grant',emoji:'&#127942;',title:'RP200537 Singal UTSW + RP200554 Thrift BCM',inst:'UTSW Dallas / BCM Houston',body:'Singal: 3,000-patient cirrhosis cohort. Thrift: Genetic epidemiology of HCC in Hispanics (PNPLA3, TM6SF2).'},
+{year:2020,type:'pub',emoji:'&#128196;',title:'Singal AG et al. HCC Surveillance: New Trends',journal:'J Hepatol 2020;72(2):250',inst:'UT Southwestern, Dallas',pmid:'31954490',body:'Documents shift to NAFLD/NASH as dominant HCC etiology; projects <b>122% increase</b> in NAFLD-HCC by 2030.'},
+{year:2020,type:'pub',emoji:'&#128196;',title:'Singal AG, El-Serag HB. AGA HCC in NAFLD',journal:'Gastroenterology 2020;158(7):1822',inst:'UT Southwestern / BCM',body:'Joint AGA expert review on HCC screening in the rapidly growing NAFLD population.'},
+{year:2022,type:'grant',emoji:'&#127942;',title:'PP220022 + RP220119 + TeCH CAP Rd.2 (~$18M)',inst:'UT Health / BCM, Texas',body:'Community prevention; GALAD + AFP-L3 validation in THCCC cohort; TeCH renewal expanding NASH-HCC research.'},
+{year:2022,type:'pub',emoji:'&#128196;',title:'Singal AG et al. HCC Surveillance Meta-Analysis',journal:'J Hepatol 2022;77(1):128',inst:'UT Southwestern, Dallas',pmid:'35139400',body:'59 studies / 145,396 patients: Surveillance yields 1.86&times; early detection and <b>33% mortality reduction</b>.'},
+{year:2022,type:'pub',emoji:'&#128196;',title:'Harrison AC, El-Serag HB et al. TeCH Center',journal:'Front Oncol 2022',inst:'BCM / MDA / UTSW / UTHealth',pmid:'36059708',body:"Describes TeCH's multi-institutional framework targeting reduction of Texas liver cancer mortality by 2030."},
+{year:2023,type:'grant',emoji:'&#127942;',title:'Lopez-Terrada TCH ($5.98M) + Zhong UTSW',inst:"Texas Children's Hospital / UTSW, Dallas",body:'Lopez-Terrada: Biomarkers for pediatric HCC/hepatoblastoma. Zhong: Molecular mechanisms of HCC progression.'},
+{year:2023,type:'pub',emoji:'&#128196;',title:'TeCH Consortium. Prevention of HCC White Paper',journal:'Hepatol Commun 2023',inst:'TeCH Multi-Institution Consortium',pmid:'PMC10524305',body:'Consensus recommendations: HBV vaccination, HCV cure, metabolic intervention, and health equity strategies.'},
+{year:2024,type:'pub',emoji:'&#128196;',title:'El-Serag HB, Jin M et al. HES v2.0 vs GALAD',journal:'Hepatology 2024',inst:'Baylor College of Medicine / THCCC',body:'Novel <b>HES v2.0</b> demonstrated superior sensitivity and specificity over GALAD for early HCC detection.'},
+{year:2025,type:'grant',emoji:'&#127942;',title:'CPRIT Surpasses $4B + UTSW NCI Liver SPORE',inst:'UTSW / BCM / MD Anderson, Texas',body:'CPRIT surpasses $4B total. UT Southwestern receives the <b>first Texas NCI SPORE for Liver Cancer</b>.'}
+];
+var MIN_YEAR=2009,SPAN=16,PAD=150,USABLE=2500;
+var AXIS_Y=310,CARD_W=134,CARD_H=96,GAP=20,LVL_STEP=CARD_H+8;
+EVENTS.forEach(function(e,i){e._above=(i%2===0);});
+var ysCount={};
+EVENTS.forEach(function(e){
+  var k=e.year+(e._above?'a':'b');
+  if(!ysCount[k])ysCount[k]=0;
+  e._level=ysCount[k]++;
+});
+var yGrp={};
+EVENTS.forEach(function(e,i){if(!yGrp[e.year])yGrp[e.year]=[];yGrp[e.year].push(i);});
+EVENTS.forEach(function(e,i){
+  var g=yGrp[e.year],pos=g.indexOf(i),sz=g.length;
+  e._xOff=(pos-(sz-1)/2)*30;
+});
+var inner=document.getElementById('tl-inner');
+for(var yr=MIN_YEAR;yr<=MIN_YEAR+SPAN;yr++){
+  var xpx=PAD+((yr-MIN_YEAR)/SPAN)*USABLE;
+  var t=document.createElement('div');
+  t.className='tl-tick';t.style.left=xpx+'px';
+  t.innerHTML='<div class="tl-tick-line"></div><div class="tl-tick-label">'+yr+'</div>';
+  inner.appendChild(t);
+}
+EVENTS.forEach(function(e){
+  var x=PAD+((e.year-MIN_YEAR)/SPAN)*USABLE+e._xOff;
+  var lvl=e._level,above=e._above;
+  var cardTop=above ? AXIS_Y-GAP-CARD_H-lvl*LVL_STEP : AXIS_Y+GAP+lvl*LVL_STEP;
+  var dot=document.createElement('div');
+  dot.className='tl-dot '+e.type;
+  dot.style.cssText='left:'+x+'px;top:'+(AXIS_Y-6)+'px;';
+  inner.appendChild(dot);
+  var conn=document.createElement('div');
+  conn.className='tl-conn '+e.type;
+  if(above){conn.style.cssText='left:'+x+'px;top:'+(cardTop+CARD_H)+'px;height:'+(AXIS_Y-(cardTop+CARD_H))+'px;';}
+  else{conn.style.cssText='left:'+x+'px;top:'+AXIS_Y+'px;height:'+(cardTop-AXIS_Y)+'px;';}
+  inner.appendChild(conn);
+  var card=document.createElement('div');
+  card.className='tl-bubble '+e.type;
+  card.style.cssText='left:'+x+'px;top:'+cardTop+'px;';
+  var h='<div class="bt">'+e.emoji+' '+e.title+'</div>';
+  if(e.journal)h+='<div class="bj">'+e.journal+'</div>';
+  if(e.inst)h+='<div class="bi">'+e.inst+'</div>';
+  h+='<div class="bb">'+e.body+'</div>';
+  if(e.pmid)h+='<div class="bp">PMID: '+e.pmid+'</div>';
+  card.innerHTML=h;
+  inner.appendChild(card);
+});
+window.tlScroll=function(dx){document.getElementById('tl-scroll').scrollBy({left:dx,behavior:'smooth'});};
+var scr=document.getElementById('tl-scroll');
+var isDown=false,startX,sl;
+scr.addEventListener('mousedown',function(e){isDown=true;startX=e.pageX-scr.offsetLeft;sl=scr.scrollLeft;});
+scr.addEventListener('mouseleave',function(){isDown=false;});
+scr.addEventListener('mouseup',function(){isDown=false;});
+scr.addEventListener('mousemove',function(e){if(!isDown)return;e.preventDefault();scr.scrollLeft=sl-(e.pageX-scr.offsetLeft-startX);});
+})();
+</script>
+<h2>Institutions &amp; Key Investigators</h2>
+<table class="md-table"><tbody>
+<tr><th>Institution</th><th>Key Investigators</th><th>Focus Area</th></tr>
+<tr><td><strong>Baylor College of Medicine (BCM)</strong></td><td>El-Serag HB, Thrift AP, Kanwal F, Beretta L</td><td>Epidemiology, biomarkers, THCCC leadership</td></tr>
+<tr><td><strong>UT Southwestern (UTSW)</strong></td><td>Singal AG, Yopp AC, Zhong</td><td>Surveillance, surgical oncology, disparities</td></tr>
+<tr><td><strong>MD Anderson Cancer Center</strong></td><td>Hwang JP, Marrero JA</td><td>Prevention, clinical trials, viral hepatitis</td></tr>
+<tr><td><strong>UT Health San Antonio (UTHSCSA)</strong></td><td><strong>Ramirez AG</strong>, Wang CP, Parma DL, Munoz E</td><td>HCC disparities, Latino epidemiology, aflatoxin</td></tr>
+<tr><td><strong>Texas Children&rsquo;s Hospital</strong></td><td>Lopez-Terrada D</td><td>Pediatric HCC, hepatoblastoma biomarkers</td></tr>
+</tbody></table>
+<h2>Ramirez Lab Publications (UTHSCSA / IHPR)</h2>
+<table class="md-table"><tbody>
+<tr><th>Year</th><th>Title</th><th>Journal</th><th>PMID</th></tr>
+<tr><td>2012</td><td>Incidence and risk factors for HCC in Texas Latinos</td><td><em>PLoS One</em> 7(4):e35573</td><td>22530052</td></tr>
+<tr><td>2014</td><td>HCC in Texas Latinos 1995&ndash;2010: An Update</td><td><em>PLoS One</em> 9(6):e99365</td><td>24915432</td></tr>
+<tr><td>2017</td><td>Lifestyle &amp; clinical correlates of HCC in South Texas (aflatoxin)</td><td><em>Clin Gastroenterol Hepatol</em> 16(3):373</td><td>28344065</td></tr>
+<tr><td>2019</td><td>Metformin modifies HCC disparity in diabetic men</td><td><em>Cancer Med</em> 8(6):3206</td><td>30993905</td></tr>
+</tbody></table>
+<div class="callout">
+<strong style="color:#1a5276">Data Sources &amp; Disclaimers</strong>
+<p>Timeline entries are based on publicly available CPRIT grant awards, PubMed-indexed publications, and institutional announcements. Grant amounts represent approved amounts as reported; some figures are approximate.</p>
+</div>
+<div class="callout callout-tip">
+<strong style="color:#1a7a3c">Key Resources</strong>
+<ul>
+<li><a href="https://livercancer.cprit.texas.gov/" target="_blank">CPRIT Liver Cancer Portal</a></li>
+<li><a href="https://www.bcm.edu/research/research-centers/texas-hepatocellular-carcinoma-consortium" target="_blank">Texas HCC Consortium &ndash; BCM</a></li>
+<li><a href="https://cancer.uthscsa.edu/" target="_blank">UTHSCSA Mays Cancer Center</a></li>
+<li><a href="https://ihpr.uthscsa.edu/" target="_blank">Institute for Health Promotion Research (IHPR)</a></li>
+<li><a href="https://www.bcm.edu/research/research-centers/texas-collaborative-center-for-hcc" target="_blank">TeCH Center at BCM</a></li>
+</ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,478 @@
+---
+title: "Liver Cancer (HCC) Research in Texas"
+subtitle: "CPRIT Grants & Key Publications — Combined Horizontal Timeline 2009–2025"
+author: "Texas HCC Research Network"
+date: today
+format:
+  html:
+    theme: flatly
+    toc: false
+    number-sections: false
+    smooth-scroll: true
+    embed-resources: true
+    page-layout: full
+---
+
+```{=html}
+<style>
+  body { font-family: 'Segoe UI', system-ui, sans-serif; }
+  h1.title { color: #1a3a5c; }
+  h2 { color: #1a3a5c; border-bottom: 2px solid #c0392b; padding-bottom: 6px; }
+  .intro-box {
+    background: linear-gradient(135deg, #1a3a5c 0%, #c0392b 100%);
+    color: white; border-radius: 10px; padding: 1.5rem 2rem; margin-bottom: 2rem;
+  }
+  .stat-row { display: flex; gap: 1rem; flex-wrap: wrap; margin: 1.5rem 0; }
+  .stat-card {
+    background: #f8f9fa; border-left: 4px solid #c0392b;
+    border-radius: 6px; padding: 0.8rem 1.2rem; flex: 1; min-width: 160px;
+  }
+  .stat-card .num { font-size: 1.6rem; font-weight: 700; color: #c0392b; }
+  .stat-card .lbl { font-size: 0.8rem; color: #666; text-transform: uppercase; letter-spacing:.05em; }
+</style>
+
+<div class="intro-box">
+  <p>Texas leads the nation in hepatocellular carcinoma (HCC) incidence, driven by the highest concentration of Hispanic Americans, high rates of metabolic disease, and legacy hepatitis B/C burden. Since 2009, CPRIT has invested <strong>$59&ndash;77 million</strong> in liver cancer research, building a world-class network across MD Anderson, BCM, UTSW, UTHealth, and UT Health San Antonio. Dr. <strong>Amelie G. Ramirez</strong> (UTHSCSA / IHPR) led the foundational epidemiological studies establishing that South Texas Latinos bear the nation&rsquo;s highest HCC burden &mdash; 3&ndash;4&times; higher rates than non-Hispanic Whites &mdash; and discovered the first U.S. link between aflatoxin exposure and liver cancer in Latinos.</p>
+</div>
+
+<div class="stat-row">
+  <div class="stat-card"><div class="num">#1</div><div class="lbl">TX HCC incidence nationally</div></div>
+  <div class="stat-card"><div class="num">$4B+</div><div class="lbl">CPRIT total funding (2025)</div></div>
+  <div class="stat-card"><div class="num">3&ndash;4&times;</div><div class="lbl">Higher HCC rate: TX Latinos vs NHW</div></div>
+  <div class="stat-card"><div class="num">5,000</div><div class="lbl">THCCC cohort patients enrolled</div></div>
+</div>
+```
+
+## Combined Timeline: CPRIT Grants &#127942; &amp; Publications &#128196; (2009&ndash;2025)
+
+```{=html}
+<div style="display:flex;gap:1.5rem;flex-wrap:wrap;margin:0 0 0.75rem;font-size:0.9rem;
+     align-items:center;padding:0.6rem 1rem;background:#f0f3f7;border-radius:8px;">
+  <span>&#127942; <strong>CPRIT Grant</strong> <em style="color:#1a5276">(navy)</em></span>
+  <span>&#128196; <strong>TX Publication</strong> BCM / UTSW / MDA <em style="color:#c0392b">(crimson)</em></span>
+  <span>&#128300; <strong>UTHSCSA / Ramirez Lab</strong> <em style="color:#7d3c98">(purple)</em></span>
+</div>
+```
+
+
+```{=html}
+<style>
+  /* ── Scroll arrows ── */
+  .tl-arrow {
+    position: fixed; top: 50%; transform: translateY(-50%);
+    width: 48px; height: 48px; border-radius: 50%;
+    background: rgba(0,0,0,0.55); color: white;
+    font-size: 22px; border: none; cursor: pointer; z-index: 1000;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+  }
+  .tl-arrow:hover { background: rgba(0,0,0,0.82); }
+  .tl-arrow.tl-left  { left: 12px; }
+  .tl-arrow.tl-right { right: 12px; }
+
+  /* ── Outer wrapper & scroll container ── */
+  #tl-scroll {
+    overflow-x: auto; overflow-y: hidden;
+    padding: 20px 0 30px 0;
+    background: #fafbfc; border-radius: 10px;
+    cursor: grab;
+  }
+  #tl-scroll:active { cursor: grabbing; }
+
+  /* ── Inner canvas ── */
+  #tl-inner {
+    position: relative;
+    min-width: 2800px;
+    height: 580px;
+  }
+</style>
+```
+
+
+```{=html}
+<style>
+  /* ── Axis ── */
+  #tl-axis {
+    position: absolute;
+    top: 290px; left: 0; right: 0;
+    height: 2px; background: #888;
+  }
+
+  /* ── Tick marks ── */
+  .tl-tick {
+    position: absolute; top: 292px;
+    display: flex; flex-direction: column; align-items: center;
+    transform: translateX(-50%);
+  }
+  .tl-tick-line { width: 1px; height: 10px; background: #aaa; }
+  .tl-tick-label { font-size: 11px; color: #666; margin-top: 3px; white-space: nowrap; }
+
+  /* ── Event wrapper — hover target for entire event ── */
+  .tl-event {
+    position: absolute;
+    top: 0;
+    height: 580px;
+    width: 1px;   /* zero-width; children overflow */
+    z-index: 8;
+  }
+  .tl-event:hover { z-index: 50; }
+
+  /* ── Dot on axis ── */
+  .tl-dot {
+    position: absolute;
+    width: 12px; height: 12px; border-radius: 50%;
+    top: 284px; left: -6px;   /* centered on wrapper */
+    z-index: 10;
+  }
+
+  /* ── Vertical connector ── */
+  .tl-conn {
+    position: absolute;
+    width: 2px; height: 40px;
+    left: -1px;   /* centered on wrapper */
+    z-index: 9;
+  }
+  .tl-conn.above { top: 245px; }
+  .tl-conn.below { top: 297px; }
+</style>
+```
+
+
+```{=html}
+<style>
+  /* ── Rotated stub label (always visible, replaces full card clutter) ── */
+  .tl-label {
+    position: absolute;
+    left: 8px;
+    font-size: 9.5px;
+    white-space: nowrap;
+    font-weight: 600;
+    pointer-events: none;
+    transform-origin: 0 0;
+    max-width: 115px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    opacity: 0.85;
+  }
+  .tl-label.above { top: 250px; transform: rotate(-50deg); }
+  .tl-label.below { top: 302px; transform: rotate(40deg);  }
+
+  /* ── Cards — hidden by default, revealed on parent hover ── */
+  .tl-card {
+    position: absolute;
+    width: 200px;
+    background: white; border-radius: 8px;
+    padding: 10px; font-size: 12px;
+    box-shadow: 0 3px 14px rgba(0,0,0,0.18);
+    left: -100px;   /* centered on wrapper */
+    z-index: 20; line-height: 1.4;
+    max-height: 220px; overflow-y: auto;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+  }
+  .tl-card.above { top: 50px; }
+  .tl-card.below { top: 341px; }
+
+  /* Reveal card when hovering the .tl-event wrapper */
+  .tl-event:hover .tl-card {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .tl-card .ct { font-weight: bold; margin-bottom: 4px; }
+  .tl-card .cj { font-style: italic; color: #555; margin-bottom: 3px; }
+  .tl-card .ci { color: #666; font-size: 11px; margin-bottom: 3px; }
+  .tl-card .cp { color: #999; font-size: 10px; margin-top: 4px; }
+</style>
+```
+
+
+```{=html}
+<style>
+  /* ── Color by type ── */
+  .tl-card.grant   { border-left: 4px solid #1a5276; }
+  .tl-card.pub     { border-left: 4px solid #c0392b; }
+  .tl-card.ramirez { border-left: 4px solid #7d3c98; }
+  .tl-dot.grant    { background: #1a5276; }
+  .tl-dot.pub      { background: #c0392b; }
+  .tl-dot.ramirez  { background: #7d3c98; }
+  .tl-conn.grant   { background: #1a5276; }
+  .tl-conn.pub     { background: #c0392b; }
+  .tl-conn.ramirez { background: #7d3c98; }
+  .tl-label.grant  { color: #1a5276; }
+  .tl-label.pub    { color: #c0392b; }
+  .tl-label.ramirez{ color: #7d3c98; }
+</style>
+
+<button class="tl-arrow tl-left"  onclick="tlScroll(-300)">&#8592;</button>
+<button class="tl-arrow tl-right" onclick="tlScroll(300)">&#8594;</button>
+
+<div id="tl-scroll">
+  <div id="tl-inner">
+    <div id="tl-axis"></div>
+  </div>
+</div>
+```
+
+
+```{=html}
+<script>
+(function () {
+  var EVENTS = [
+    { year:2009, type:'grant', emoji:'&#127942;',
+      title:'CPRIT Established - First Grants Awarded',
+      inst:'Statewide, Texas',
+      body:'Voters approved Prop 15 authorizing <b>$3B</b> for cancer research. BCM and MD Anderson liver researchers were early recipients, launching Texas\'s HCC infrastructure.' },
+    { year:2011, type:'pub', emoji:'&#128196;',
+      title:'El-Serag HB. "Hepatocellular Carcinoma"',
+      journal:'N Engl J Med 2011;365:1118-1127',
+      inst:'Baylor College of Medicine / Houston VA',
+      pmid:'21992124',
+      body:'Landmark global HCC review documenting the rapid rise of HCV-related HCC as the fastest-growing cause of US cancer deaths.' },
+    { year:2012, type:'ramirez', emoji:'&#128300;',
+      title:'Ramirez AG et al. "HCC Incidence &amp; Risk Factors in TX Latinos"',
+      journal:'PLoS One 2012;7(4):e35573',
+      inst:'UTHSCSA / IHPR, San Antonio',
+      pmid:'22530052',
+      body:'First study documenting South Texas Latinos have the nation\'s highest HCC rates (10.6/100K). Identified obesity and diabetes as key modifiable risk factors.' },
+    { year:2012, type:'pub', emoji:'&#128196;',
+      title:'El-Serag HB. "Epidemiology of Viral Hepatitis and HCC"',
+      journal:'Gastroenterology 2012;142(6):1264-1273',
+      inst:'Baylor College of Medicine',
+      pmid:'22537432',
+      body:'Quantified population-attributable fraction of HBV/HCV in HCC; foundational for Texas public health interventions.' },
+    { year:2014, type:'ramirez', emoji:'&#128300;',
+      title:'Ramirez AG et al. "HCC in TX Latinos 1995-2010: An Update"',
+      journal:'PLoS One 2014;9(6):e99365',
+      inst:'UTHSCSA / IHPR, San Antonio',
+      pmid:'24915432',
+      body:'Confirmed TX Latino male/female HCC rates <b>3.1&times; and 4.0&times;</b> higher than non-Hispanic Whites.' },
+    { year:2015, type:'grant', emoji:'&#127942;',
+      title:'RP150587 - Texas HCC Consortium (THCCC) ~$6M',
+      inst:'BCM / UTSW / MD Anderson / UT San Antonio',
+      body:'CPRIT Multi-Investigator Award launched the <b>THCCC</b> - 5,000-patient prospective cohort at 5 Texas centers for HCC risk factors and early detection biomarkers.' },
+    { year:2017, type:'ramirez', emoji:'&#128300;',
+      title:'Ramirez AG et al. "Lifestyle &amp; Clinical Correlates of HCC"',
+      journal:'Clin Gastroenterol Hepatol 2018;16(3):373-380',
+      inst:'UTHSCSA / IHPR, San Antonio',
+      pmid:'28344065',
+      body:'<b>First U.S. study linking aflatoxin exposure to HCC in a Latino-majority population.</b> Cases had 6&times; higher odds of detectable aflatoxins in blood.' },
+    { year:2017, type:'pub', emoji:'&#128196;',
+      title:'Singal AG et al. "AFP + Ultrasound for HCC Detection: Meta-Analysis"',
+      journal:'Gastroenterology 2018;154(6):1706-1718',
+      inst:'UT Southwestern, Dallas',
+      pmid:'29352041',
+      body:'32 studies: AFP + USS improves HCC sensitivity to 63% vs 45% for USS alone. Formed basis for updated AASLD surveillance guidelines.' },
+    { year:2018, type:'grant', emoji:'&#127942;',
+      title:'THCCC Cohort Milestone - 2,000+ Patients Enrolled',
+      inst:'BCM / UTSW / MD Anderson / UT San Antonio',
+      body:'Semi-annual ultrasound, AFP, labs, and biospecimens collected across 5 Texas sites. One of the largest prospective HCC biomarker repositories in the US.' },
+    { year:2018, type:'pub', emoji:'&#128196;',
+      title:'Singal AG, El-Serag HB et al. "Epidemiology and Management of HCC"',
+      journal:'Gastroenterology 2018;154(6):1693-1704',
+      inst:'UT Southwestern / BCM',
+      body:'Comprehensive review of HCC risk stratification, surveillance, staging, and treatment. Addressed NAFLD/NASH-HCC epidemic and rising rates in Hispanic populations.' },
+    { year:2019, type:'grant', emoji:'&#127942;',
+      title:'TeCH Center CAP Rd.1 ($13M) + RP190641 El-Serag ($3M) + Hwang MDA ($2.46M)',
+      inst:'BCM / MD Anderson, Texas',
+      body:'Three major CPRIT awards: TeCH Center for coordinated HCC research statewide; El-Serag biomarker validation; Hwang patient-centered liver cancer prevention.' },
+    { year:2019, type:'pub', emoji:'&#128196;',
+      title:'Loo N, El-Serag HB, Singal AG et al. "THCCC Cohort Study Design"',
+      journal:'Am J Gastroenterol 2019;114(3):530-532',
+      inst:'BCM / UTSW / MD Anderson / UT San Antonio',
+      pmid:'30699099',
+      body:'Describes the THCCC 5,000-patient prospective cohort design and multi-center data collection protocol.' },
+    { year:2019, type:'ramirez', emoji:'&#128300;',
+      title:'Wang CP, Ramirez AG et al. "Metformin Modifies HCC Disparity in Diabetic Men"',
+      journal:'Cancer Med 2019;8(6):3206-3215',
+      inst:'UTHSCSA, San Antonio (VA Study)',
+      pmid:'30993905',
+      body:'In 84,433 men with T2D, metformin was associated with reduced HCC risk, with stronger effects in Hispanic and African American men.' },
+    { year:2020, type:'grant', emoji:'&#127942;',
+      title:'RP200537 Singal UTSW ($2.5M) + RP200554 Thrift BCM ($2.47M)',
+      inst:'UTSW Dallas / BCM Houston',
+      body:'Singal: 3,000-patient cirrhosis cohort developing biomarker-based surveillance algorithms. Thrift: Genetic epidemiology of HCC in Hispanics (PNPLA3, TM6SF2).' },
+    { year:2020, type:'pub', emoji:'&#128196;',
+      title:'Singal AG et al. "Epidemiology &amp; Surveillance for HCC: New Trends"',
+      journal:'J Hepatol 2020;72(2):250-261',
+      inst:'UT Southwestern, Dallas',
+      pmid:'31954490',
+      body:'Documents shift from viral hepatitis to NAFLD/NASH as dominant HCC etiology; projects <b>122% increase</b> in NAFLD-HCC by 2030.' },
+    { year:2020, type:'pub', emoji:'&#128196;',
+      title:'Singal AG, El-Serag HB. "AGA Update: HCC Surveillance in NAFLD"',
+      journal:'Gastroenterology 2020;158(7):1822-1830',
+      inst:'UT Southwestern / BCM',
+      body:'Joint AGA expert review on HCC screening in the rapidly growing NAFLD population. Addresses surveillance intervals and novel biomarkers.' },
+    { year:2022, type:'grant', emoji:'&#127942;',
+      title:'PP220022 UT Health ($1.96M) + RP220119 El-Serag BCM ($2M) + TeCH CAP Rd.2 (~$18M)',
+      inst:'UT Health / BCM, Texas',
+      body:'Community HCC prevention at safety-net clinics; GALAD + AFP-L3 biomarker validation in THCCC cohort; TeCH renewal expanding NASH-HCC research and health equity.' },
+    { year:2022, type:'pub', emoji:'&#128196;',
+      title:'Singal AG et al. "HCC Surveillance Improves Outcomes: Meta-Analysis"',
+      journal:'J Hepatol 2022;77(1):128-139',
+      inst:'UT Southwestern, Dallas',
+      pmid:'35139400',
+      body:'59 studies / 145,396 patients: Surveillance yields 1.86&times; early-stage detection and <b>33% mortality reduction</b> (HR 0.67).' },
+    { year:2022, type:'pub', emoji:'&#128196;',
+      title:'Harrison AC, El-Serag HB et al. "The Texas Collaborative Center for HCC (TeCH)"',
+      journal:'Front Oncol 2022',
+      inst:'BCM / MD Anderson / UTSW / UTHealth',
+      pmid:'36059708',
+      body:"Describes TeCH's multi-institutional research, education, and advocacy framework targeting reduction of Texas liver cancer mortality by 2030." },
+    { year:2023, type:'grant', emoji:'&#127942;',
+      title:'Lopez-Terrada TCH ($5.98M) + Zhong UTSW ($1.05M)',
+      inst:"Texas Children's Hospital / UTSW, Dallas",
+      body:'Lopez-Terrada: Predictive biomarkers for pediatric HCC/hepatoblastoma. Zhong: Molecular mechanisms of HCC progression.' },
+    { year:2023, type:'pub', emoji:'&#128196;',
+      title:'TeCH Consortium. "Prevention of HCC - White Paper"',
+      journal:'Hepatol Commun 2023',
+      inst:'TeCH Multi-Institution Consortium',
+      pmid:'PMC10524305',
+      body:'Consensus recommendations covering HBV vaccination, HCV cure, metabolic intervention, and health equity strategies for Hispanic Texas communities.' },
+    { year:2024, type:'pub', emoji:'&#128196;',
+      title:'El-Serag HB, Jin M et al. "HES v2.0 Outperforms GALAD for HCC Detection"',
+      journal:'Hepatology 2024',
+      inst:'Baylor College of Medicine / THCCC Network',
+      body:'Phase 3 biomarker evaluation: novel <b>HES v2.0</b> (AFP + AFP-L3 + DCP + clinical variables) demonstrated superior sensitivity and specificity over GALAD for early HCC detection.' },
+    { year:2025, type:'grant', emoji:'&#127942;',
+      title:'CPRIT Surpasses $4B + UTSW Designated NCI Liver Cancer SPORE',
+      inst:'UTSW / BCM / MD Anderson, Texas',
+      body:'CPRIT surpasses $4B total (~$59-77M to liver cancer). UT Southwestern receives the <b>first Texas NCI SPORE for Liver Cancer</b> with Singal, Yopp et al.' }
+  ];
+
+  /* ── Layout constants (2800px canvas, 2009-2025) ── */
+  var MIN_YEAR = 2009, SPAN = 16;
+  var CONTAINER_W = 2800, PAD = 150;
+  var USABLE = CONTAINER_W - PAD * 2;
+
+  /* ── X-jitter: spread same-year events 28px apart ── */
+  var yearGroups = {};
+  EVENTS.forEach(function(e, i) {
+    if (!yearGroups[e.year]) yearGroups[e.year] = [];
+    yearGroups[e.year].push(i);
+  });
+  EVENTS.forEach(function(e, i) {
+    var grp = yearGroups[e.year];
+    var pos = grp.indexOf(i);
+    var sz  = grp.length;
+    e._xOff = (pos - (sz - 1) / 2) * 28;
+  });
+
+  var inner = document.getElementById('tl-inner');
+
+  /* ── Year tick marks ── */
+  for (var yr = MIN_YEAR; yr <= MIN_YEAR + SPAN; yr++) {
+    var pct  = (yr - MIN_YEAR) / SPAN;
+    var xpx  = PAD + pct * USABLE;
+    var tick = document.createElement('div');
+    tick.className = 'tl-tick';
+    tick.style.left = xpx + 'px';
+    tick.innerHTML = '<div class="tl-tick-line"></div><div class="tl-tick-label">' + yr + '</div>';
+    inner.appendChild(tick);
+  }
+
+  /* ── Render each event ── */
+  EVENTS.forEach(function(e, i) {
+    var above = (i % 2 === 0);
+    var pct   = (e.year - MIN_YEAR) / SPAN;
+    var x     = PAD + pct * USABLE + e._xOff;
+    var side  = above ? 'above' : 'below';
+
+    /* wrapper — single hover target */
+    var wrap = document.createElement('div');
+    wrap.className = 'tl-event';
+    wrap.style.left = x + 'px';
+
+    /* dot */
+    var dot = document.createElement('div');
+    dot.className = 'tl-dot ' + e.type;
+    wrap.appendChild(dot);
+
+    /* connector */
+    var conn = document.createElement('div');
+    conn.className = 'tl-conn ' + side + ' ' + e.type;
+    wrap.appendChild(conn);
+
+    /* rotated stub label */
+    var lbl = document.createElement('div');
+    lbl.className = 'tl-label ' + side + ' ' + e.type;
+    var rawTitle = e.title.replace(/<[^>]+>/g, '');
+    var short = (e.year + ' ' + rawTitle).substring(0, 20);
+    lbl.textContent = short;
+    wrap.appendChild(lbl);
+
+    /* full card (hidden until hover) */
+    var card = document.createElement('div');
+    card.className = 'tl-card ' + side + ' ' + e.type;
+    var html = '<div class="ct">' + e.emoji + ' ' + e.title + '</div>';
+    if (e.journal) html += '<div class="cj">' + e.journal + '</div>';
+    if (e.inst)    html += '<div class="ci">' + e.inst + '</div>';
+    html += '<div>' + e.body + '</div>';
+    if (e.pmid)    html += '<div class="cp">PMID: ' + e.pmid + '</div>';
+    card.innerHTML = html;
+    wrap.appendChild(card);
+
+    inner.appendChild(wrap);
+  });
+
+  /* ── Scroll arrow handler ── */
+  window.tlScroll = function(dx) {
+    document.getElementById('tl-scroll').scrollBy({ left: dx, behavior: 'smooth' });
+  };
+
+  /* ── Drag-to-scroll ── */
+  var scr = document.getElementById('tl-scroll');
+  var isDown = false, startX, scrollLeft;
+  scr.addEventListener('mousedown', function(e) {
+    isDown = true;
+    startX = e.pageX - scr.offsetLeft;
+    scrollLeft = scr.scrollLeft;
+  });
+  scr.addEventListener('mouseleave', function() { isDown = false; });
+  scr.addEventListener('mouseup',    function() { isDown = false; });
+  scr.addEventListener('mousemove',  function(e) {
+    if (!isDown) return;
+    e.preventDefault();
+    var x = e.pageX - scr.offsetLeft;
+    scr.scrollLeft = scrollLeft - (x - startX);
+  });
+})();
+</script>
+```
+
+
+---
+
+## Institutions & Key Investigators
+
+| Institution | Key Investigators | Focus Area |
+|---|---|---|
+| **Baylor College of Medicine (BCM)** | El-Serag HB, Thrift AP, Kanwal F, Beretta L | Epidemiology, biomarkers, THCCC leadership |
+| **UT Southwestern (UTSW)** | Singal AG, Yopp AC, Zhong | Surveillance, surgical oncology, disparities |
+| **MD Anderson Cancer Center** | Hwang JP, Marrero JA | Prevention, clinical trials, viral hepatitis |
+| **UT Health San Antonio (UTHSCSA)** | **Ramirez AG**, Wang CP, Parma DL, Munoz E | HCC disparities, Latino epidemiology, aflatoxin |
+| **Texas Children's Hospital** | Lopez-Terrada D | Pediatric HCC, hepatoblastoma biomarkers |
+
+## Ramirez Lab Publications (UTHSCSA / IHPR)
+
+| Year | Title | Journal | PMID |
+|---|---|---|---|
+| 2012 | Incidence and risk factors for HCC in Texas Latinos | *PLoS One* 7(4):e35573 | 22530052 |
+| 2014 | HCC in Texas Latinos 1995--2010: An Update | *PLoS One* 9(6):e99365 | 24915432 |
+| 2017 | Lifestyle & clinical correlates of HCC in South Texas (aflatoxin) | *Clin Gastroenterol Hepatol* 16(3):373 | 28344065 |
+| 2019 | Metformin modifies HCC disparity in diabetic men | *Cancer Med* 8(6):3206 | 30993905 |
+
+::: {.callout-note}
+## Data Sources & Disclaimers
+Timeline entries are based on publicly available CPRIT grant awards, PubMed-indexed publications, and institutional announcements. Grant amounts represent approved amounts as reported; some figures are approximate. PMID numbers provided where confirmed.
+:::
+
+::: {.callout-tip}
+## Key Resources
+- [CPRIT Liver Cancer Portal](https://livercancer.cprit.texas.gov/)
+- [Texas HCC Consortium -- BCM](https://www.bcm.edu/research/research-centers/texas-hepatocellular-carcinoma-consortium)
+- [UTHSCSA Mays Cancer Center](https://cancer.uthscsa.edu/)
+- [Institute for Health Promotion Research (IHPR)](https://ihpr.uthscsa.edu/)
+- [TeCH Center at BCM](https://www.bcm.edu/research/research-centers/texas-collaborative-center-for-hcc)
+:::
