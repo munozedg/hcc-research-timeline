@@ -762,8 +762,8 @@ padding-bottom:env(safe-area-inset-bottom, 16px);
           showDetail(e, card);
         });
       } else {
-        card.addEventListener('mouseenter', function(ev){ showDetail(e, ev.currentTarget); });
-        card.addEventListener('mouseleave', hideDetail);
+        card.addEventListener('mouseenter', function(ev){ cancelHide(); showDetail(e, ev.currentTarget); });
+        card.addEventListener('mouseleave', scheduleHide);
       }
 
       stack.appendChild(card);
@@ -783,6 +783,18 @@ padding-bottom:env(safe-area-inset-bottom, 16px);
 
   /* ── Detail panel ── */
   var det = document.getElementById('detail');
+  var hideTimer = null;
+
+  function scheduleHide() {
+    hideTimer = setTimeout(function(){ window.hideDetail(); }, 180);
+  }
+  function cancelHide() {
+    if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }
+  }
+
+  /* keep panel alive while mouse is over it */
+  det.addEventListener('mouseenter', cancelHide);
+  det.addEventListener('mouseleave', scheduleHide);
 
   window.hideDetail = function(){
     det.classList.remove('show');
