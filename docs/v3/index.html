@@ -2983,6 +2983,9 @@ box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4), 0 1px 3px rgba(0, 0, 0, 0.3);
 body { background: #f8fafc; font-family: 'Segoe UI', system-ui, sans-serif; }
 h1.title { color: #0f172a; font-size: 2rem; margin-bottom: .2rem; }
 p.subtitle { color: #475569; font-size: 1.1rem; margin-top: 0; }
+
+#quarto-content, .page-full, main.content,
+#quarto-document-content { padding-left: 0 !important; padding-right: 0 !important; }
 .timeline {
 --tl-color-line: #cbd5e1;
 --tl-line-width: 4px;
@@ -2992,6 +2995,7 @@ p.subtitle { color: #475569; font-size: 1.1rem; margin-top: 0; }
 --tl-content-size: 0.9em;
 --tl-color-card-bg: #ffffff;
 padding: 1.5rem 0 2.5rem;
+overflow-x: auto;
 }
 .tl-card {
 box-shadow: 0 2px 10px rgba(0,0,0,.08);
