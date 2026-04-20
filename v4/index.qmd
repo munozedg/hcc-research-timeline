@@ -10,7 +10,6 @@ format:
 ```{python}
 #| output: asis
 #| echo: false
-
 import pandas as pd, math, json
 
 df = pd.read_csv('events.csv')
@@ -37,159 +36,169 @@ print(f'<script>var EVENTS={json.dumps(events, ensure_ascii=False)};</script>')
 ```
 
 ```{=html}
-<!DOCTYPE html>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html, body {
     height: 100%; overflow: hidden;
     font-family: 'Segoe UI', system-ui, sans-serif;
-    background: #080f1a;
-    color: #e2e8f0;
+    background: #080f1a; color: #e2e8f0;
   }
   #quarto-content, main.content, .page-full,
-  #quarto-document-content { padding: 0 !important; margin: 0 !important; height: 100% !important; }
+  #quarto-document-content { padding:0!important; margin:0!important; height:100%!important; }
 
   /* ── Shell ── */
-  #app { display: flex; flex-direction: column; height: 100vh; }
+  #app { display:flex; flex-direction:column; height:100vh; }
 
   /* ── Header ── */
   #hdr {
-    flex-shrink: 0;
-    height: 60px;
-    background: #0f172a;
-    border-bottom: 1px solid rgba(255,255,255,.07);
-    display: flex; align-items: center;
-    padding: 0 1.4rem; gap: 1rem;
+    flex-shrink:0; height:58px;
+    background:#0f172a;
+    border-bottom:1px solid rgba(255,255,255,.07);
+    display:flex; align-items:center;
+    padding:0 1.4rem; gap:.9rem;
   }
-  #hdr .title {
-    font-size: .95rem; font-weight: 700; color: #f1f5f9;
-    white-space: nowrap; margin-right: .4rem;
-  }
-  #hdr .sep { width: 1px; height: 26px; background: rgba(255,255,255,.12); flex-shrink: 0; }
-
-  /* filter chips */
+  #hdr .title { font-size:.93rem; font-weight:700; color:#f1f5f9; white-space:nowrap; }
+  #hdr .sep   { width:1px; height:24px; background:rgba(255,255,255,.12); flex-shrink:0; }
   .chip {
-    display: flex; align-items: center; gap: 5px;
-    padding: 4px 10px; border-radius: 20px; border: none;
-    font-size: .72rem; font-weight: 600; cursor: pointer;
-    transition: opacity .15s, transform .1s;
-    letter-spacing: .03em;
+    display:flex; align-items:center; gap:5px;
+    padding:4px 10px; border-radius:20px; border:none;
+    font-size:.71rem; font-weight:600; cursor:pointer;
+    transition:opacity .15s;
   }
-  .chip:hover  { opacity: .85; }
-  .chip.off    { opacity: .28; }
-  .chip .pip   { width: 8px; height: 8px; border-radius: 50%; }
-
-  #hdr .hint { margin-left: auto; font-size: .68rem; color: rgba(255,255,255,.28); white-space: nowrap; }
+  .chip .pip { width:7px; height:7px; border-radius:50%; }
+  .chip.off  { opacity:.25; }
+  #hdr .hint { margin-left:auto; font-size:.67rem; color:rgba(255,255,255,.25); white-space:nowrap; }
 
   /* ── Scroll area ── */
-  #scroll-wrap { flex: 1; position: relative; overflow: hidden; }
+  #scroll-wrap { flex:1; position:relative; overflow:hidden; }
   #scroll {
-    position: absolute; inset: 0;
-    overflow-x: auto; overflow-y: hidden;
-    cursor: grab;
+    position:absolute; inset:0;
+    overflow-x:auto; overflow-y:hidden; cursor:grab;
   }
-  #scroll:active { cursor: grabbing; }
-  #scroll::-webkit-scrollbar { height: 4px; }
-  #scroll::-webkit-scrollbar-thumb { background: #1e3a5f; border-radius: 2px; }
+  #scroll:active { cursor:grabbing; }
+  #scroll::-webkit-scrollbar { height:4px; }
+  #scroll::-webkit-scrollbar-thumb { background:#1e3a5f; border-radius:2px; }
 
   /* ── Canvas ── */
-  #canvas { position: relative; height: 100%; min-width: 5800px; }
+  #canvas { position:relative; height:100%; min-width:3800px; }
 
   /* ── Bar ── */
   #bar {
-    position: absolute; left: 0; right: 0;
-    background: linear-gradient(90deg, #0f2240 0%, #1e3a5f 40%, #0f2240 100%);
-    border-top:    1px solid rgba(255,255,255,.08);
-    border-bottom: 1px solid rgba(255,255,255,.08);
+    position:absolute; left:0; right:0;
+    background:linear-gradient(90deg,#0a1628 0%,#1e3a5f 40%,#0a1628 100%);
+    border-top:1px solid rgba(255,255,255,.07);
+    border-bottom:1px solid rgba(255,255,255,.07);
   }
 
-  /* ── Year labels ── */
+  /* ── Year labels (big digits) ── */
   .yr {
-    position: absolute;
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 800; transform: translateX(-50%);
-    pointer-events: none; z-index: 4;
-    letter-spacing: -.02em; transition: color .25s;
+    position:absolute;
+    display:flex; align-items:center; justify-content:center;
+    font-weight:800; letter-spacing:-.02em;
+    transform:translateX(-50%);
+    pointer-events:none; z-index:4;
   }
-  .yr.dim    { color: rgba(255,255,255,.08); font-size: 22px; }
-  .yr.active { color: rgba(255,255,255,.5);  font-size: 36px; }
+  .yr.dim    { color:rgba(255,255,255,.07); font-size:20px; }
+  .yr.active { color:rgba(255,255,255,.45); font-size:34px; }
 
-  /* ── Event wrapper ── */
-  .ev { position: absolute; top: 0; bottom: 0; width: 1px; z-index: 10; }
-  .ev:hover { z-index: 80; }
-  .ev.hidden { display: none; }
+  /* ── Per-year group wrapper ── */
+  .yr-group {
+    position:absolute; top:0; bottom:0;
+    width:186px; transform:translateX(-50%);
+    z-index:10;
+  }
 
-  /* ── Dot ── */
+  /* ── Dot on bar ── */
   .dot {
-    position: absolute; width: 14px; height: 14px;
-    border-radius: 50%; left: -7px; z-index: 20;
-    border: 2.5px solid #080f1a;
-    transition: transform .2s;
+    position:absolute; width:13px; height:13px; border-radius:50%;
+    left:50%; transform:translateX(-50%);
+    z-index:20; border:2.5px solid #080f1a;
+    transition:transform .2s;
   }
-  .ev:hover .dot { transform: scale(1.5); }
+  .yr-group:hover .dot { transform:translateX(-50%) scale(1.5); }
 
-  /* ── Connector ── */
-  .conn { position: absolute; width: 2px; left: -1px; z-index: 8; opacity: .4; }
-
-  /* ── Card ── */
-  .card {
-    position: absolute; width: 178px; left: -89px;
-    border-radius: 12px; padding: 11px 13px;
-    overflow: hidden;
-    transition: height .3s cubic-bezier(.4,0,.2,1), box-shadow .2s;
-    box-shadow: 0 4px 18px rgba(0,0,0,.5);
-    border: 1px solid rgba(255,255,255,.07);
+  /* ── Connector (vertical line from bar to card stack) ── */
+  .conn {
+    position:absolute; width:2px; left:50%; transform:translateX(-50%);
+    z-index:8; opacity:.35;
   }
-  .ev:hover .card { box-shadow: 0 10px 32px rgba(0,0,0,.7); border-color: rgba(255,255,255,.18); }
 
-  .card .c-year  { font-size: 9.5px; font-weight: 700; opacity: .5; letter-spacing: .06em; margin-bottom: 5px; }
-  .card .c-emoji { font-size: 16px; margin-bottom: 4px; display: block; }
-  .card .c-title {
-    font-size: 11px; font-weight: 700; line-height: 1.38;
-    color: #fff; margin-bottom: 0;
-    display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;
+  /* ── Card stack containers ── */
+  .stack {
+    position:absolute; left:0; right:0;
+    display:flex; flex-direction:column; gap:5px;
   }
-  .card .c-more {
-    margin-top: 8px; opacity: 0;
-    transition: opacity .2s ease .15s;
-    font-size: 10.5px; line-height: 1.5; color: rgba(255,255,255,.78);
+  .stack.above { bottom:0; flex-direction:column-reverse; }
+  .stack.below { top:0; }
+
+  /* ── Individual cards ── */
+  .ev-card {
+    border-radius:9px; padding:7px 10px;
+    border:1px solid rgba(255,255,255,.06);
+    cursor:pointer; flex-shrink:0;
+    transition:border-color .15s, filter .15s;
+    overflow:hidden;
   }
-  .card .c-more .m-authors { opacity: .65; margin-bottom: 2px; font-size: 10px; }
-  .card .c-more .m-journal { font-style: italic; opacity: .75; margin-bottom: 5px; font-size: 10px; }
-  .card .c-more .m-inst    { opacity: .55; margin-bottom: 6px; font-size: 10px; }
-  .card .c-more .m-desc    { opacity: .9; }
-  .card .c-more .m-pmid    { opacity: .35; font-size: 9px; margin-top: 5px; }
-  .ev:hover .card .c-more  { opacity: 1; }
+  .ev-card:hover { border-color:rgba(255,255,255,.25); filter:brightness(1.15); }
 
-  /* color themes */
-  .card.grant     { background: linear-gradient(160deg, #1e3a8a, #1d4ed8 120%); }
-  .card.pub       { background: linear-gradient(160deg, #881337, #be123c 120%); }
-  .card.ramirez   { background: linear-gradient(160deg, #4c1d95, #7c3aed 120%); }
-  .card.milestone { background: linear-gradient(160deg, #064e3b, #059669 120%); }
+  .ev-card .c-top  { display:flex; align-items:center; gap:5px; margin-bottom:3px; }
+  .ev-card .c-emoji{ font-size:13px; line-height:1; flex-shrink:0; }
+  .ev-card .c-type { font-size:8.5px; font-weight:700; opacity:.55; letter-spacing:.05em; text-transform:uppercase; }
+  .ev-card .c-title{
+    font-size:10.5px; font-weight:600; line-height:1.32; color:#fff;
+    overflow:hidden; display:-webkit-box;
+    -webkit-box-orient:vertical; -webkit-line-clamp:2;
+  }
+  /* taller cards get one more line */
+  .ev-card.tall .c-title { -webkit-line-clamp:3; }
 
-  .dot.grant     { background: #3b82f6; }
-  .dot.pub       { background: #f43f5e; }
-  .dot.ramirez   { background: #a855f7; }
-  .dot.milestone { background: #10b981; }
+  /* color variants */
+  .ev-card.grant     { background:linear-gradient(135deg,#1e3a8a,#1d4ed8 140%); }
+  .ev-card.pub       { background:linear-gradient(135deg,#7f1d1d,#be123c 140%); }
+  .ev-card.ramirez   { background:linear-gradient(135deg,#3b0764,#7c3aed 140%); }
+  .ev-card.milestone { background:linear-gradient(135deg,#052e16,#059669 140%); }
 
-  .conn.grant     { background: #3b82f6; }
-  .conn.pub       { background: #f43f5e; }
-  .conn.ramirez   { background: #a855f7; }
-  .conn.milestone { background: #10b981; }
+  .dot.grant     { background:#3b82f6; }
+  .dot.pub       { background:#f43f5e; }
+  .dot.ramirez   { background:#a855f7; }
+  .dot.milestone { background:#10b981; }
+
+  .conn.grant     { background:#3b82f6; }
+  .conn.pub       { background:#f43f5e; }
+  .conn.ramirez   { background:#a855f7; }
+  .conn.milestone { background:#10b981; }
+
+  /* ── Detail tooltip ── */
+  #detail {
+    position:fixed; width:270px;
+    background:#1e293b; border:1px solid rgba(255,255,255,.12);
+    border-radius:11px; padding:14px 16px;
+    font-size:11.5px; line-height:1.55; color:#cbd5e1;
+    box-shadow:0 12px 40px rgba(0,0,0,.65);
+    z-index:1000; pointer-events:none;
+    opacity:0; transition:opacity .15s;
+  }
+  #detail.show { opacity:1; }
+  #detail .d-accent { height:3px; border-radius:3px; margin:-14px -16px 11px; border-radius:11px 11px 0 0; }
+  #detail .d-title  { font-weight:700; font-size:12.5px; color:#f1f5f9; margin-bottom:6px; line-height:1.3; }
+  #detail .d-row    { margin-bottom:4px; font-size:10.5px; }
+  #detail .d-label  { opacity:.5; font-size:9.5px; text-transform:uppercase; letter-spacing:.05em; margin-bottom:1px; }
+  #detail .d-desc   { margin-top:7px; color:#94a3b8; font-size:11px; line-height:1.5; }
+  #detail .d-pmid   { margin-top:6px; font-size:9.5px; opacity:.35; }
 
   /* ── Nav arrows ── */
   .arrow {
-    position: absolute; top: 50%; transform: translateY(-50%);
-    width: 36px; height: 36px; border-radius: 50%;
-    background: rgba(255,255,255,.06); color: rgba(255,255,255,.6);
-    font-size: 15px; border: 1px solid rgba(255,255,255,.1);
-    cursor: pointer; z-index: 400;
-    display: flex; align-items: center; justify-content: center;
-    transition: background .2s, color .2s;
+    position:absolute; top:50%; transform:translateY(-50%);
+    width:34px; height:34px; border-radius:50%;
+    background:rgba(255,255,255,.05); color:rgba(255,255,255,.5);
+    border:1px solid rgba(255,255,255,.08); font-size:14px;
+    cursor:pointer; z-index:400;
+    display:flex; align-items:center; justify-content:center;
+    transition:background .2s, color .2s;
   }
-  .arrow:hover { background: rgba(255,255,255,.15); color: #fff; }
-  .arrow.left  { left: 8px; }
-  .arrow.right { right: 8px; }
+  .arrow:hover { background:rgba(255,255,255,.14); color:#fff; }
+  .arrow.left  { left:8px; }
+  .arrow.right { right:8px; }
 </style>
 
 <div id="app">
@@ -200,185 +209,207 @@ print(f'<script>var EVENTS={json.dumps(events, ensure_ascii=False)};</script>')
     <button class="chip" id="f-pub"       style="background:#be123c;color:#fff" onclick="toggleFilter('pub')"      ><span class="pip" style="background:#fda4af"></span>Publications</button>
     <button class="chip" id="f-ramirez"   style="background:#7c3aed;color:#fff" onclick="toggleFilter('ramirez')"  ><span class="pip" style="background:#c4b5fd"></span>Ramirez Lab</button>
     <button class="chip" id="f-milestone" style="background:#059669;color:#fff" onclick="toggleFilter('milestone')" ><span class="pip" style="background:#6ee7b7"></span>Milestones</button>
-    <div class="hint">Drag &nbsp;·&nbsp; Hover to expand &nbsp;·&nbsp; Filter by type</div>
+    <div class="hint">Drag &nbsp;·&nbsp; Hover a card for details &nbsp;·&nbsp; Filter by type</div>
   </div>
 
   <div id="scroll-wrap">
-    <button class="arrow left"  onclick="pan(-480)">&#8592;</button>
-    <button class="arrow right" onclick="pan(480)">&#8594;</button>
+    <button class="arrow left"  onclick="pan(-420)">&#8592;</button>
+    <button class="arrow right" onclick="pan(420)">&#8594;</button>
     <div id="scroll">
-      <div id="canvas">
-        <div id="bar"></div>
-      </div>
+      <div id="canvas"><div id="bar"></div></div>
     </div>
   </div>
 </div>
 
+<div id="detail"></div>
+
 <script>
 (function () {
 
-  /* ── Color / emoji maps ── */
+  var EMOJI = { grant:'🏆', pub:'📄', ramirez:'🔬', milestone:'🎯' };
+  var ACCENT = { grant:'#3b82f6', pub:'#f43f5e', ramirez:'#a855f7', milestone:'#10b981' };
+
   function typeOf(cat, sub) {
-    if (cat === 'Grant')     return 'grant';
-    if (cat === 'Milestone') return 'milestone';
+    if (cat === 'Grant')       return 'grant';
+    if (cat === 'Milestone')   return 'milestone';
     if (sub === 'Ramirez Lab') return 'ramirez';
     return 'pub';
   }
-  var EMOJI = { grant:'🏆', pub:'📄', ramirez:'🔬', milestone:'🎯' };
+
+  /* ── Group events by year ── */
+  var byYear = {};
+  EVENTS.forEach(function(e) {
+    e.type = typeOf(e.cat, e.sub);
+    (byYear[e.year] = byYear[e.year] || []).push(e);
+  });
+
+  var years = Object.keys(byYear).map(Number).sort(function(a,b){return a-b;});
 
   /* ── Geometry ── */
   var MIN_YEAR = 2009, SPAN = 16;
-  var CANVAS_W = 5800, PAD = 260;
+  var CANVAS_W = 3800, PAD = 220;
   var USABLE   = CANVAS_W - PAD * 2;
+  function xFor(yr) { return PAD + ((yr - MIN_YEAR) / SPAN) * USABLE; }
 
-  function idealX(yr) { return PAD + ((yr - MIN_YEAR) / SPAN) * USABLE; }
-
-  /* ── Annotate type + initial x ── */
-  var groups = {};
-  EVENTS.forEach(function(e, i) {
-    e.type = typeOf(e.cat, e.sub);
-    e.idx  = i;
-    (groups[e.year] = groups[e.year] || []).push(i);
-  });
-  EVENTS.forEach(function(e, i) {
-    var g = groups[e.year];
-    e._x  = idealX(e.year) + (g.indexOf(i) - (g.length - 1) / 2) * 190;
-  });
-
-  /* ── Collision resolution ── */
-  var sorted = EVENTS.slice().sort(function(a, b) { return a._x - b._x; });
-  var MIN_GAP = 182;
-  for (var pass = 0; pass < 150; pass++) {
-    var moved = false;
-    for (var j = 1; j < sorted.length; j++) {
-      var gap = sorted[j]._x - sorted[j-1]._x;
-      if (gap < MIN_GAP) {
-        var push = (MIN_GAP - gap) / 2 + .5;
-        sorted[j-1]._x -= push; sorted[j]._x += push; moved = true;
-      }
-    }
-    if (!moved) break;
+  /* ── Dominant type for a year (for connector color) ── */
+  function dominantType(evs) {
+    var cnt = {};
+    evs.forEach(function(e){ cnt[e.type] = (cnt[e.type]||0)+1; });
+    return Object.keys(cnt).sort(function(a,b){return cnt[b]-cnt[a];})[0];
   }
 
-  /* ── Build after layout ── */
   window.addEventListener('load', function () {
-    var scroll  = document.getElementById('scroll');
-    var canvas  = document.getElementById('canvas');
-    var bar     = document.getElementById('bar');
-    var H       = scroll.clientHeight;
+    var scroll = document.getElementById('scroll');
+    var canvas = document.getElementById('canvas');
+    var bar    = document.getElementById('bar');
+    var H      = scroll.clientHeight;
 
-    var BAR_H   = 62;
-    var barTop  = Math.round(H * 0.44);
-    var barMid  = barTop + Math.round(BAR_H / 2);
+    var BAR_H  = 60;
+    var barTop = Math.round(H * 0.46);
+    var barMid = barTop + Math.round(BAR_H / 2);
 
     bar.style.top    = barTop + 'px';
     bar.style.height = BAR_H  + 'px';
 
-    /* card zones */
-    var GAP        = 20;
-    var aboveBot   = barTop - GAP;
-    var aboveTop   = 12;
-    var aboveFullH = aboveBot - aboveTop;
-    var aboveHalfH = Math.round(aboveFullH * 0.46);
+    var CARD_GAP   = 5;
+    var CONN_GAP   = 14;      /* gap between bar and nearest card */
+    var aboveAvail = barTop - CONN_GAP - 10;      /* px available above bar */
+    var belowAvail = H - (barTop + BAR_H) - CONN_GAP - 10;
 
-    var belowTop   = barTop + BAR_H + GAP;
-    var belowFullH = H - belowTop - 12;
-    var belowHalfH = Math.round(belowFullH * 0.46);
-
-    /* year labels */
-    var activeYrs = {};
-    EVENTS.forEach(function(e) { activeYrs[e.year] = true; });
+    /* ── Year labels ── */
     for (var yr = MIN_YEAR; yr <= MIN_YEAR + SPAN; yr++) {
       var lbl = document.createElement('div');
-      lbl.className = 'yr ' + (activeYrs[yr] ? 'active' : 'dim');
-      lbl.style.cssText = 'left:' + idealX(yr) + 'px;top:' + barTop + 'px;height:' + BAR_H + 'px;';
+      var active = !!byYear[yr];
+      lbl.className = 'yr ' + (active ? 'active' : 'dim');
+      lbl.style.cssText = 'left:'+xFor(yr)+'px;top:'+barTop+'px;height:'+BAR_H+'px;';
       lbl.textContent = yr;
       canvas.appendChild(lbl);
     }
 
-    /* events */
-    sorted.forEach(function(e, si) {
-      var above  = (si % 2 === 0);
-      var halfH  = above ? aboveHalfH : belowHalfH;
-      var fullH  = above ? aboveFullH : belowFullH;
-      var x      = e._x;
+    /* ── Render each year group ── */
+    years.forEach(function(yr, yi) {
+      var evs   = byYear[yr];
+      var above = (yi % 2 === 0);
+      var x     = xFor(yr);
+      var n     = evs.length;
+      var dom   = dominantType(evs);
+      var avail = above ? aboveAvail : belowAvail;
 
-      var wrap = document.createElement('div');
-      wrap.className   = 'ev';
-      wrap.style.left  = x + 'px';
-      wrap.dataset.type = e.type;
+      /* card height: fill available space */
+      var cardH = Math.max(54, Math.floor((avail - (n - 1) * CARD_GAP) / n));
+
+      /* group wrapper */
+      var grp = document.createElement('div');
+      grp.className = 'yr-group';
+      grp.style.left = x + 'px';
+      grp.dataset.yr = yr;
 
       /* dot */
       var dot = document.createElement('div');
-      dot.className = 'dot ' + e.type;
-      dot.style.top = (barMid - 7) + 'px';
-      wrap.appendChild(dot);
+      dot.className = 'dot ' + dom;
+      dot.style.top = (barMid - 6) + 'px';
+      grp.appendChild(dot);
 
       /* connector */
       var conn = document.createElement('div');
-      conn.className = 'conn ' + e.type;
+      conn.className = 'conn ' + dom;
       if (above) {
-        conn.style.top    = (aboveBot) + 'px';
-        conn.style.height = (barTop - aboveBot) + 'px';
+        var connBot = barTop;
+        var stackBot = barTop - CONN_GAP;          /* bottom of stack */
+        conn.style.top    = (stackBot) + 'px';
+        conn.style.height = (connBot - stackBot) + 'px';
       } else {
-        conn.style.top    = (barTop + BAR_H) + 'px';
-        conn.style.height = (belowTop - barTop - BAR_H) + 'px';
+        var connTop2 = barTop + BAR_H;
+        var stackTop2 = connTop2 + CONN_GAP;
+        conn.style.top    = connTop2 + 'px';
+        conn.style.height = CONN_GAP + 'px';
       }
-      wrap.appendChild(conn);
+      grp.appendChild(conn);
 
-      /* card */
-      var card = document.createElement('div');
-      card.className = 'card ' + e.type;
-      card.style.height = halfH + 'px';
-      if (above) { card.style.bottom = (H - aboveBot) + 'px'; card.style.top = 'auto'; }
-      else        { card.style.top   = belowTop + 'px'; }
-
-      var more = '';
-      if (e.authors) more += '<div class="m-authors">' + e.authors + '</div>';
-      if (e.journal) {
-        var cite = e.journal + (e.vol ? ' ' + e.vol : '');
-        more += '<div class="m-journal">' + cite + '</div>';
+      /* stack container */
+      var stack = document.createElement('div');
+      stack.className = 'stack ' + (above ? 'above' : 'below');
+      if (above) {
+        stack.style.bottom = (H - (barTop - CONN_GAP)) + 'px';
+        stack.style.top    = '10px';
+      } else {
+        stack.style.top    = (barTop + BAR_H + CONN_GAP) + 'px';
+        stack.style.bottom = '10px';
       }
-      if (e.inst)    more += '<div class="m-inst">📍 ' + e.inst + '</div>';
-      if (e.desc)    more += '<div class="m-desc">'  + e.desc  + '</div>';
-      if (e.pmid)    more += '<div class="m-pmid">PMID ' + e.pmid + '</div>';
+      grp.appendChild(stack);
 
-      card.innerHTML =
-        '<div class="c-year">' + e.year + '</div>' +
-        '<span class="c-emoji">' + EMOJI[e.type] + '</span>' +
-        '<div class="c-title">' + e.title + '</div>' +
-        '<div class="c-more">'  + more   + '</div>';
+      /* cards */
+      evs.forEach(function(e) {
+        var card = document.createElement('div');
+        card.className = 'ev-card ' + e.type + (cardH > 80 ? ' tall' : '');
+        card.style.height = cardH + 'px';
+        card.dataset.type = e.type;
 
-      wrap.addEventListener('mouseenter', function() { card.style.height = fullH + 'px'; });
-      wrap.addEventListener('mouseleave', function() { card.style.height = halfH + 'px'; });
+        card.innerHTML =
+          '<div class="c-top">' +
+            '<span class="c-emoji">' + EMOJI[e.type] + '</span>' +
+            '<span class="c-type">'  + e.cat + '</span>' +
+          '</div>' +
+          '<div class="c-title">' + e.title + '</div>';
 
-      wrap.appendChild(card);
-      canvas.appendChild(wrap);
+        card.addEventListener('mouseenter', function(ev) { showDetail(e, ev.currentTarget); });
+        card.addEventListener('mouseleave', hideDetail);
+
+        stack.appendChild(card);
+      });
+
+      canvas.appendChild(grp);
     });
 
-    /* drag scroll */
-    var isDown = false, sx, sl;
-    scroll.addEventListener('mousedown', function(e) { isDown=true; sx=e.pageX-scroll.offsetLeft; sl=scroll.scrollLeft; });
-    scroll.addEventListener('mouseleave', function() { isDown=false; });
-    scroll.addEventListener('mouseup',   function() { isDown=false; });
-    scroll.addEventListener('mousemove', function(e) {
-      if (!isDown) return; e.preventDefault();
-      scroll.scrollLeft = sl - (e.pageX - scroll.offsetLeft - sx);
+    /* ── Drag scroll ── */
+    var isDown=false, sx, sl;
+    scroll.addEventListener('mousedown', function(e){isDown=true;sx=e.pageX-scroll.offsetLeft;sl=scroll.scrollLeft;});
+    scroll.addEventListener('mouseleave',function(){isDown=false;});
+    scroll.addEventListener('mouseup',  function(){isDown=false;});
+    scroll.addEventListener('mousemove',function(e){
+      if(!isDown)return; e.preventDefault();
+      scroll.scrollLeft=sl-(e.pageX-scroll.offsetLeft-sx);
     });
   });
+
+  /* ── Detail tooltip ── */
+  var det = document.getElementById('detail');
+  function showDetail(e, el) {
+    var col = ACCENT[e.type] || '#888';
+    var html = '<div class="d-accent" style="background:'+col+'"></div>';
+    html += '<div class="d-title">'+EMOJI[e.type]+' '+e.title+'</div>';
+    if (e.authors) html += '<div class="d-label">Authors</div><div class="d-row">'+e.authors+'</div>';
+    if (e.journal) {
+      html += '<div class="d-label">Journal</div><div class="d-row">'+e.journal+(e.vol?' '+e.vol:'')+'</div>';
+    }
+    if (e.inst)    html += '<div class="d-label">Institution</div><div class="d-row">'+e.inst+'</div>';
+    if (e.desc)    html += '<div class="d-desc">'+e.desc+'</div>';
+    if (e.pmid)    html += '<div class="d-pmid">PMID '+e.pmid+'</div>';
+    det.innerHTML = html;
+
+    var r   = el.getBoundingClientRect();
+    var top = r.top;
+    var left= r.right + 10;
+    if (left + 270 > window.innerWidth) left = r.left - 280;
+    if (top + det.offsetHeight > window.innerHeight - 10) top = window.innerHeight - det.offsetHeight - 10;
+    det.style.top  = Math.max(10, top) + 'px';
+    det.style.left = left + 'px';
+    det.classList.add('show');
+  }
+  function hideDetail() { det.classList.remove('show'); }
 
   /* ── Filter ── */
   var hidden = {};
   window.toggleFilter = function(type) {
     hidden[type] = !hidden[type];
-    document.getElementById('f-' + type).classList.toggle('off', !!hidden[type]);
-    document.querySelectorAll('.ev[data-type="' + type + '"]').forEach(function(el) {
-      el.classList.toggle('hidden', !!hidden[type]);
+    document.getElementById('f-'+type).classList.toggle('off', !!hidden[type]);
+    document.querySelectorAll('.ev-card[data-type="'+type+'"]').forEach(function(el){
+      el.style.display = hidden[type] ? 'none' : '';
     });
   };
 
   window.pan = function(dx) {
-    document.getElementById('scroll').scrollBy({ left: dx, behavior: 'smooth' });
+    document.getElementById('scroll').scrollBy({left:dx, behavior:'smooth'});
   };
 
 })();
