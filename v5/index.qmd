@@ -52,6 +52,9 @@ print(f'<script>var EVENTS={json.dumps(events, ensure_ascii=False)};</script>')
     --conn-gap: 14px;
     --card-w:   240px;
     --sb-w:     200px;
+    --fs-year:  22px;
+    --fs-title: 11px;
+    --fs-body:  9.5px;
   }
 
   /* ── App shell — identical to v4 ── */
@@ -104,7 +107,7 @@ print(f'<script>var EVENTS={json.dumps(events, ensure_ascii=False)};</script>')
   .yr {
     position:absolute; top:0; height:var(--bar-h);
     display:flex; align-items:center; justify-content:center;
-    font-weight:800; letter-spacing:-.02em; font-size:22px;
+    font-weight:800; letter-spacing:-.02em; font-size:var(--fs-year);
     color:rgba(255,255,255,.8);
     transform:translateX(-50%); pointer-events:none; z-index:25;
     transition:left .3s ease;
@@ -175,14 +178,14 @@ print(f'<script>var EVENTS={json.dumps(events, ensure_ascii=False)};</script>')
   .ev-card.milestone .c-badge { background:#059669; }
 
   .ev-card .c-title {
-    font-size:11px; font-weight:700; line-height:1.35; color:#0f172a; margin-bottom:4px;
+    font-size:var(--fs-title); font-weight:700; line-height:1.35; color:#0f172a; margin-bottom:4px;
   }
   .ev-card .c-cite {
-    font-size:9.5px; color:#64748b; line-height:1.4; margin-bottom:4px;
+    font-size:var(--fs-body); color:#64748b; line-height:1.4; margin-bottom:4px;
     display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; overflow:hidden;
   }
   .ev-card .c-desc {
-    font-size:10px; color:#475569; line-height:1.5; margin-bottom:6px;
+    font-size:var(--fs-body); color:#475569; line-height:1.5; margin-bottom:6px;
     display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:3; overflow:hidden;
   }
   .ev-card .c-links { display:flex; flex-wrap:wrap; gap:5px; }
@@ -265,6 +268,23 @@ print(f'<script>var EVENTS={json.dumps(events, ensure_ascii=False)};</script>')
   .sb-ev-row input[type=checkbox] { width:12px; height:12px; cursor:pointer; flex-shrink:0; margin-top:2px; }
   .sb-ev-row label { font-size:10px; color:#475569; cursor:pointer; line-height:1.3; }
 
+  /* ── Font size controls ── */
+  .fs-row {
+    display:flex; align-items:center; justify-content:space-between;
+    padding:3px 0; gap:6px;
+  }
+  .fs-row .fs-label { font-size:11px; color:#334155; flex:1; }
+  .fs-ctrl { display:flex; align-items:center; gap:4px; }
+  .fs-btn {
+    width:20px; height:20px; border-radius:5px;
+    border:1px solid #e2e8f0; background:#f8fafc;
+    font-size:13px; line-height:1; color:#475569;
+    cursor:pointer; display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; padding:0;
+  }
+  .fs-btn:hover { background:#eff6ff; border-color:#bfdbfe; color:#1d4ed8; }
+  .fs-val { font-size:10px; color:#94a3b8; width:28px; text-align:center; }
+
   /* backdrop to close sidebar on outside click */
   #sb-backdrop {
     display:none; position:fixed; inset:0; z-index:99;
@@ -317,6 +337,32 @@ print(f'<script>var EVENTS={json.dumps(events, ensure_ascii=False)};</script>')
       <div class="sb-row">
         <input type="checkbox" id="cb-hide-empty">
         <label for="cb-hide-empty">Hide empty columns</label>
+      </div>
+      <div style="margin-top:8px; border-top:1px solid #f1f5f9; padding-top:8px;">
+        <div class="fs-row">
+          <span class="fs-label">Year</span>
+          <div class="fs-ctrl">
+            <button class="fs-btn" onclick="adjFs('year',-1)">&#8722;</button>
+            <span class="fs-val" id="fs-year-val">22</span>
+            <button class="fs-btn" onclick="adjFs('year',1)">+</button>
+          </div>
+        </div>
+        <div class="fs-row">
+          <span class="fs-label">Title</span>
+          <div class="fs-ctrl">
+            <button class="fs-btn" onclick="adjFs('title',-1)">&#8722;</button>
+            <span class="fs-val" id="fs-title-val">11</span>
+            <button class="fs-btn" onclick="adjFs('title',1)">+</button>
+          </div>
+        </div>
+        <div class="fs-row">
+          <span class="fs-label">Body</span>
+          <div class="fs-ctrl">
+            <button class="fs-btn" onclick="adjFs('body',-1)">&#8722;</button>
+            <span class="fs-val" id="fs-body-val">10</span>
+            <button class="fs-btn" onclick="adjFs('body',1)">+</button>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -539,6 +585,17 @@ print(f'<script>var EVENTS={json.dumps(events, ensure_ascii=False)};</script>')
       cb.checked = val; cb.indeterminate = false;
     });
     applyFilters();
+  };
+
+  /* ── Font size controls ── */
+  var fsSizes = { year:22, title:11, body:10 };
+  var fsMin   = { year:10, title:7,  body:7  };
+  var fsMax   = { year:40, title:22, body:18 };
+  var fsProp  = { year:'--fs-year', title:'--fs-title', body:'--fs-body' };
+  window.adjFs = function(key, delta){
+    fsSizes[key] = Math.min(fsMax[key], Math.max(fsMin[key], fsSizes[key] + delta));
+    document.documentElement.style.setProperty(fsProp[key], fsSizes[key] + 'px');
+    document.getElementById('fs-'+key+'-val').textContent = fsSizes[key];
   };
 
   /* ── Sidebar toggle ── */
