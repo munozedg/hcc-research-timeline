@@ -245,6 +245,26 @@ print(f'<script>var EVENTS={json.dumps(events, ensure_ascii=False)};</script>')
   }
   .sb-btn:hover { color:#1d4ed8; }
 
+  /* ── Event tree ── */
+  .sb-yr-group { margin-bottom:2px; }
+  .sb-yr-row {
+    display:flex; align-items:center; gap:6px;
+    padding:4px 4px; border-radius:5px; cursor:pointer; user-select:none;
+  }
+  .sb-yr-row:hover { background:#f1f5f9; }
+  .sb-yr-row input[type=checkbox] { width:13px; height:13px; cursor:pointer; flex-shrink:0; }
+  .sb-yr-row label { font-size:11.5px; font-weight:700; color:#1e293b; cursor:pointer; flex:1; }
+  .sb-arrow { font-size:8px; color:#94a3b8; width:10px; flex-shrink:0; transition:transform .15s; }
+  .sb-arrow.open { transform:rotate(90deg); }
+  .sb-ev-list { padding-left:20px; display:none; }
+  .sb-ev-list.open { display:block; }
+  .sb-ev-row {
+    display:flex; align-items:baseline; gap:6px;
+    padding:2px 0; cursor:pointer; user-select:none;
+  }
+  .sb-ev-row input[type=checkbox] { width:12px; height:12px; cursor:pointer; flex-shrink:0; margin-top:2px; }
+  .sb-ev-row label { font-size:10px; color:#475569; cursor:pointer; line-height:1.3; }
+
   /* backdrop to close sidebar on outside click */
   #sb-backdrop {
     display:none; position:fixed; inset:0; z-index:99;
@@ -284,11 +304,11 @@ print(f'<script>var EVENTS={json.dumps(events, ensure_ascii=False)};</script>')
     </div>
 
     <div class="sb-section">
-      <div class="sb-section-title">Year</div>
-      <div id="sb-years"></div>
+      <div class="sb-section-title">Events</div>
+      <div id="sb-events"></div>
       <div class="sb-actions">
-        <button class="sb-btn" onclick="setAll('year',true)">All</button>
-        <button class="sb-btn" onclick="setAll('year',false)">None</button>
+        <button class="sb-btn" onclick="setAll(true)">All</button>
+        <button class="sb-btn" onclick="setAll(false)">None</button>
       </div>
     </div>
 
@@ -317,10 +337,11 @@ print(f'<script>var EVENTS={json.dumps(events, ensure_ascii=False)};</script>')
     return 'pub';
   }
 
-  /* ── Group by year ── */
+  /* ── Group by year; assign stable index ── */
   var byYear = {};
-  EVENTS.forEach(function(e) {
+  EVENTS.forEach(function(e, i) {
     e.type = typeOf(e.cat, e.sub);
+    e._idx  = i;
     (byYear[e.year] = byYear[e.year] || []).push(e);
   });
   var years = Object.keys(byYear).map(Number).sort(function(a,b){return a-b;});
@@ -336,21 +357,9 @@ print(f'<script>var EVENTS={json.dumps(events, ensure_ascii=False)};</script>')
     return Object.keys(cnt).sort(function(a,b){return cnt[b]-cnt[a];})[0];
   }
 
-  /* ── Populate year checkboxes ── */
-  var sbYears = document.getElementById('sb-years');
-  years.forEach(function(yr){
-    var row = document.createElement('div'); row.className = 'sb-row';
-    var cb  = document.createElement('input');
-    cb.type = 'checkbox'; cb.id = 'cb-y-'+yr; cb.checked = true;
-    cb.setAttribute('data-group','year'); cb.setAttribute('data-val', yr);
-    var lbl = document.createElement('label'); lbl.htmlFor = cb.id; lbl.textContent = yr;
-    row.appendChild(cb); row.appendChild(lbl);
-    sbYears.appendChild(row);
-  });
-
-  /* attach listeners after building all checkboxes */
-  document.querySelectorAll('#sidebar input[type=checkbox]').forEach(function(cb){
-    cb.addEventListener('change', applyFilters);
+  /* type filter listeners */
+  ['cb-t-grant','cb-t-pub','cb-t-uthsa','cb-t-milestone'].forEach(function(id){
+    document.getElementById(id).addEventListener('change', applyFilters);
   });
   document.getElementById('cb-hide-empty').addEventListener('change', applyFilters);
 
@@ -402,6 +411,7 @@ print(f'<script>var EVENTS={json.dumps(events, ensure_ascii=False)};</script>')
       card.className = 'ev-card '+e.type;
       card.dataset.type = e.type;
       card.dataset.year = String(e.year);
+      card.dataset.idx  = String(e._idx);
       card.innerHTML =
         '<div class="c-accent"></div>'+
         '<div class="c-body">'+
@@ -422,6 +432,65 @@ print(f'<script>var EVENTS={json.dumps(events, ensure_ascii=False)};</script>')
   /* set initial canvas width */
   canvas.style.minWidth = (PAD + (years.length - 1) * spacing + PAD) + 'px';
 
+  /* ── Build sidebar event tree ── */
+  var sbEvents = document.getElementById('sb-events');
+  years.forEach(function(yr){
+    var evs = byYear[yr].slice();
+    evs.sort(function(a,b){ return (TYPE_ORDER[a.type]||99)-(TYPE_ORDER[b.type]||99); });
+
+    var grpDiv = document.createElement('div'); grpDiv.className = 'sb-yr-group';
+
+    /* year header row */
+    var yrRow = document.createElement('div'); yrRow.className = 'sb-yr-row';
+    var arrow = document.createElement('span'); arrow.className = 'sb-arrow'; arrow.textContent = '▶';
+    var yrCb  = document.createElement('input'); yrCb.type = 'checkbox'; yrCb.checked = true;
+    yrCb.id = 'cb-yr-'+yr;
+    var yrLbl = document.createElement('label'); yrLbl.htmlFor = yrCb.id;
+    yrLbl.innerHTML = yr + ' <span style="font-weight:400;color:#94a3b8;font-size:9.5px">('+evs.length+')</span>';
+    yrRow.appendChild(arrow); yrRow.appendChild(yrCb); yrRow.appendChild(yrLbl);
+
+    /* event list (collapsed) */
+    var evList = document.createElement('div'); evList.className = 'sb-ev-list';
+    evs.forEach(function(e){
+      var evRow = document.createElement('div'); evRow.className = 'sb-ev-row';
+      var evCb  = document.createElement('input'); evCb.type = 'checkbox'; evCb.checked = true;
+      evCb.id = 'cb-e-'+e._idx; evCb.dataset.idx = String(e._idx); evCb.dataset.year = String(yr);
+      var evLbl = document.createElement('label'); evLbl.htmlFor = evCb.id;
+      evLbl.textContent = e.title.length > 32 ? e.title.slice(0,32)+'…' : e.title;
+      evRow.appendChild(evCb); evRow.appendChild(evLbl);
+      evList.appendChild(evRow);
+
+      evCb.addEventListener('change', function(){
+        syncYearMaster(yrCb, evList);
+        applyFilters();
+      });
+    });
+
+    grpDiv.appendChild(yrRow); grpDiv.appendChild(evList);
+    sbEvents.appendChild(grpDiv);
+
+    /* expand/collapse on row click */
+    yrRow.addEventListener('click', function(ev){
+      if(ev.target === yrCb) return;
+      var open = evList.classList.toggle('open');
+      arrow.classList.toggle('open', open);
+    });
+
+    /* year master → toggle all events */
+    yrCb.addEventListener('change', function(){
+      evList.querySelectorAll('input[type=checkbox]').forEach(function(cb){ cb.checked = yrCb.checked; });
+      yrCb.indeterminate = false;
+      applyFilters();
+    });
+  });
+
+  function syncYearMaster(yrCb, evList){
+    var cbs = evList.querySelectorAll('input[type=checkbox]');
+    var n = 0; cbs.forEach(function(c){ if(c.checked) n++; });
+    yrCb.checked       = n > 0;
+    yrCb.indeterminate = n > 0 && n < cbs.length;
+  }
+
   /* ── Filter ── */
   function applyFilters(){
     var types = {
@@ -430,45 +499,45 @@ print(f'<script>var EVENTS={json.dumps(events, ensure_ascii=False)};</script>')
       uthsa:     document.getElementById('cb-t-uthsa').checked,
       milestone: document.getElementById('cb-t-milestone').checked,
     };
-    var activeYears = {};
-    document.querySelectorAll('#sb-years input').forEach(function(cb){
-      if(cb.checked) activeYears[cb.dataset.val] = true;
-    });
     var hideEmpty = document.getElementById('cb-hide-empty').checked;
 
-    /* track which years still have at least one visible card */
+    /* build set of individually-checked event indices */
+    var visIdx = {};
+    document.querySelectorAll('#sb-events input[type=checkbox][data-idx]').forEach(function(cb){
+      if(cb.checked) visIdx[cb.dataset.idx] = true;
+    });
+
     var visibleInYear = {};
     allCards.forEach(function(card){
-      var ok = types[card.dataset.type] && activeYears[card.dataset.year];
+      var ok = types[card.dataset.type] && !!visIdx[card.dataset.idx];
       card.style.display = ok ? '' : 'none';
       if(ok) visibleInYear[card.dataset.year] = true;
     });
 
-    /* reflow: keep original per-column spacing, shrink canvas to fit visible years */
+    /* reflow columns */
     var visYears = years.filter(function(yr){
       return !hideEmpty || !!visibleInYear[String(yr)];
     });
-
     years.forEach(function(yr){
       var idx  = visYears.indexOf(yr);
       var show = idx >= 0;
       yearEls[yr].grp.style.display = show ? '' : 'none';
       yearEls[yr].lbl.style.display = show ? '' : 'none';
       if(show){
-        var newX = PAD + idx * spacing;
-        yearEls[yr].grp.style.left = newX + 'px';
-        yearEls[yr].lbl.style.left = newX + 'px';
+        yearEls[yr].grp.style.left = (PAD + idx * spacing) + 'px';
+        yearEls[yr].lbl.style.left = (PAD + idx * spacing) + 'px';
       }
     });
 
-    /* shrink/expand canvas so no empty scroll space remains */
     var newW = visYears.length > 1 ? PAD + (visYears.length - 1) * spacing + PAD : PAD * 2;
     canvas.style.minWidth = Math.max(newW, 600) + 'px';
   }
 
-  window.setAll = function(group, val){
-    var sel = group === 'year' ? '#sb-years input' : '#sidebar input';
-    document.querySelectorAll(sel).forEach(function(cb){ cb.checked = val; });
+  /* All / None for event tree */
+  window.setAll = function(val){
+    document.querySelectorAll('#sb-events input[type=checkbox]').forEach(function(cb){
+      cb.checked = val; cb.indeterminate = false;
+    });
     applyFilters();
   };
 
