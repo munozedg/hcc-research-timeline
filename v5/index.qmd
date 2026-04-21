@@ -107,12 +107,14 @@ print(f'<script>var EVENTS={json.dumps(events, ensure_ascii=False)};</script>')
     font-weight:800; letter-spacing:-.02em; font-size:22px;
     color:rgba(255,255,255,.8);
     transform:translateX(-50%); pointer-events:none; z-index:25;
+    transition:left .3s ease;
   }
 
   /* ── Per-year group ── */
   .yr-group {
     position:absolute; top:0; bottom:0;
     width:var(--card-w); transform:translateX(-50%); z-index:10;
+    transition:left .3s ease;
   }
 
   /* ── Dot ── */
@@ -439,12 +441,22 @@ print(f'<script>var EVENTS={json.dumps(events, ensure_ascii=False)};</script>')
       if(ok) visibleInYear[card.dataset.year] = true;
     });
 
-    /* show/hide entire year columns */
+    /* compute which years to show and reflow their x positions */
+    var visYears = years.filter(function(yr){
+      return !hideEmpty || !!visibleInYear[String(yr)];
+    });
+    var newSpacing = visYears.length > 1 ? (CANVAS_W - PAD*2) / (visYears.length - 1) : 0;
+
     years.forEach(function(yr){
-      var hasVisible = !!visibleInYear[String(yr)];
-      var show = !hideEmpty || hasVisible;
+      var idx  = visYears.indexOf(yr);
+      var show = idx >= 0;
       yearEls[yr].grp.style.display = show ? '' : 'none';
       yearEls[yr].lbl.style.display = show ? '' : 'none';
+      if(show){
+        var newX = PAD + idx * newSpacing;
+        yearEls[yr].grp.style.left = newX + 'px';
+        yearEls[yr].lbl.style.left = newX + 'px';
+      }
     });
   }
 
