@@ -497,6 +497,7 @@ background: #f0f4f8; color: #1e293b;
 --bar-h: 50px;
 --conn-gap: 14px;
 --card-w: 240px;
+--sb-w: 190px;
 }
 #app { display:flex; flex-direction:column; height:100vh; }
 
@@ -505,18 +506,58 @@ flex-shrink:0; height:var(--hdr-h);
 background:#fff; border-bottom:1px solid #e2e8f0;
 box-shadow:0 1px 4px rgba(0,0,0,.07);
 display:flex; align-items:center; padding:0 1.4rem; gap:.9rem;
-z-index:50; position:relative; overflow-x:auto;
+z-index:50; position:relative;
 }
 #hdr .title { font-size:.93rem; font-weight:700; color:#0f172a; white-space:nowrap; }
-#hdr .sep { width:1px; height:24px; background:#e2e8f0; flex-shrink:0; }
-.chip {
-display:flex; align-items:center; gap:5px;
-padding:4px 10px; border-radius:20px; border:none;
-font-size:.71rem; font-weight:600; cursor:pointer; color:#fff;
-white-space:nowrap; flex-shrink:0; transition:opacity .15s;
+#hdr .hint { margin-left:auto; font-size:.67rem; color:#94a3b8; white-space:nowrap; }
+
+#body { flex:1; display:flex; overflow:hidden; }
+
+#sidebar {
+flex-shrink:0; width:var(--sb-w);
+background:#fff; border-right:1px solid #e2e8f0;
+display:flex; flex-direction:column;
+transition:width .2s; overflow:hidden;
+position:relative; z-index:40;
 }
-.chip.off { opacity:.3; }
-#hdr .hint { margin-left:auto; font-size:.67rem; color:#94a3b8; white-space:nowrap; padding-left:.5rem; }
+#sidebar.collapsed { width:36px; }
+#sb-toggle {
+flex-shrink:0; height:36px; width:100%;
+background:none; border:none; border-bottom:1px solid #e2e8f0;
+cursor:pointer; font-size:15px; color:#64748b;
+display:flex; align-items:center; justify-content:center;
+transition:background .15s;
+}
+#sb-toggle:hover { background:#f8fafc; color:#0f172a; }
+#sb-body {
+flex:1; overflow-y:auto; padding:10px 12px 16px;
+
+scrollbar-width:thin; scrollbar-color:#e2e8f0 transparent;
+}
+#sidebar.collapsed #sb-body { display:none; }
+.sb-section { margin-bottom:14px; }
+.sb-head {
+font-size:9px; font-weight:700; letter-spacing:.08em;
+text-transform:uppercase; color:#94a3b8;
+margin-bottom:7px; padding-bottom:4px;
+border-bottom:1px solid #f1f5f9;
+}
+.sb-row {
+display:flex; align-items:center; gap:7px;
+padding:3px 0; cursor:pointer; user-select:none;
+}
+.sb-row input[type=checkbox] { accent-color:#1d4ed8; width:13px; height:13px; cursor:pointer; flex-shrink:0; }
+.sb-row label { font-size:11px; color:#334155; cursor:pointer; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.sb-row.grant-row input { accent-color:#2563eb; }
+.sb-row.pub-row input { accent-color:#dc2626; }
+.sb-row.uthsa-row input { accent-color:#7c3aed; }
+.sb-row.milestone-row input { accent-color:#059669; }
+.sb-actions { display:flex; gap:6px; margin-top:4px; }
+.sb-btn {
+font-size:9px; color:#64748b; background:none; border:none;
+cursor:pointer; text-decoration:underline; padding:0;
+}
+.sb-btn:hover { color:#0f172a; }
 
 #scroll-wrap { flex:1; position:relative; overflow:hidden; background:#f0f4f8; }
 #scroll {
@@ -566,19 +607,22 @@ top:var(--bar-h); height:var(--conn-gap);
 .stack {
 position:absolute; left:0; right:0;
 top:calc(var(--bar-h) + var(--conn-gap)); bottom:10px;
-display:flex; flex-direction:column; gap:8px; overflow-y:auto;
-
-scrollbar-width:none;
+display:flex; flex-direction:column; gap:8px;
+overflow-y:auto; scrollbar-width:none;
 }
 .stack::-webkit-scrollbar { display:none; }
 
 .ev-card {
 border-radius:10px; overflow:hidden; flex-shrink:0;
-box-shadow:0 2px 8px rgba(0,0,0,.10);
+box-shadow:0 2px 8px rgba(0,0,0,.09);
 transition:box-shadow .15s, transform .15s;
-background:#fff;
+border:1px solid transparent;
 }
 .ev-card:hover { box-shadow:0 6px 20px rgba(0,0,0,.16); transform:translateY(-2px); }
+.ev-card.grant { background:rgba(37,99,235,.10); border-color:rgba(37,99,235,.2); }
+.ev-card.pub { background:rgba(220,38,38,.10); border-color:rgba(220,38,38,.2); }
+.ev-card.uthsa { background:rgba(124,58,237,.10); border-color:rgba(124,58,237,.2); }
+.ev-card.milestone { background:rgba(5,150,105,.10); border-color:rgba(5,150,105,.2); }
 
 .ev-card .c-accent { height:4px; width:100%; }
 .ev-card.grant .c-accent { background:linear-gradient(90deg,#1e3a8a,#2563eb); }
@@ -586,7 +630,6 @@ background:#fff;
 .ev-card.uthsa .c-accent { background:linear-gradient(90deg,#5b21b6,#7c3aed); }
 .ev-card.milestone .c-accent { background:linear-gradient(90deg,#065f46,#059669); }
 .ev-card .c-body { padding:9px 11px 10px; }
-
 .ev-card .c-badge {
 display:inline-flex; align-items:center; gap:4px;
 font-size:8px; font-weight:700; letter-spacing:.07em;
@@ -597,25 +640,17 @@ padding:2px 7px; margin-bottom:5px; color:#fff;
 .ev-card.pub .c-badge { background:#dc2626; }
 .ev-card.uthsa .c-badge { background:#7c3aed; }
 .ev-card.milestone .c-badge { background:#059669; }
-
 .ev-card .c-title {
-font-size:11px; font-weight:700; line-height:1.35; color:#0f172a;
-margin-bottom:5px;
+font-size:11px; font-weight:700; line-height:1.35; color:#0f172a; margin-bottom:5px;
 }
-
 .ev-card .c-cite {
-font-size:9.5px; color:#64748b; line-height:1.4;
-margin-bottom:5px;
-display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2;
-overflow:hidden;
+font-size:9.5px; color:#64748b; line-height:1.4; margin-bottom:5px;
+display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; overflow:hidden;
 }
-
 .ev-card .c-desc {
-font-size:10px; color:#475569; line-height:1.5;
-display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:3;
-overflow:hidden; margin-bottom:6px;
+font-size:10px; color:#475569; line-height:1.5; margin-bottom:6px;
+display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:3; overflow:hidden;
 }
-
 .ev-card .c-links { display:flex; flex-wrap:wrap; gap:5px; }
 .ev-card .c-link {
 font-size:9px; font-weight:600; padding:2px 8px;
@@ -631,16 +666,61 @@ display:inline-flex; align-items:center; gap:3px;
 <div id="app">
   <div id="hdr">
     <div class="title">HCC Research — Grants &amp; Key Publications — Texas 2009–2025</div>
-    <div class="sep"></div>
-    <button class="chip" id="f-grant" style="background:#1d4ed8" onclick="toggleFilter(&#39;grant&#39;)">🏆 Grants</button>
-    <button class="chip" id="f-pub" style="background:#dc2626" onclick="toggleFilter(&#39;pub&#39;)">📄 Publications</button>
-    <button class="chip" id="f-uthsa" style="background:#7c3aed" onclick="toggleFilter(&#39;uthsa&#39;)">🔬 UTHSA</button>
-    <button class="chip" id="f-milestone" style="background:#059669" onclick="toggleFilter(&#39;milestone&#39;)">🎯 Milestones</button>
-    <div class="hint">Drag to scroll</div>
+    <div class="hint">Drag to scroll  ·  Use sidebar to filter</div>
   </div>
-  <div id="scroll-wrap">
-    <div id="scroll">
-      <div id="canvas"><div id="bar"></div></div>
+
+  <div id="body">
+    <!-- ── Sidebar ── -->
+    <div id="sidebar">
+      <button id="sb-toggle" onclick="toggleSidebar()" title="Toggle filters">☰</button>
+      <div id="sb-body">
+
+        <div class="sb-section">
+          <div class="sb-head">Type</div>
+          <div class="sb-row grant-row">
+            <input type="checkbox" id="cb-t-grant" checked onchange="applyFilters()">
+            <label for="cb-t-grant">🏆 Grants</label>
+          </div>
+          <div class="sb-row pub-row">
+            <input type="checkbox" id="cb-t-pub" checked onchange="applyFilters()">
+            <label for="cb-t-pub">📄 Publications</label>
+          </div>
+          <div class="sb-row uthsa-row">
+            <input type="checkbox" id="cb-t-uthsa" checked onchange="applyFilters()">
+            <label for="cb-t-uthsa">🔬 UTHSA</label>
+          </div>
+          <div class="sb-row milestone-row">
+            <input type="checkbox" id="cb-t-milestone" checked onchange="applyFilters()">
+            <label for="cb-t-milestone">🎯 Milestones</label>
+          </div>
+        </div>
+
+        <div class="sb-section">
+          <div class="sb-head">Year</div>
+          <div id="sb-years"></div>
+          <div class="sb-actions">
+            <button class="sb-btn" onclick="setAllYears(true)">All</button>
+            <button class="sb-btn" onclick="setAllYears(false)">None</button>
+          </div>
+        </div>
+
+        <div class="sb-section">
+          <div class="sb-head">Institution</div>
+          <div id="sb-insts"></div>
+          <div class="sb-actions">
+            <button class="sb-btn" onclick="setAllInsts(true)">All</button>
+            <button class="sb-btn" onclick="setAllInsts(false)">None</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── Timeline ── -->
+    <div id="scroll-wrap">
+      <div id="scroll">
+        <div id="canvas"><div id="bar"></div></div>
+      </div>
     </div>
   </div>
 </div>
@@ -658,14 +738,34 @@ display:inline-flex; align-items:center; gap:3px;
     return 'pub';
   }
 
+  /* ── Normalize institution to short key ── */
+  function instKey(inst) {
+    if (!inst) return 'Other';
+    if (/BCM|Baylor/i.test(inst))         return 'BCM';
+    if (/MD Anderson/i.test(inst))         return 'MD Anderson';
+    if (/Southwestern|UTSW/i.test(inst))   return 'UTSW';
+    if (/UTHSCSA|UT Health San Antonio|San Antonio/i.test(inst)) return 'UTHSA / San Antonio';
+    if (/Texas Children/i.test(inst))      return "Texas Children's";
+    if (/Statewide/i.test(inst))           return 'Statewide';
+    if (/Multi|Consortium/i.test(inst))    return 'Multi-Institution';
+    return 'Other';
+  }
+
+  /* ── Group by year ── */
   var byYear = {};
   EVENTS.forEach(function(e) {
-    e.type = typeOf(e.cat, e.sub);
+    e.type    = typeOf(e.cat, e.sub);
+    e.instKey = instKey(e.inst);
     (byYear[e.year] = byYear[e.year] || []).push(e);
   });
   var years = Object.keys(byYear).map(Number).sort(function(a,b){return a-b;});
 
-  /* evenly space active years only */
+  /* collect unique institutions */
+  var instSet = {};
+  EVENTS.forEach(function(e){ instSet[e.instKey] = true; });
+  var insts = Object.keys(instSet).sort();
+
+  /* ── X: active years evenly spaced ── */
   var CANVAS_W = 4400, PAD = 220;
   var spacing  = years.length > 1 ? (CANVAS_W - PAD*2) / (years.length - 1) : 0;
   function xFor(yr) { return PAD + years.indexOf(yr) * spacing; }
@@ -676,7 +776,35 @@ display:inline-flex; align-items:center; gap:3px;
     return Object.keys(cnt).sort(function(a,b){return cnt[b]-cnt[a];})[0];
   }
 
-  var canvas = document.getElementById('canvas');
+  /* ── Build sidebar year checkboxes ── */
+  var sbYears = document.getElementById('sb-years');
+  years.forEach(function(yr){
+    var row = document.createElement('div'); row.className = 'sb-row';
+    var cb  = document.createElement('input');
+    cb.type = 'checkbox'; cb.id = 'cb-y-'+yr; cb.checked = true;
+    cb.onchange = applyFilters;
+    var lbl = document.createElement('label');
+    lbl.htmlFor = 'cb-y-'+yr; lbl.textContent = yr;
+    row.appendChild(cb); row.appendChild(lbl);
+    sbYears.appendChild(row);
+  });
+
+  /* ── Build sidebar institution checkboxes ── */
+  var sbInsts = document.getElementById('sb-insts');
+  insts.forEach(function(inst){
+    var row = document.createElement('div'); row.className = 'sb-row';
+    var cb  = document.createElement('input');
+    cb.type = 'checkbox'; cb.id = 'cb-i-'+inst.replace(/\s+/g,'_'); cb.checked = true;
+    cb.dataset.inst = inst; cb.onchange = applyFilters;
+    var lbl = document.createElement('label');
+    lbl.htmlFor = cb.id; lbl.textContent = inst;
+    row.appendChild(cb); row.appendChild(lbl);
+    sbInsts.appendChild(row);
+  });
+
+  /* ── Build timeline cards ── */
+  var canvas   = document.getElementById('canvas');
+  var allCards = []; /* [{el, e}] for filtering */
 
   years.forEach(function(yr){
     var evs = byYear[yr].slice();
@@ -685,7 +813,6 @@ display:inline-flex; align-items:center; gap:3px;
     var dom = dominantType(evs);
     var x   = xFor(yr);
 
-    /* year label */
     var lbl = document.createElement('div');
     lbl.className = 'yr'; lbl.style.left = x+'px'; lbl.textContent = yr;
     canvas.appendChild(lbl);
@@ -693,26 +820,21 @@ display:inline-flex; align-items:center; gap:3px;
     var grp = document.createElement('div');
     grp.className = 'yr-group'; grp.style.left = x+'px';
 
-    var dot = document.createElement('div'); dot.className = 'dot '+dom;
-    grp.appendChild(dot);
+    var dot  = document.createElement('div'); dot.className  = 'dot '+dom;
     var conn = document.createElement('div'); conn.className = 'conn '+dom;
-    grp.appendChild(conn);
-
     var stack = document.createElement('div'); stack.className = 'stack';
-    grp.appendChild(stack);
+    grp.appendChild(dot); grp.appendChild(conn); grp.appendChild(stack);
 
     evs.forEach(function(e){
       var col   = ACCENT[e.type]||'#888';
       var label = e.type === 'uthsa' ? 'UTHSA' : e.cat;
 
-      /* citation line */
       var cite = [];
       if(e.authors) cite.push(e.authors);
       if(e.journal) cite.push(e.journal+(e.vol?' '+e.vol:''));
       if(e.inst)    cite.push(e.inst);
       if(e.pmid)    cite.push('PMID '+e.pmid);
 
-      /* links */
       var links = '';
       if(e.pmid) {
         links += '<a class="c-link" href="https://pubmed.ncbi.nlm.nih.gov/'+e.pmid+'/"'
@@ -728,8 +850,10 @@ display:inline-flex; align-items:center; gap:3px;
       }
 
       var card = document.createElement('div');
-      card.className    = 'ev-card '+e.type;
+      card.className = 'ev-card '+e.type;
       card.dataset.type = e.type;
+      card.dataset.year = e.year;
+      card.dataset.inst = e.instKey;
       card.innerHTML =
         '<div class="c-accent"></div>'+
         '<div class="c-body">'+
@@ -741,12 +865,52 @@ display:inline-flex; align-items:center; gap:3px;
         '</div>';
 
       stack.appendChild(card);
+      allCards.push(card);
     });
 
     canvas.appendChild(grp);
   });
 
-  /* drag-to-scroll */
+  /* ── Filter logic ── */
+  window.applyFilters = function(){
+    /* collect active sets */
+    var types = {
+      grant:     document.getElementById('cb-t-grant').checked,
+      pub:       document.getElementById('cb-t-pub').checked,
+      uthsa:     document.getElementById('cb-t-uthsa').checked,
+      milestone: document.getElementById('cb-t-milestone').checked,
+    };
+    var activeYears = {}, activeInsts = {};
+    document.querySelectorAll('#sb-years input').forEach(function(cb){
+      if(cb.checked) activeYears[cb.id.replace('cb-y-','')] = true;
+    });
+    document.querySelectorAll('#sb-insts input').forEach(function(cb){
+      if(cb.checked) activeInsts[cb.dataset.inst] = true;
+    });
+
+    allCards.forEach(function(card){
+      var show = types[card.dataset.type]
+              && activeYears[card.dataset.year]
+              && activeInsts[card.dataset.inst];
+      card.style.display = show ? '' : 'none';
+    });
+  };
+
+  window.setAllYears = function(val){
+    document.querySelectorAll('#sb-years input').forEach(function(cb){ cb.checked = val; });
+    applyFilters();
+  };
+  window.setAllInsts = function(val){
+    document.querySelectorAll('#sb-insts input').forEach(function(cb){ cb.checked = val; });
+    applyFilters();
+  };
+
+  /* ── Sidebar toggle ── */
+  window.toggleSidebar = function(){
+    document.getElementById('sidebar').classList.toggle('collapsed');
+  };
+
+  /* ── Drag-to-scroll ── */
   var scroll = document.getElementById('scroll');
   var isDown = false, sx, sl;
   scroll.addEventListener('mousedown', function(e){ isDown=true; sx=e.pageX-scroll.offsetLeft; sl=scroll.scrollLeft; });
@@ -756,16 +920,6 @@ display:inline-flex; align-items:center; gap:3px;
     if(!isDown) return; e.preventDefault();
     scroll.scrollLeft = sl-(e.pageX-scroll.offsetLeft-sx);
   });
-
-  /* filter */
-  var hidden = {};
-  window.toggleFilter = function(type){
-    hidden[type] = !hidden[type];
-    document.getElementById('f-'+type).classList.toggle('off',!!hidden[type]);
-    document.querySelectorAll('.ev-card[data-type="'+type+'"]').forEach(function(el){
-      el.style.display = hidden[type]?'none':'';
-    });
-  };
 })();
 </script>
 
