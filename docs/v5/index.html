@@ -713,6 +713,14 @@ background:rgba(0,0,0,.15);
       </div>
     </div>
 
+    <div class="sb-section">
+      <div class="sb-section-title">Display</div>
+      <div class="sb-row">
+        <input type="checkbox" id="cb-hide-empty">
+        <label for="cb-hide-empty">Hide empty columns</label>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -765,10 +773,12 @@ background:rgba(0,0,0,.15);
   document.querySelectorAll('#sidebar input[type=checkbox]').forEach(function(cb){
     cb.addEventListener('change', applyFilters);
   });
+  document.getElementById('cb-hide-empty').addEventListener('change', applyFilters);
 
   /* ── Build timeline ── */
   var canvas   = document.getElementById('canvas');
   var allCards = [];
+  var yearEls  = {};   /* yr → { grp, lbl } for show/hide empty-column logic */
 
   years.forEach(function(yr){
     var evs = byYear[yr].slice();
@@ -786,6 +796,7 @@ background:rgba(0,0,0,.15);
     var conn = document.createElement('div'); conn.className = 'conn '+dom;
     var stack = document.createElement('div'); stack.className = 'stack';
     grp.appendChild(dot); grp.appendChild(conn); grp.appendChild(stack);
+    yearEls[yr] = { grp: grp, lbl: lbl };
 
     evs.forEach(function(e){
       var col   = ACCENT[e.type] || '#888';
@@ -841,10 +852,22 @@ background:rgba(0,0,0,.15);
     document.querySelectorAll('#sb-years input').forEach(function(cb){
       if(cb.checked) activeYears[cb.dataset.val] = true;
     });
+    var hideEmpty = document.getElementById('cb-hide-empty').checked;
 
+    /* track which years still have at least one visible card */
+    var visibleInYear = {};
     allCards.forEach(function(card){
       var ok = types[card.dataset.type] && activeYears[card.dataset.year];
       card.style.display = ok ? '' : 'none';
+      if(ok) visibleInYear[card.dataset.year] = true;
+    });
+
+    /* show/hide entire year columns */
+    years.forEach(function(yr){
+      var hasVisible = !!visibleInYear[String(yr)];
+      var show = !hideEmpty || hasVisible;
+      yearEls[yr].grp.style.display = show ? '' : 'none';
+      yearEls[yr].lbl.style.display = show ? '' : 'none';
     });
   }
 
