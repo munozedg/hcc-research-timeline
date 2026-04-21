@@ -91,7 +91,7 @@ print(f'<script>var EVENTS={json.dumps(events, ensure_ascii=False)};</script>')
   #scroll::-webkit-scrollbar-thumb { background:#cbd5e1; border-radius:2px; }
 
   /* ── Canvas ── */
-  #canvas { position:relative; height:100%; min-width:4400px; }
+  #canvas { position:relative; height:100%; min-width:4400px; transition:min-width .3s ease; }
 
   /* ── Bar ── */
   #bar {
@@ -441,11 +441,10 @@ print(f'<script>var EVENTS={json.dumps(events, ensure_ascii=False)};</script>')
       if(ok) visibleInYear[card.dataset.year] = true;
     });
 
-    /* compute which years to show and reflow their x positions */
+    /* reflow: keep original per-column spacing, shrink canvas to fit visible years */
     var visYears = years.filter(function(yr){
       return !hideEmpty || !!visibleInYear[String(yr)];
     });
-    var newSpacing = visYears.length > 1 ? (CANVAS_W - PAD*2) / (visYears.length - 1) : 0;
 
     years.forEach(function(yr){
       var idx  = visYears.indexOf(yr);
@@ -453,11 +452,15 @@ print(f'<script>var EVENTS={json.dumps(events, ensure_ascii=False)};</script>')
       yearEls[yr].grp.style.display = show ? '' : 'none';
       yearEls[yr].lbl.style.display = show ? '' : 'none';
       if(show){
-        var newX = PAD + idx * newSpacing;
+        var newX = PAD + idx * spacing;
         yearEls[yr].grp.style.left = newX + 'px';
         yearEls[yr].lbl.style.left = newX + 'px';
       }
     });
+
+    /* shrink/expand canvas so no empty scroll space remains */
+    var newW = visYears.length > 1 ? PAD + (visYears.length - 1) * spacing + PAD : PAD * 2;
+    canvas.style.minWidth = Math.max(newW, 600) + 'px';
   }
 
   window.setAll = function(group, val){
