@@ -1,0 +1,344 @@
+---
+title: ""
+format:
+  html:
+    theme: none
+    embed-resources: true
+    page-layout: full
+---
+
+```{python}
+#| output: asis
+#| echo: false
+import pandas as pd, math, json
+
+df = pd.read_csv('events.csv')
+def safe(v):
+    return '' if (isinstance(v, float) and math.isnan(v)) else str(v).strip()
+
+events = []
+for _, r in df.iterrows():
+    events.append({
+        'year':     int(r['year']),
+        'cat':      safe(r['category']),
+        'sub':      safe(r['subcategory']),
+        'title':    safe(r['title']),
+        'authors':  safe(r['authors']),
+        'journal':  safe(r['journal']),
+        'vol':      safe(r['volume_issue_pages']),
+        'inst':     safe(r['institution']),
+        'pmid':     safe(r['pmid']),
+        'grant_id': safe(r['grant_id']),
+        'desc':     safe(r['description']),
+    })
+
+print(f'<script>var EVENTS={json.dumps(events, ensure_ascii=False)};</script>')
+```
+
+```{=html}
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    height: 100%; overflow: hidden;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: #f0f4f8; color: #1e293b;
+  }
+  #quarto-content, main.content, .page-full,
+  #quarto-document-content { padding:0!important; margin:0!important; height:100%!important; }
+
+  :root {
+    --hdr-h:    58px;
+    --bar-h:    50px;
+    --conn-gap: 14px;
+    --card-w:   240px;
+  }
+
+  #app { display:flex; flex-direction:column; height:100vh; }
+
+  /* ── Header ── */
+  #hdr {
+    flex-shrink:0; height:var(--hdr-h);
+    background:#fff; border-bottom:1px solid #e2e8f0;
+    box-shadow:0 1px 4px rgba(0,0,0,.07);
+    display:flex; align-items:center; padding:0 1.4rem; gap:.9rem;
+    z-index:50; position:relative; overflow-x:auto;
+  }
+  #hdr .title { font-size:.93rem; font-weight:700; color:#0f172a; white-space:nowrap; }
+  #hdr .sep   { width:1px; height:24px; background:#e2e8f0; flex-shrink:0; }
+  .chip {
+    display:flex; align-items:center; gap:5px;
+    padding:4px 10px; border-radius:20px; border:none;
+    font-size:.71rem; font-weight:600; cursor:pointer; color:#fff;
+    white-space:nowrap; flex-shrink:0; transition:opacity .15s;
+  }
+  .chip.off { opacity:.3; }
+  #hdr .hint { margin-left:auto; font-size:.67rem; color:#94a3b8; white-space:nowrap; padding-left:.5rem; }
+
+  /* ── Scroll area ── */
+  #scroll-wrap { flex:1; position:relative; overflow:hidden; background:#f0f4f8; }
+  #scroll {
+    position:absolute; inset:0;
+    overflow-x:auto; overflow-y:hidden; cursor:grab;
+    -webkit-overflow-scrolling:touch;
+  }
+  #scroll:active { cursor:grabbing; }
+  #scroll::-webkit-scrollbar { height:4px; }
+  #scroll::-webkit-scrollbar-thumb { background:#cbd5e1; border-radius:2px; }
+
+  /* ── Canvas ── */
+  #canvas { position:relative; height:100%; min-width:4400px; }
+
+  /* ── Bar ── */
+  #bar {
+    position:absolute; top:0; height:var(--bar-h); left:0; right:0;
+    background:linear-gradient(90deg,#f0f4f8 0%,#1e3a5f 10%,#1e3a5f 90%,#f0f4f8 100%);
+    border-bottom:2px solid #1e3a5f; z-index:20;
+  }
+
+  /* ── Year labels inside bar ── */
+  .yr {
+    position:absolute; top:0; height:var(--bar-h);
+    display:flex; align-items:center; justify-content:center;
+    font-weight:800; letter-spacing:-.02em; font-size:22px;
+    color:rgba(255,255,255,.8);
+    transform:translateX(-50%); pointer-events:none; z-index:25;
+  }
+
+  /* ── Per-year group ── */
+  .yr-group {
+    position:absolute; top:0; bottom:0;
+    width:var(--card-w); transform:translateX(-50%); z-index:10;
+  }
+
+  /* ── Dot ── */
+  .dot {
+    position:absolute; top:calc(var(--bar-h) - 7px);
+    width:14px; height:14px; border-radius:50%;
+    left:50%; transform:translateX(-50%);
+    z-index:30; border:2.5px solid #fff;
+    box-shadow:0 0 0 1px rgba(0,0,0,.12); transition:transform .2s;
+  }
+
+  /* ── Connector ── */
+  .conn {
+    position:absolute; width:2px;
+    left:50%; transform:translateX(-50%); z-index:8; opacity:.5;
+    top:var(--bar-h); height:var(--conn-gap);
+  }
+
+  /* ── Stack ── */
+  .stack {
+    position:absolute; left:0; right:0;
+    top:calc(var(--bar-h) + var(--conn-gap)); bottom:10px;
+    display:flex; flex-direction:column; gap:8px; overflow-y:auto;
+    /* hide scrollbar but allow scroll if cards overflow */
+    scrollbar-width:none;
+  }
+  .stack::-webkit-scrollbar { display:none; }
+
+  /* ── Full-detail cards ── */
+  .ev-card {
+    border-radius:10px; overflow:hidden; flex-shrink:0;
+    box-shadow:0 2px 8px rgba(0,0,0,.10);
+    transition:box-shadow .15s, transform .15s;
+    background:#fff;
+  }
+  .ev-card:hover { box-shadow:0 6px 20px rgba(0,0,0,.16); transform:translateY(-2px); }
+
+  /* colored accent bar at top */
+  .ev-card .c-accent { height:4px; width:100%; }
+  .ev-card.grant     .c-accent { background:linear-gradient(90deg,#1e3a8a,#2563eb); }
+  .ev-card.pub       .c-accent { background:linear-gradient(90deg,#991b1b,#dc2626); }
+  .ev-card.uthsa     .c-accent { background:linear-gradient(90deg,#5b21b6,#7c3aed); }
+  .ev-card.milestone .c-accent { background:linear-gradient(90deg,#065f46,#059669); }
+
+  .ev-card .c-body { padding:9px 11px 10px; }
+
+  /* type + year badge */
+  .ev-card .c-badge {
+    display:inline-flex; align-items:center; gap:4px;
+    font-size:8px; font-weight:700; letter-spacing:.07em;
+    text-transform:uppercase; border-radius:10px;
+    padding:2px 7px; margin-bottom:5px; color:#fff;
+  }
+  .ev-card.grant     .c-badge { background:#2563eb; }
+  .ev-card.pub       .c-badge { background:#dc2626; }
+  .ev-card.uthsa     .c-badge { background:#7c3aed; }
+  .ev-card.milestone .c-badge { background:#059669; }
+
+  /* title */
+  .ev-card .c-title {
+    font-size:11px; font-weight:700; line-height:1.35; color:#0f172a;
+    margin-bottom:5px;
+  }
+
+  /* one-liner citation */
+  .ev-card .c-cite {
+    font-size:9.5px; color:#64748b; line-height:1.4;
+    margin-bottom:5px;
+    display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2;
+    overflow:hidden;
+  }
+
+  /* description */
+  .ev-card .c-desc {
+    font-size:10px; color:#475569; line-height:1.5;
+    display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:3;
+    overflow:hidden; margin-bottom:6px;
+  }
+
+  /* links row */
+  .ev-card .c-links { display:flex; flex-wrap:wrap; gap:5px; }
+  .ev-card .c-link {
+    font-size:9px; font-weight:600; padding:2px 8px;
+    border-radius:10px; text-decoration:none; color:#fff;
+    display:inline-flex; align-items:center; gap:3px;
+  }
+
+  .dot.grant     { background:#2563eb; } .conn.grant     { background:#2563eb; }
+  .dot.pub       { background:#dc2626; } .conn.pub       { background:#dc2626; }
+  .dot.uthsa     { background:#7c3aed; } .conn.uthsa     { background:#7c3aed; }
+  .dot.milestone { background:#059669; } .conn.milestone { background:#059669; }
+</style>
+
+<div id="app">
+  <div id="hdr">
+    <div class="title">HCC Research &mdash; Grants &amp; Key Publications &mdash; Texas 2009&ndash;2025</div>
+    <div class="sep"></div>
+    <button class="chip" id="f-grant"     style="background:#1d4ed8" onclick="toggleFilter('grant')"    >&#127942; Grants</button>
+    <button class="chip" id="f-pub"       style="background:#dc2626" onclick="toggleFilter('pub')"      >&#128196; Publications</button>
+    <button class="chip" id="f-uthsa"     style="background:#7c3aed" onclick="toggleFilter('uthsa')"    >&#128300; UTHSA</button>
+    <button class="chip" id="f-milestone" style="background:#059669" onclick="toggleFilter('milestone')" >&#127919; Milestones</button>
+    <div class="hint">Drag to scroll</div>
+  </div>
+  <div id="scroll-wrap">
+    <div id="scroll">
+      <div id="canvas"><div id="bar"></div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var EMOJI      = { grant:'🏆', pub:'📄', uthsa:'🔬', milestone:'🎯' };
+  var ACCENT     = { grant:'#2563eb', pub:'#dc2626', uthsa:'#7c3aed', milestone:'#059669' };
+  var TYPE_ORDER = { uthsa:0, milestone:1, grant:2, pub:3 };
+
+  function typeOf(cat, sub) {
+    if (cat === 'Grant')       return 'grant';
+    if (cat === 'Milestone')   return 'milestone';
+    if (sub === 'Ramirez Lab') return 'uthsa';
+    return 'pub';
+  }
+
+  var byYear = {};
+  EVENTS.forEach(function(e) {
+    e.type = typeOf(e.cat, e.sub);
+    (byYear[e.year] = byYear[e.year] || []).push(e);
+  });
+  var years = Object.keys(byYear).map(Number).sort(function(a,b){return a-b;});
+
+  /* evenly space active years only */
+  var CANVAS_W = 4400, PAD = 220;
+  var spacing  = years.length > 1 ? (CANVAS_W - PAD*2) / (years.length - 1) : 0;
+  function xFor(yr) { return PAD + years.indexOf(yr) * spacing; }
+
+  function dominantType(evs) {
+    var cnt = {};
+    evs.forEach(function(e){ cnt[e.type]=(cnt[e.type]||0)+1; });
+    return Object.keys(cnt).sort(function(a,b){return cnt[b]-cnt[a];})[0];
+  }
+
+  var canvas = document.getElementById('canvas');
+
+  years.forEach(function(yr){
+    var evs = byYear[yr].slice();
+    evs.sort(function(a,b){ return (TYPE_ORDER[a.type]||99)-(TYPE_ORDER[b.type]||99); });
+
+    var dom = dominantType(evs);
+    var x   = xFor(yr);
+
+    /* year label */
+    var lbl = document.createElement('div');
+    lbl.className = 'yr'; lbl.style.left = x+'px'; lbl.textContent = yr;
+    canvas.appendChild(lbl);
+
+    var grp = document.createElement('div');
+    grp.className = 'yr-group'; grp.style.left = x+'px';
+
+    var dot = document.createElement('div'); dot.className = 'dot '+dom;
+    grp.appendChild(dot);
+    var conn = document.createElement('div'); conn.className = 'conn '+dom;
+    grp.appendChild(conn);
+
+    var stack = document.createElement('div'); stack.className = 'stack';
+    grp.appendChild(stack);
+
+    evs.forEach(function(e){
+      var col   = ACCENT[e.type]||'#888';
+      var label = e.type === 'uthsa' ? 'UTHSA' : e.cat;
+
+      /* citation line */
+      var cite = [];
+      if(e.authors) cite.push(e.authors);
+      if(e.journal) cite.push(e.journal+(e.vol?' '+e.vol:''));
+      if(e.inst)    cite.push(e.inst);
+      if(e.pmid)    cite.push('PMID '+e.pmid);
+
+      /* links */
+      var links = '';
+      if(e.pmid) {
+        links += '<a class="c-link" href="https://pubmed.ncbi.nlm.nih.gov/'+e.pmid+'/"'
+               + ' target="_blank" rel="noopener" style="background:'+col+'">'
+               + '&#128196; PubMed</a>';
+      }
+      var cpritIds = ['RP150587','RP190641','RP200537','RP200554','RP220119','PP220022'];
+      if(e.grant_id && cpritIds.indexOf(e.grant_id) >= 0) {
+        links += '<a class="c-link" href="https://www.cprit.state.tx.us/grants-funded/?search='
+               + encodeURIComponent(e.grant_id)
+               + '" target="_blank" rel="noopener" style="background:'+col+'">'
+               + '&#127942; CPRIT</a>';
+      }
+
+      var card = document.createElement('div');
+      card.className    = 'ev-card '+e.type;
+      card.dataset.type = e.type;
+      card.innerHTML =
+        '<div class="c-accent"></div>'+
+        '<div class="c-body">'+
+          '<div class="c-badge">'+EMOJI[e.type]+' '+label+' &middot; '+e.year+'</div>'+
+          '<div class="c-title">'+e.title+'</div>'+
+          (cite.length ? '<div class="c-cite">'+cite.join(' &middot; ')+'</div>' : '')+
+          (e.desc      ? '<div class="c-desc">'+e.desc+'</div>' : '')+
+          (links       ? '<div class="c-links">'+links+'</div>' : '')+
+        '</div>';
+
+      stack.appendChild(card);
+    });
+
+    canvas.appendChild(grp);
+  });
+
+  /* drag-to-scroll */
+  var scroll = document.getElementById('scroll');
+  var isDown = false, sx, sl;
+  scroll.addEventListener('mousedown', function(e){ isDown=true; sx=e.pageX-scroll.offsetLeft; sl=scroll.scrollLeft; });
+  scroll.addEventListener('mouseleave', function(){ isDown=false; });
+  scroll.addEventListener('mouseup',   function(){ isDown=false; });
+  scroll.addEventListener('mousemove', function(e){
+    if(!isDown) return; e.preventDefault();
+    scroll.scrollLeft = sl-(e.pageX-scroll.offsetLeft-sx);
+  });
+
+  /* filter */
+  var hidden = {};
+  window.toggleFilter = function(type){
+    hidden[type] = !hidden[type];
+    document.getElementById('f-'+type).classList.toggle('off',!!hidden[type]);
+    document.querySelectorAll('.ev-card[data-type="'+type+'"]').forEach(function(el){
+      el.style.display = hidden[type]?'none':'';
+    });
+  };
+})();
+</script>
+```
