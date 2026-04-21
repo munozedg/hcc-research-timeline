@@ -532,7 +532,7 @@ overflow-x:auto; overflow-y:hidden; cursor:grab;
 #scroll::-webkit-scrollbar { height:4px; }
 #scroll::-webkit-scrollbar-thumb { background:#cbd5e1; border-radius:2px; }
 
-#canvas { position:relative; height:100%; min-width:4400px; transition:min-width .3s ease; }
+#canvas { position:relative; height:100%; transition:min-width .3s ease; }
 
 #bar {
 position:absolute; top:0; height:var(--bar-h); left:0; right:0;
@@ -748,9 +748,9 @@ background:rgba(0,0,0,.15);
   });
   var years = Object.keys(byYear).map(Number).sort(function(a,b){return a-b;});
 
-  /* ── X: active years evenly spaced ── */
-  var CANVAS_W = 4400, PAD = 220;
-  var spacing  = years.length > 1 ? (CANVAS_W - PAD*2) / (years.length - 1) : 0;
+  /* ── X: fixed column spacing, canvas grows with column count ── */
+  var PAD = 160, COL_W = 280;
+  var spacing = COL_W;
   function xFor(yr){ return PAD + years.indexOf(yr) * spacing; }
 
   function dominantType(evs) {
@@ -841,6 +841,9 @@ background:rgba(0,0,0,.15);
 
     canvas.appendChild(grp);
   });
+
+  /* set initial canvas width */
+  canvas.style.minWidth = (PAD + (years.length - 1) * spacing + PAD) + 'px';
 
   /* ── Filter ── */
   function applyFilters(){
