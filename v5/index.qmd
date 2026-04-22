@@ -159,12 +159,14 @@ print(f'<script>var EVENTS={json.dumps(events, ensure_ascii=False)};</script>')
   .ev-card.pub       { background:rgba(220,38,38,.10);  border-color:rgba(220,38,38,.25); }
   .ev-card.uthsa     { background:rgba(124,58,237,.10); border-color:rgba(124,58,237,.25); }
   .ev-card.milestone { background:rgba(5,150,105,.10);  border-color:rgba(5,150,105,.25); }
+  .ev-card.symposium { background:rgba(217,119,6,.10);  border-color:rgba(217,119,6,.25); }
 
   .ev-card .c-accent { height:4px; }
   .ev-card.grant     .c-accent { background:linear-gradient(90deg,#1e3a8a,#2563eb); }
   .ev-card.pub       .c-accent { background:linear-gradient(90deg,#991b1b,#dc2626); }
   .ev-card.uthsa     .c-accent { background:linear-gradient(90deg,#5b21b6,#7c3aed); }
   .ev-card.milestone .c-accent { background:linear-gradient(90deg,#065f46,#059669); }
+  .ev-card.symposium .c-accent { background:linear-gradient(90deg,#92400e,#d97706); }
 
   .ev-card .c-body  { padding:8px 10px 10px; }
   .ev-card .c-badge {
@@ -176,6 +178,7 @@ print(f'<script>var EVENTS={json.dumps(events, ensure_ascii=False)};</script>')
   .ev-card.pub       .c-badge { background:#dc2626; }
   .ev-card.uthsa     .c-badge { background:#7c3aed; }
   .ev-card.milestone .c-badge { background:#059669; }
+  .ev-card.symposium .c-badge { background:#d97706; }
 
   .ev-card .c-title {
     font-size:var(--fs-title); font-weight:700; line-height:1.35; color:#0f172a; margin-bottom:4px;
@@ -198,6 +201,7 @@ print(f'<script>var EVENTS={json.dumps(events, ensure_ascii=False)};</script>')
   .dot.pub       { background:#dc2626; } .conn.pub       { background:#dc2626; }
   .dot.uthsa     { background:#7c3aed; } .conn.uthsa     { background:#7c3aed; }
   .dot.milestone { background:#059669; } .conn.milestone { background:#059669; }
+  .dot.symposium { background:#d97706; } .conn.symposium { background:#d97706; }
 
   /* ── Sidebar — fixed overlay, doesn't touch layout ── */
   #sidebar {
@@ -320,7 +324,8 @@ print(f'<script>var EVENTS={json.dumps(events, ensure_ascii=False)};</script>')
       <div class="sb-row"><input type="checkbox" id="cb-t-grant"     checked><label for="cb-t-grant">🏆 Grants</label></div>
       <div class="sb-row"><input type="checkbox" id="cb-t-pub"       checked><label for="cb-t-pub">📄 Publications</label></div>
       <div class="sb-row"><input type="checkbox" id="cb-t-uthsa"     checked><label for="cb-t-uthsa">🔬 UTHSA</label></div>
-      <div class="sb-row"><input type="checkbox" id="cb-t-milestone" checked><label for="cb-t-milestone">🎯 Milestones</label></div>
+      <div class="sb-row"><input type="checkbox" id="cb-t-milestone"  checked><label for="cb-t-milestone">🎯 Milestones</label></div>
+      <div class="sb-row"><input type="checkbox" id="cb-t-symposium" checked><label for="cb-t-symposium">🎤 Symposia</label></div>
     </div>
 
     <div class="sb-section">
@@ -371,14 +376,15 @@ print(f'<script>var EVENTS={json.dumps(events, ensure_ascii=False)};</script>')
 
 <script>
 (function () {
-  var EMOJI      = { grant:'🏆', pub:'📄', uthsa:'🔬', milestone:'🎯' };
-  var ACCENT     = { grant:'#2563eb', pub:'#dc2626', uthsa:'#7c3aed', milestone:'#059669' };
-  var TYPE_ORDER = { uthsa:0, milestone:1, grant:2, pub:3 };
+  var EMOJI      = { grant:'🏆', pub:'📄', uthsa:'🔬', milestone:'🎯', symposium:'🎤' };
+  var ACCENT     = { grant:'#2563eb', pub:'#dc2626', uthsa:'#7c3aed', milestone:'#059669', symposium:'#d97706' };
+  var TYPE_ORDER = { uthsa:0, milestone:1, symposium:2, grant:3, pub:4 };
   var CPRIT_IDS  = ['RP150587','RP190641','RP200537','RP200554','RP220119','PP220022'];
 
   function typeOf(cat, sub) {
-    if (cat === 'Grant')       return 'grant';
-    if (cat === 'Milestone')   return 'milestone';
+    if (cat === 'Grant')      return 'grant';
+    if (cat === 'Milestone')  return 'milestone';
+    if (cat === 'Symposium')  return 'symposium';
     if (sub === 'Ramirez Lab') return 'uthsa';
     return 'pub';
   }
@@ -404,7 +410,7 @@ print(f'<script>var EVENTS={json.dumps(events, ensure_ascii=False)};</script>')
   }
 
   /* type filter listeners */
-  ['cb-t-grant','cb-t-pub','cb-t-uthsa','cb-t-milestone'].forEach(function(id){
+  ['cb-t-grant','cb-t-pub','cb-t-uthsa','cb-t-milestone','cb-t-symposium'].forEach(function(id){
     document.getElementById(id).addEventListener('change', applyFilters);
   });
   document.getElementById('cb-hide-empty').addEventListener('change', applyFilters);
@@ -544,6 +550,7 @@ print(f'<script>var EVENTS={json.dumps(events, ensure_ascii=False)};</script>')
       pub:       document.getElementById('cb-t-pub').checked,
       uthsa:     document.getElementById('cb-t-uthsa').checked,
       milestone: document.getElementById('cb-t-milestone').checked,
+      symposium: document.getElementById('cb-t-symposium').checked,
     };
     var hideEmpty = document.getElementById('cb-hide-empty').checked;
 
