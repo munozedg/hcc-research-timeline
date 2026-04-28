@@ -1,0 +1,29 @@
+Total slides: 2
+
+=== SLIDE 1 ===
+  Total shapes: 8
+  --- Shape [3] 'Picture 2' (has_text=False) ---
+  --- Shape [6] 'TextBox 5' (has_text=True) ---
+    para[0]: HCC Research in Texas – Evidence to Policy, 2012-2018
+  --- Shape [18] 'TextBox 17' (has_text=True) ---
+    para[0]: First study documenting South Texas Latinos have the nation's highest HCC rates (10.6/100K). Identified obesity and diabetes as key modifiable risk factors.
+  --- Shape [20] 'TextBox 19' (has_text=True) ---
+    para[0]: Confirmed TX Latino male/female HCC rates 3.1x and 4.0x higher than non-Hispanic Whites.
+  --- Shape [22] 'TextBox 21' (has_text=True) ---
+    para[0]: CPRIT Multi-Investigator Award establishing the THCCC, now the largest ongoing prospective cohort of patients with cirrhosis in the nation, across 6 Texas centers.
+  --- Shape [24] 'TextBox 23' (has_text=True) ---
+    para[0]: $300K/year for up to 5 years from the Clayton Foundation for Research. Develops an HCC biorepository and new treatment strategies; focused on the disproportionately high HCC burden in South Texas Hispanics.
+  --- Shape [26] 'TextBox 25' (has_text=True) ---
+    para[0]: First U.S. study linking aflatoxin exposure to HCC in a Latino-majority population. Cases had 6x higher odds of detectable aflatoxins in blood.
+  --- Shape [28] 'TextBox 27' (has_text=True) ---
+    para[0]: 32 studies: AFP + ultrasound improves HCC sensitivity to 63% vs 45% for ultrasound alone. Formed the basis for updated AASLD surveillance guidelines.
+
+=== SLIDE 2 ===
+  Total shapes: 4
+  --- Shape [3] 'Picture 2' (has_text=False) ---
+  --- Shape [4] 'TextBox 3' (has_text=True) ---
+    para[0]: HCC Research in Texas – Sustained Impact, 2019-2025
+  --- Shape [6] 'TextBox 5' (has_text=True) ---
+    para[0]: CPRIT disclosed more than $46M invested in HCC academic research and prevention since 2010, reflecting the policy impact of Texas researchers documenting the state's outsized liver cancer burden. Announced alongside the Liver Cancer Collaborative Action Program (CAP) launching the TeCH Center.
+  --- Shape [8] 'TextBox 7' (has_text=True) ---
+    para[0]: CPRIT surpasses $4B total (~$59-77M to liver cancer). UT Southwestern receives the first Texas NCI SPORE for Liver Cancer with Singal, Yopp et al.
