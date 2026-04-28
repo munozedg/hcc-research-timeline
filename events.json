@@ -1,0 +1,330 @@
+[
+  {
+    "year": 2009,
+    "type": "grant",
+    "emoji": "🏆",
+    "title": "RP_INITIAL – CPRIT Established - First Grants Awarded ($3B)",
+    "inst": "Statewide, Texas",
+    "body": "Voters approved Prop 15 authorizing $3B for cancer research. BCM and MD Anderson liver researchers were early recipients, launching Texas's HCC infrastructure."
+  },
+  {
+    "year": 2011,
+    "type": "pub",
+    "emoji": "📄",
+    "title": "El-Serag HB “Hepatocellular Carcinoma”",
+    "inst": "Baylor College of Medicine / Houston VA",
+    "body": "Landmark global HCC review documenting the rapid rise of HCV-related HCC as the fastest-growing cause of US cancer deaths.",
+    "journal": "N Engl J Med 2011;365:1118-1127",
+    "pmid": "21992124"
+  },
+  {
+    "year": 2012,
+    "type": "ramirez",
+    "emoji": "🔬",
+    "title": "Ramirez AG et al. “HCC Incidence & Risk Factors in Texas Latinos”",
+    "inst": "UTHSCSA / IHPR San Antonio",
+    "body": "First study documenting South Texas Latinos have the nation's highest HCC rates (10.6/100K). Identified obesity and diabetes as key modifiable risk factors.",
+    "journal": "PLoS One 2012;7(4):e35573",
+    "pmid": "22530052"
+  },
+  {
+    "year": 2012,
+    "type": "pub",
+    "emoji": "📄",
+    "title": "El-Serag HB “Epidemiology of Viral Hepatitis and HCC”",
+    "inst": "Baylor College of Medicine",
+    "body": "Quantified population-attributable fraction of HBV/HCV in HCC; foundational for Texas public health interventions.",
+    "journal": "Gastroenterology 2012;142(6):1264-1273",
+    "pmid": "22537432"
+  },
+  {
+    "year": 2014,
+    "type": "ramirez",
+    "emoji": "🔬",
+    "title": "Ramirez AG et al. “HCC in Texas Latinos 1995-2010: An Update”",
+    "inst": "UTHSCSA / IHPR San Antonio",
+    "body": "Confirmed TX Latino male/female HCC rates 3.1x and 4.0x higher than non-Hispanic Whites.",
+    "journal": "PLoS One 2014;9(6):e99365",
+    "pmid": "24915432"
+  },
+  {
+    "year": 2015,
+    "type": "grant",
+    "emoji": "🏆",
+    "title": "RP150587 – Texas HCC Consortium (THCCC) — CPRIT Launch ($6.0M)",
+    "inst": "BCM / VA / MD Anderson / UTSW / Parkland / UT San Antonio",
+    "body": "CPRIT Multi-Investigator Award (RP150587) establishing the THCCC — now the largest ongoing prospective cohort of patients with cirrhosis in the nation, across 6 Texas centers."
+  },
+  {
+    "year": 2016,
+    "type": "grant",
+    "emoji": "🏆",
+    "title": "CLAYTON_2016 – Clayton Foundation — HCC Biorepository & Treatment Research ($1.5M)",
+    "inst": "UT Health San Antonio (UTHSCSA)",
+    "body": "$300K/year for up to 5 years from the Clayton Foundation for Research. Develops an HCC biorepository and new treatment strategies; focused on the disproportionately high HCC burden in South Texas Hispanics."
+  },
+  {
+    "year": 2017,
+    "type": "ramirez",
+    "emoji": "🔬",
+    "title": "Ramirez AG et al. “Lifestyle & Clinical Correlates of HCC - Aflatoxin Study”",
+    "inst": "UTHSCSA / IHPR San Antonio",
+    "body": "First U.S. study linking aflatoxin exposure to HCC in a Latino-majority population. Cases had 6x higher odds of detectable aflatoxins in blood.",
+    "journal": "Clin Gastroenterol Hepatol 2017;16(3):373-380",
+    "pmid": "28344065"
+  },
+  {
+    "year": 2018,
+    "type": "pub",
+    "emoji": "📄",
+    "title": "Tzartzeva K et al. “AFP + Ultrasound for HCC Detection: Meta-Analysis”",
+    "inst": "UT Southwestern Dallas",
+    "body": "32 studies: AFP + ultrasound improves HCC sensitivity to 63% vs 45% for ultrasound alone. Formed basis for updated AASLD surveillance guidelines.",
+    "journal": "Gastroenterology 2018;154(6):1706-1718",
+    "pmid": "29425931"
+  },
+  {
+    "year": 2018,
+    "type": "grant",
+    "emoji": "🏆",
+    "title": "THCCC Cohort - 2000+ Patients Enrolled",
+    "inst": "BCM / UTSW / MD Anderson / UT San Antonio",
+    "body": "Semi-annual ultrasound, AFP, labs, and biospecimens collected across 5 Texas sites. One of the largest prospective HCC biomarker repositories in the US."
+  },
+  {
+    "year": 2019,
+    "type": "pub",
+    "emoji": "📄",
+    "title": "Kulik L et al. “Epidemiology and Management of HCC”",
+    "inst": "Northwestern / Baylor College of Medicine",
+    "body": "Comprehensive review of HCC risk stratification, surveillance, staging, and treatment. Addressed NAFLD/NASH-HCC epidemic and rising rates in Hispanic populations.",
+    "journal": "Gastroenterology 2019;156:477-491",
+    "pmid": "30367835"
+  },
+  {
+    "year": 2019,
+    "type": "grant",
+    "emoji": "🏆",
+    "title": "TeCH_CAP_R1 – TeCH Center CAP Round 1 ($18.0M)",
+    "inst": "BCM / MD Anderson Texas",
+    "body": "CPRIT Collaborative Action Program (CAP) award — up to $18M — establishing the Texas Collaborative Center for HCC (TeCH) as the coordinating hub for statewide HCC research."
+  },
+  {
+    "year": 2019,
+    "type": "grant",
+    "emoji": "🏆",
+    "title": "RP190641 – HCC Biomarker Validation - El-Serag ($3.0M)",
+    "inst": "BCM Houston",
+    "body": "Biomarker validation grant for HCC early detection research within the THCCC cohort."
+  },
+  {
+    "year": 2019,
+    "type": "grant",
+    "emoji": "🏆",
+    "title": "MDA_HCC_2019 – Patient-Centered Liver Cancer Prevention - Hwang ($2.5M)",
+    "inst": "MD Anderson Cancer Center",
+    "body": "Patient-centered liver cancer prevention initiative targeting at-risk populations at MD Anderson."
+  },
+  {
+    "year": 2019,
+    "type": "pub",
+    "emoji": "📄",
+    "title": "Feng Z et al. “Texas HCC Consortium (THCCC) Cohort Study Design”",
+    "inst": "BCM / UTSW / MD Anderson / UT San Antonio",
+    "body": "Describes the THCCC 5000-patient prospective cohort design and multi-center data collection protocol.",
+    "journal": "Am J Gastroenterol 2019;114(3):530-532",
+    "pmid": "30699099"
+  },
+  {
+    "year": 2019,
+    "type": "ramirez",
+    "emoji": "🔬",
+    "title": "Wang CP et al. “Metformin Modifies HCC Disparity in Diabetic Men”",
+    "inst": "UTHSCSA San Antonio (VA Study)",
+    "body": "In 84433 men with T2D, metformin was associated with reduced HCC risk with stronger effects in Hispanic and African American men.",
+    "journal": "Cancer Med 2019;8(6):3206-3215",
+    "pmid": "30993905"
+  },
+  {
+    "year": 2020,
+    "type": "grant",
+    "emoji": "🏆",
+    "title": "RP200537 – Cirrhosis Cohort Biomarker Surveillance - Singal ($2.5M)",
+    "inst": "UT Southwestern Dallas",
+    "body": "3000-patient cirrhosis cohort developing biomarker-based HCC surveillance algorithms."
+  },
+  {
+    "year": 2020,
+    "type": "grant",
+    "emoji": "🏆",
+    "title": "RP200554 – Genetic Epidemiology of HCC in Hispanics - Thrift ($2.5M)",
+    "inst": "BCM Houston",
+    "body": "Genetic epidemiology of HCC in Hispanics; focused on PNPLA3 and TM6SF2 variants."
+  },
+  {
+    "year": 2020,
+    "type": "pub",
+    "emoji": "📄",
+    "title": "Singal AG et al. “Epidemiology & Surveillance for HCC: New Trends”",
+    "inst": "UT Southwestern Dallas",
+    "body": "Documents shift from viral hepatitis to NAFLD/NASH as dominant HCC etiology; projects 122% increase in NAFLD-HCC by 2030.",
+    "journal": "J Hepatol 2020;72(2):250-261",
+    "pmid": "31954490"
+  },
+  {
+    "year": 2020,
+    "type": "pub",
+    "emoji": "📄",
+    "title": "Loomba R et al. “AGA Clinical Practice Update: HCC Screening & Surveillance in NAFLD”",
+    "inst": "UCSD / Yale / Univ of Arizona / BCM",
+    "body": "Joint AGA expert review on HCC screening in the rapidly growing NAFLD population. Addresses surveillance intervals and novel biomarkers.",
+    "journal": "Gastroenterology 2020;158(6):1822-1830",
+    "pmid": "32006545"
+  },
+  {
+    "year": 2022,
+    "type": "grant",
+    "emoji": "🏆",
+    "title": "PP220022 – Community HCC Prevention at Safety-Net Clinics ($2.0M)",
+    "inst": "UT Health Texas",
+    "body": "Community-based HCC prevention initiative at safety-net clinics targeting underserved Texas populations."
+  },
+  {
+    "year": 2022,
+    "type": "grant",
+    "emoji": "🏆",
+    "title": "RP220119 – GALAD + AFP-L3 Biomarker Validation - El-Serag ($2.0M)",
+    "inst": "BCM Houston",
+    "body": "Validation of GALAD score and AFP-L3 as early detection biomarkers within the THCCC cohort."
+  },
+  {
+    "year": 2022,
+    "type": "grant",
+    "emoji": "🏆",
+    "title": "TeCH_CAP_R2 – TeCH Center CAP Round 2 ($18.0M)",
+    "inst": "BCM / MD Anderson / UTSW / UTHealth",
+    "body": "TeCH Center renewal expanding NASH-HCC research and health equity initiatives across Texas institutions."
+  },
+  {
+    "year": 2022,
+    "type": "grant",
+    "emoji": "🏆",
+    "title": "P01CA263025 – NCI P01 — THCCC Five-Year Research Program ($5.5M)",
+    "inst": "BCM / VA / MD Anderson / UTSW / Parkland / UT San Antonio",
+    "body": "NCI P01 CA263025 ($5.5M+, 5 years) funding five THCCC research projects: NAFLD risk factors, metabolic syndrome, circadian disruption, biomarker development, and randomized prevention trials."
+  },
+  {
+    "year": 2022,
+    "type": "pub",
+    "emoji": "📄",
+    "title": "Singal AG et al. “HCC Surveillance Improves Outcomes: Meta-Analysis”",
+    "inst": "UT Southwestern Dallas",
+    "body": "59 studies / 145396 patients: Surveillance yields 1.86x early-stage detection and 33% mortality reduction (HR 0.67).",
+    "journal": "J Hepatol 2022;77(1):128-139",
+    "pmid": "35139400"
+  },
+  {
+    "year": 2022,
+    "type": "pub",
+    "emoji": "📄",
+    "title": "Harrison AC et al. “The Texas Collaborative Center for HCC (TeCH)”",
+    "inst": "BCM / MD Anderson / UTSW / UTHealth",
+    "body": "Describes TeCH's multi-institutional research, education, and advocacy framework targeting reduction of Texas liver cancer mortality by 2030.",
+    "journal": "Front Oncol",
+    "pmid": "36059708"
+  },
+  {
+    "year": 2023,
+    "type": "grant",
+    "emoji": "🏆",
+    "title": "TCH_HCC_2023 – Predictive Biomarkers for Pediatric HCC - Lopez-Terrada ($6.0M)",
+    "inst": "Texas Children's Hospital",
+    "body": "Predictive biomarkers for pediatric HCC and hepatoblastoma at Texas Children's Hospital."
+  },
+  {
+    "year": 2023,
+    "type": "grant",
+    "emoji": "🏆",
+    "title": "UTSW_HCC_2023 – Molecular Mechanisms of HCC Progression - Zhong ($1.1M)",
+    "inst": "UT Southwestern Dallas",
+    "body": "Investigation of molecular mechanisms driving HCC progression and therapeutic targets."
+  },
+  {
+    "year": 2023,
+    "type": "pub",
+    "emoji": "📄",
+    "title": "El-Serag HB et al. “Prevention of HCC - White Paper (TeCH Consortium)”",
+    "inst": "TeCH Multi-Institution Consortium",
+    "body": "Consensus recommendations covering HBV vaccination, HCV cure, metabolic intervention, and health equity strategies for Hispanic Texas communities.",
+    "journal": "Clin Gastroenterol Hepatol 2023;21(9):2183-2192",
+    "pmid": "37086825"
+  },
+  {
+    "year": 2025,
+    "type": "pub",
+    "emoji": "📄",
+    "title": "El-Serag HB et al. “HES v2.0 Outperforms GALAD for HCC Detection”",
+    "inst": "Baylor College of Medicine / THCCC Network",
+    "body": "Phase 3 biomarker evaluation: HES v2.0 (AFP + AFP-L3 + DCP + clinical variables) demonstrated superior sensitivity and specificity over GALAD for early HCC detection.",
+    "journal": "Hepatology 2025;81(2):465-475",
+    "pmid": "38899967"
+  },
+  {
+    "year": 2025,
+    "type": "grant",
+    "emoji": "🏆",
+    "title": "CPRIT Surpasses $4B + NCI SPORE Designation",
+    "inst": "UTSW / BCM / MD Anderson Texas",
+    "body": "CPRIT surpasses $4B total (~$59-77M to liver cancer). UT Southwestern receives the first Texas NCI SPORE for Liver Cancer with Singal, Yopp et al."
+  },
+  {
+    "year": 2019,
+    "type": "grant",
+    "emoji": "🏆",
+    "title": "CPRIT Discloses $46M+ Cumulative HCC Investment",
+    "inst": "CPRIT / Statewide Texas",
+    "body": "CPRIT disclosed more than $46M invested in HCC academic research and prevention since 2010 — reflecting the policy impact of Texas researchers documenting the state's outsized liver cancer burden. Announced alongside the Liver Cancer Collaborative Action Program (CAP) launching the TeCH Center."
+  },
+  {
+    "year": 2021,
+    "type": "salcs",
+    "emoji": "📅",
+    "title": "San Antonio Liver Cancer Symposium — Inaugural Virtual Edition",
+    "inst": "Mays Cancer Center, UT Health San Antonio",
+    "body": "First SALCS, held virtually October 1–2, 2021. Modeled after the San Antonio Breast Cancer Symposium. 50+ speakers from MD Anderson, Mayo Clinic, NCI, and Northwestern; covered HCC epidemiology, pre-clinical, translational, survivorship, and pediatric HCC."
+  },
+  {
+    "year": 2022,
+    "type": "salcs",
+    "emoji": "📅",
+    "title": "San Antonio Liver Cancer Symposium 2022",
+    "inst": "Mays Cancer Center, UT Health San Antonio / Downtown San Antonio",
+    "body": "Second SALCS, October 15–16, 2022, downtown San Antonio. Sessions: community liver cancer programs, personalized approaches for viral/non-viral HCC, current therapeutic landscape, and locoregional treatments (surgery, IR, transplant). Led to a special series in Annals of Palliative Medicine.",
+    "journal": "Ann Palliat Med 2022;13(4):747-748",
+    "pmid": "38735687"
+  },
+  {
+    "year": 2023,
+    "type": "salcs",
+    "emoji": "📅",
+    "title": "San Antonio Liver Cancer Symposium 2023",
+    "inst": "Mays Cancer Center, UT Health San Antonio / Hilton San Antonio Hill Country",
+    "body": "Third SALCS, October 20–21, 2023, Hilton San Antonio Hill Country. Focus on HCC disparities, NAFLD-HCC, and community programs for at-risk Hispanic populations in South Texas."
+  },
+  {
+    "year": 2024,
+    "type": "salcs",
+    "emoji": "📅",
+    "title": "San Antonio Liver Cancer Symposium 2024",
+    "inst": "Mays Cancer Center, UT Health San Antonio / Hilton Palacio del Rio",
+    "body": "Fourth SALCS, October 11–12, 2024, Hilton Palacio del Rio, San Antonio. Sessions: pediatric liver cancer, future of HCC screening and surveillance, advances in surgery, transplantation, and interventional radiology, and caregiver support. UTHSA presentation: Amelie G. Ramirez (IHPR, UT Health San Antonio): \"Hepatocellular Carcinoma in South Texas: Epidemiology and Risk Factors\"."
+  },
+  {
+    "year": 2025,
+    "type": "salcs",
+    "emoji": "📅",
+    "title": "San Antonio Liver Cancer Symposium 2025",
+    "inst": "Mays Cancer Center, UT Health San Antonio / Westin San Antonio North",
+    "body": "Fifth SALCS, October 9–11, 2025, Westin San Antonio North. Annual gathering of doctors, researchers, medical students, and patient advocates advancing liver cancer care in Texas. UTHSA presentation: Edgar Muñoz (UT Health San Antonio): \"Texas at the Epicenter: Updated Epidemiology of Liver Cancer's Multi-Factor Dynamics\"."
+  }
+]

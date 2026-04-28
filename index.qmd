@@ -1,8 +1,9 @@
----
+﻿---
 title: "Liver Cancer (HCC) Research in Texas"
 subtitle: "CPRIT Grants & Key Publications — Combined Horizontal Timeline 2009–2025"
 author: "Texas HCC Research Network"
 date: today
+jupyter: python3
 format:
   html:
     theme: flatly
@@ -51,6 +52,7 @@ format:
   <span>&#127942; <strong>CPRIT Grant</strong> <em style="color:#1a5276">(navy)</em></span>
   <span>&#128196; <strong>TX Publication</strong> BCM / UTSW / MDA <em style="color:#c0392b">(crimson)</em></span>
   <span>&#128300; <strong>UTHSCSA / Ramirez Lab</strong> <em style="color:#7d3c98">(purple)</em></span>
+  <span>&#128197; <strong>SALCS Symposium</strong> <em style="color:#148f77">(teal)</em></span>
 </div>
 ```
 
@@ -203,6 +205,10 @@ format:
   .tl-label.grant  { color: #1a5276; }
   .tl-label.pub    { color: #c0392b; }
   .tl-label.ramirez{ color: #7d3c98; }
+  .tl-card.salcs   { border-left: 4px solid #148f77; }
+  .tl-dot.salcs    { background: #148f77; }
+  .tl-conn.salcs   { background: #148f77; }
+  .tl-label.salcs  { color: #148f77; }
 </style>
 
 <button class="tl-arrow tl-left"  onclick="tlScroll(-300)">&#8592;</button>
@@ -215,131 +221,86 @@ format:
 </div>
 ```
 
+```{python}
+#| echo: false
+#| output: asis
+import csv, json
+
+# ── Read the canonical data source ──────────────────────────────────────────
+rows = []
+with open('v5/events.csv', newline='', encoding='utf-8-sig') as f:
+    rows = list(csv.DictReader(f))
+
+# ── Map CSV category/subcategory → JS type ───────────────────────────────────
+def get_type(row):
+    cat, sub = row['category'], row['subcategory']
+    if cat == 'Symposium':             return 'salcs'
+    if cat in ('Grant', 'Milestone'):  return 'grant'
+    if 'Ramirez' in sub:               return 'ramirez'
+    return 'pub'
+
+EMOJI = {
+    'grant':   '\U0001f3c6',   # 🏆
+    'pub':     '\U0001f4c4',   # 📄
+    'ramirez': '\U0001f52c',   # 🔬
+    'salcs':   '\U0001f4c5',   # 📅
+}
+
+def fmt_amt(s):
+    try:
+        n = int(float(s))
+        if n >= 1_000_000_000: return f'${n // 1_000_000_000}B'
+        if n >= 1_000_000:     return f'${n / 1_000_000:.1f}M'
+        return f'${n:,}'
+    except:
+        return ''
+
+# ── Build JS-compatible event objects ─────────────────────────────────────────
+events = []
+for row in rows:
+    t     = get_type(row)
+    title = row['title']
+
+    # Articles: prepend "First Author et al. "Title""
+    if row['category'] == 'Article' and row['authors']:
+        parts = [a.strip() for a in row['authors'].split(',')]
+        sfx   = ' et al.' if len(parts) > 1 else ''
+        title = f'{parts[0]}{sfx} “{title}”'
+
+    # Grants: prepend grant ID and formatted amount
+    if row['category'] == 'Grant' and row['grant_id']:
+        amt   = fmt_amt(row['grant_amount_usd'])
+        title = row['grant_id'] + ' – ' + title
+        if amt: title += f' ({amt})'
+
+    # Journal: "Journal YEAR;vol:pages" or just journal name
+    j, v    = row['journal'].strip(), row['volume_issue_pages'].strip()
+    journal = f'{j} {row["year"]};{v}' if j and v else j
+
+    ev = {
+        'year':  int(row['year']),
+        'type':  t,
+        'emoji': EMOJI[t],
+        'title': title,
+        'inst':  row['institution'],
+        'body':  row['description'],
+    }
+    if journal:      ev['journal'] = journal
+    if row['pmid']:  ev['pmid']    = row['pmid']
+    events.append(ev)
+
+# ── Write events.json alongside index.html (PWA-ready) ───────────────────────
+with open('events.json', 'w', encoding='utf-8') as f:
+    json.dump(events, f, indent=2, ensure_ascii=False)
+
+# ── Inject EVENTS_DATA into the page as an inline <script> ───────────────────
+print(f'<script>var EVENTS_DATA = {json.dumps(events, ensure_ascii=False)};</script>')
+```
 
 ```{=html}
 <script>
 (function () {
-  var EVENTS = [
-    { year:2009, type:'grant', emoji:'&#127942;',
-      title:'CPRIT Established - First Grants Awarded',
-      inst:'Statewide, Texas',
-      body:'Voters approved Prop 15 authorizing <b>$3B</b> for cancer research. BCM and MD Anderson liver researchers were early recipients, launching Texas\'s HCC infrastructure.' },
-    { year:2011, type:'pub', emoji:'&#128196;',
-      title:'El-Serag HB. "Hepatocellular Carcinoma"',
-      journal:'N Engl J Med 2011;365:1118-1127',
-      inst:'Baylor College of Medicine / Houston VA',
-      pmid:'21992124',
-      body:'Landmark global HCC review documenting the rapid rise of HCV-related HCC as the fastest-growing cause of US cancer deaths.' },
-    { year:2012, type:'ramirez', emoji:'&#128300;',
-      title:'Ramirez AG et al. "HCC Incidence &amp; Risk Factors in TX Latinos"',
-      journal:'PLoS One 2012;7(4):e35573',
-      inst:'UTHSCSA / IHPR, San Antonio',
-      pmid:'22530052',
-      body:'First study documenting South Texas Latinos have the nation\'s highest HCC rates (10.6/100K). Identified obesity and diabetes as key modifiable risk factors.' },
-    { year:2012, type:'pub', emoji:'&#128196;',
-      title:'El-Serag HB. "Epidemiology of Viral Hepatitis and HCC"',
-      journal:'Gastroenterology 2012;142(6):1264-1273',
-      inst:'Baylor College of Medicine',
-      pmid:'22537432',
-      body:'Quantified population-attributable fraction of HBV/HCV in HCC; foundational for Texas public health interventions.' },
-    { year:2014, type:'ramirez', emoji:'&#128300;',
-      title:'Ramirez AG et al. "HCC in TX Latinos 1995-2010: An Update"',
-      journal:'PLoS One 2014;9(6):e99365',
-      inst:'UTHSCSA / IHPR, San Antonio',
-      pmid:'24915432',
-      body:'Confirmed TX Latino male/female HCC rates <b>3.1&times; and 4.0&times;</b> higher than non-Hispanic Whites.' },
-    { year:2015, type:'grant', emoji:'&#127942;',
-      title:'RP150587 - Texas HCC Consortium (THCCC) ~$6M',
-      inst:'BCM / UTSW / MD Anderson / UT San Antonio',
-      body:'CPRIT Multi-Investigator Award launched the <b>THCCC</b> - 5,000-patient prospective cohort at 5 Texas centers for HCC risk factors and early detection biomarkers.' },
-    { year:2017, type:'ramirez', emoji:'&#128300;',
-      title:'Ramirez AG et al. "Lifestyle &amp; Clinical Correlates of HCC"',
-      journal:'Clin Gastroenterol Hepatol 2018;16(3):373-380',
-      inst:'UTHSCSA / IHPR, San Antonio',
-      pmid:'28344065',
-      body:'<b>First U.S. study linking aflatoxin exposure to HCC in a Latino-majority population.</b> Cases had 6&times; higher odds of detectable aflatoxins in blood.' },
-    { year:2017, type:'pub', emoji:'&#128196;',
-      title:'Singal AG et al. "AFP + Ultrasound for HCC Detection: Meta-Analysis"',
-      journal:'Gastroenterology 2018;154(6):1706-1718',
-      inst:'UT Southwestern, Dallas',
-      pmid:'29352041',
-      body:'32 studies: AFP + USS improves HCC sensitivity to 63% vs 45% for USS alone. Formed basis for updated AASLD surveillance guidelines.' },
-    { year:2018, type:'grant', emoji:'&#127942;',
-      title:'THCCC Cohort Milestone - 2,000+ Patients Enrolled',
-      inst:'BCM / UTSW / MD Anderson / UT San Antonio',
-      body:'Semi-annual ultrasound, AFP, labs, and biospecimens collected across 5 Texas sites. One of the largest prospective HCC biomarker repositories in the US.' },
-    { year:2018, type:'pub', emoji:'&#128196;',
-      title:'Singal AG, El-Serag HB et al. "Epidemiology and Management of HCC"',
-      journal:'Gastroenterology 2018;154(6):1693-1704',
-      inst:'UT Southwestern / BCM',
-      body:'Comprehensive review of HCC risk stratification, surveillance, staging, and treatment. Addressed NAFLD/NASH-HCC epidemic and rising rates in Hispanic populations.' },
-    { year:2019, type:'grant', emoji:'&#127942;',
-      title:'TeCH Center CAP Rd.1 ($13M) + RP190641 El-Serag ($3M) + Hwang MDA ($2.46M)',
-      inst:'BCM / MD Anderson, Texas',
-      body:'Three major CPRIT awards: TeCH Center for coordinated HCC research statewide; El-Serag biomarker validation; Hwang patient-centered liver cancer prevention.' },
-    { year:2019, type:'pub', emoji:'&#128196;',
-      title:'Loo N, El-Serag HB, Singal AG et al. "THCCC Cohort Study Design"',
-      journal:'Am J Gastroenterol 2019;114(3):530-532',
-      inst:'BCM / UTSW / MD Anderson / UT San Antonio',
-      pmid:'30699099',
-      body:'Describes the THCCC 5,000-patient prospective cohort design and multi-center data collection protocol.' },
-    { year:2019, type:'ramirez', emoji:'&#128300;',
-      title:'Wang CP, Ramirez AG et al. "Metformin Modifies HCC Disparity in Diabetic Men"',
-      journal:'Cancer Med 2019;8(6):3206-3215',
-      inst:'UTHSCSA, San Antonio (VA Study)',
-      pmid:'30993905',
-      body:'In 84,433 men with T2D, metformin was associated with reduced HCC risk, with stronger effects in Hispanic and African American men.' },
-    { year:2020, type:'grant', emoji:'&#127942;',
-      title:'RP200537 Singal UTSW ($2.5M) + RP200554 Thrift BCM ($2.47M)',
-      inst:'UTSW Dallas / BCM Houston',
-      body:'Singal: 3,000-patient cirrhosis cohort developing biomarker-based surveillance algorithms. Thrift: Genetic epidemiology of HCC in Hispanics (PNPLA3, TM6SF2).' },
-    { year:2020, type:'pub', emoji:'&#128196;',
-      title:'Singal AG et al. "Epidemiology &amp; Surveillance for HCC: New Trends"',
-      journal:'J Hepatol 2020;72(2):250-261',
-      inst:'UT Southwestern, Dallas',
-      pmid:'31954490',
-      body:'Documents shift from viral hepatitis to NAFLD/NASH as dominant HCC etiology; projects <b>122% increase</b> in NAFLD-HCC by 2030.' },
-    { year:2020, type:'pub', emoji:'&#128196;',
-      title:'Singal AG, El-Serag HB. "AGA Update: HCC Surveillance in NAFLD"',
-      journal:'Gastroenterology 2020;158(7):1822-1830',
-      inst:'UT Southwestern / BCM',
-      body:'Joint AGA expert review on HCC screening in the rapidly growing NAFLD population. Addresses surveillance intervals and novel biomarkers.' },
-    { year:2022, type:'grant', emoji:'&#127942;',
-      title:'PP220022 UT Health ($1.96M) + RP220119 El-Serag BCM ($2M) + TeCH CAP Rd.2 (~$18M)',
-      inst:'UT Health / BCM, Texas',
-      body:'Community HCC prevention at safety-net clinics; GALAD + AFP-L3 biomarker validation in THCCC cohort; TeCH renewal expanding NASH-HCC research and health equity.' },
-    { year:2022, type:'pub', emoji:'&#128196;',
-      title:'Singal AG et al. "HCC Surveillance Improves Outcomes: Meta-Analysis"',
-      journal:'J Hepatol 2022;77(1):128-139',
-      inst:'UT Southwestern, Dallas',
-      pmid:'35139400',
-      body:'59 studies / 145,396 patients: Surveillance yields 1.86&times; early-stage detection and <b>33% mortality reduction</b> (HR 0.67).' },
-    { year:2022, type:'pub', emoji:'&#128196;',
-      title:'Harrison AC, El-Serag HB et al. "The Texas Collaborative Center for HCC (TeCH)"',
-      journal:'Front Oncol 2022',
-      inst:'BCM / MD Anderson / UTSW / UTHealth',
-      pmid:'36059708',
-      body:"Describes TeCH's multi-institutional research, education, and advocacy framework targeting reduction of Texas liver cancer mortality by 2030." },
-    { year:2023, type:'grant', emoji:'&#127942;',
-      title:'Lopez-Terrada TCH ($5.98M) + Zhong UTSW ($1.05M)',
-      inst:"Texas Children's Hospital / UTSW, Dallas",
-      body:'Lopez-Terrada: Predictive biomarkers for pediatric HCC/hepatoblastoma. Zhong: Molecular mechanisms of HCC progression.' },
-    { year:2023, type:'pub', emoji:'&#128196;',
-      title:'TeCH Consortium. "Prevention of HCC - White Paper"',
-      journal:'Hepatol Commun 2023',
-      inst:'TeCH Multi-Institution Consortium',
-      pmid:'PMC10524305',
-      body:'Consensus recommendations covering HBV vaccination, HCV cure, metabolic intervention, and health equity strategies for Hispanic Texas communities.' },
-    { year:2024, type:'pub', emoji:'&#128196;',
-      title:'El-Serag HB, Jin M et al. "HES v2.0 Outperforms GALAD for HCC Detection"',
-      journal:'Hepatology 2024',
-      inst:'Baylor College of Medicine / THCCC Network',
-      body:'Phase 3 biomarker evaluation: novel <b>HES v2.0</b> (AFP + AFP-L3 + DCP + clinical variables) demonstrated superior sensitivity and specificity over GALAD for early HCC detection.' },
-    { year:2025, type:'grant', emoji:'&#127942;',
-      title:'CPRIT Surpasses $4B + UTSW Designated NCI Liver Cancer SPORE',
-      inst:'UTSW / BCM / MD Anderson, Texas',
-      body:'CPRIT surpasses $4B total (~$59-77M to liver cancer). UT Southwestern receives the <b>first Texas NCI SPORE for Liver Cancer</b> with Singal, Yopp et al.' }
-  ];
+  var EVENTS = typeof EVENTS_DATA !== 'undefined' ? EVENTS_DATA : [];
 
   /* ── Layout constants (2800px canvas, 2009-2025) ── */
   var MIN_YEAR = 2009, SPAN = 16;
