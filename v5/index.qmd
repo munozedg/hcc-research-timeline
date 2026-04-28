@@ -28,8 +28,9 @@ for _, r in df.iterrows():
         'vol':      safe(r['volume_issue_pages']),
         'inst':     safe(r['institution']),
         'pmid':     safe(r['pmid']),
-        'grant_id': safe(r['grant_id']),
-        'desc':     safe(r['description']),
+        'grant_id':     safe(r['grant_id']),
+        'desc':         safe(r['description']),
+        'presentation': safe(r['presentation']),
     })
 
 print(f'<script>var EVENTS={json.dumps(events, ensure_ascii=False)};</script>')
@@ -191,6 +192,10 @@ print(f'<script>var EVENTS={json.dumps(events, ensure_ascii=False)};</script>')
     font-size:var(--fs-body); color:#475569; line-height:1.5; margin-bottom:6px;
   }
   .ev-card .c-links { display:flex; flex-wrap:wrap; gap:5px; }
+  .ev-card .c-presentation {
+    font-size:8.5px; color:#0d9488; font-style:italic; line-height:1.5;
+    margin-top:6px; padding-top:5px; border-top:1px solid rgba(13,148,136,.2);
+  }
   .ev-card .c-link  {
     font-size:9px; font-weight:600; padding:2px 8px; border-radius:10px;
     text-decoration:none; color:#fff; display:inline-flex; align-items:center; gap:3px;
@@ -469,8 +474,9 @@ print(f'<script>var EVENTS={json.dumps(events, ensure_ascii=False)};</script>')
           '<div class="c-badge">'+EMOJI[e.type]+' '+label+' &middot; '+e.year+'</div>'+
           '<div class="c-title">'+e.title+'</div>'+
           (cite.length ? '<div class="c-cite">'+cite.join(' &middot; ')+'</div>' : '')+
-          (e.desc      ? '<div class="c-desc">'+e.desc+'</div>' : '')+
-          (links       ? '<div class="c-links">'+links+'</div>' : '')+
+          (e.desc         ? '<div class="c-desc">'+e.desc+'</div>' : '')+
+          (e.presentation ? '<p class="c-presentation"><strong>📢 UTHSA Presentation:</strong> '+e.presentation+'</p>' : '')+
+          (links          ? '<div class="c-links">'+links+'</div>' : '')+
         '</div>';
 
       stack.appendChild(card);
