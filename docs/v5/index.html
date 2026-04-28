@@ -1009,6 +1009,38 @@ background:rgba(0,0,0,.15);
 
     var newW = visYears.length > 1 ? PAD + (visYears.length - 1) * spacing + PAD : PAD * 2;
     canvas.style.minWidth = Math.max(newW, 600) + 'px';
+    saveFiltersToHash();
+  }
+
+  /* ── URL-hash filter persistence ── */
+  function saveFiltersToHash(){
+    var active = [];
+    ['grant','pub','uthsa','milestone','symposium'].forEach(function(t){
+      if(document.getElementById('cb-t-'+t).checked) active.push(t);
+    });
+    if(document.getElementById('cb-hide-empty').checked) active.push('hide-empty');
+    var typeCount = active.filter(function(x){ return x !== 'hide-empty'; }).length;
+    /* default state (all 5 on, hide-empty off) → clear hash */
+    if(typeCount === 5 && active.indexOf('hide-empty') < 0){
+      history.replaceState(null,'',window.location.pathname+window.location.search);
+    } else {
+      history.replaceState(null,'','#'+active.join(','));
+    }
+  }
+
+  function loadFiltersFromHash(){
+    var hash = window.location.hash.slice(1); /* strip leading # */
+    if(!hash || hash === 'all') return;        /* default state   */
+    var parts = hash.split(',').map(function(p){ return p.trim().toLowerCase(); });
+    var valid = ['grant','pub','uthsa','milestone','symposium'];
+    /* only act if at least one recognised type is present */
+    var hasValid = parts.some(function(p){ return valid.indexOf(p) >= 0; });
+    if(!hasValid) return;
+    valid.forEach(function(t){
+      document.getElementById('cb-t-'+t).checked = parts.indexOf(t) >= 0;
+    });
+    document.getElementById('cb-hide-empty').checked = parts.indexOf('hide-empty') >= 0;
+    applyFilters();
   }
 
   /* All / None for event tree */
@@ -1050,6 +1082,9 @@ background:rgba(0,0,0,.15);
     if(!isDown) return; e.preventDefault();
     scroll.scrollLeft = sl-(e.pageX-scroll.offsetLeft-sx);
   });
+
+  /* restore filters from URL hash on load */
+  loadFiltersFromHash();
 })();
 </script>
 
