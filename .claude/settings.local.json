@@ -1,0 +1,38 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gh auth *)",
+      "Bash(git init *)",
+      "Bash(git checkout *)",
+      "Bash(quarto render *)",
+      "Bash(gh repo *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git push *)",
+      "WebFetch(domain:emilhvitfeldt.github.io)",
+      "Bash(py -3 -c \"import sys; print\\(sys.executable\\)\")",
+      "Bash(py -3 -m pip show pandas)",
+      "Bash(py -3 -m pip install jupyter nbformat -q)",
+      "Bash(py -3 -c \"import nbformat; print\\('ok'\\)\")",
+      "Bash(QUARTO_PYTHON=\"C:/Python313/python.exe\" quarto render index.qmd)",
+      "Bash(py -3 -c ' *)",
+      "Bash(py *)",
+      "WebFetch(domain:labs.utsouthwestern.edu)",
+      "WebFetch(domain:magazines.uthscsa.edu)",
+      "Bash(cp index.html ../docs/v5/index.html)",
+      "Bash(cp index.html ../docs/v4/index.html)",
+      "WebFetch(domain:www.bcm.edu)",
+      "WebFetch(domain:www.cprit.state.tx.us)",
+      "WebSearch",
+      "WebFetch(domain:cancer.uthscsa.edu)",
+      "WebFetch(domain:news.uthscsa.edu)",
+      "Bash(python rebuild_csv.py)",
+      "WebFetch(domain:www.youtube.com)",
+      "WebFetch(domain:pubmed.ncbi.nlm.nih.gov)",
+      "WebFetch(domain:mayscc.eventsair.com)",
+      "mcp__claude_ai_PubMed__get_article_metadata",
+      "WebFetch(domain:journals.lww.com)",
+      "WebFetch(domain:www.gastrojournal.org)"
+    ]
+  }
+}
