@@ -189,7 +189,6 @@ print(f'<script>var EVENTS={json.dumps(events, ensure_ascii=False)};</script>')
   }
   .ev-card .c-desc {
     font-size:var(--fs-body); color:#475569; line-height:1.5; margin-bottom:6px;
-    display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:3; overflow:hidden;
   }
   .ev-card .c-links { display:flex; flex-wrap:wrap; gap:5px; }
   .ev-card .c-link  {
